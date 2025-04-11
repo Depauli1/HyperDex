@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/drafts/EIP712.sol";
 
 // Interfaces for interacting with other HyperDex contracts
 import { IHyperDexFactory } from "./IHyperDexFactory.sol"; // Assuming interface is in a separate file
-import "./IHyperDexPool.sol"; // Import the interface
+import { IHyperDexPool, GaslessSwapParams } from "./IHyperDexPool.sol"; // Assuming interface is in a separate file
 
 /**
  * @title HyperDex
@@ -79,8 +79,7 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
      */
     constructor(
         address _factory //, address _router
-    ) EIP712("HyperDex", "1") {
-        // Ownable constructor is automatically called
+    ) Ownable(msg.sender) EIP712("HyperDex", "1") {
         require(_factory != address(0), "Zero address: factory");
         // require(_router != address(0), "Zero address: router"); // Uncomment if using router
 
@@ -104,7 +103,7 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
      * @return amount1Delta The change in the pool's token1 balance.
      */
     function executeGaslessSwap(
-        IHyperDexPool.GaslessSwapParams calldata params,
+        GaslessSwapParams calldata params,
         bytes calldata signature
     ) external nonReentrant returns (int256 amount0Delta, int256 amount1Delta) {
         // 1. Authorization: Only the authorized relayer can submit meta-transactions
@@ -123,77 +122,43 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
             revert(ERROR_INVALID_NONCE);
         }
 
-        // 4. Signature Verification
-        _verifySignature(params, signature);
-        
-        // 5. Find Pool and Execute Swap
-        (amount0Delta, amount1Delta) = _executeSwap(params, signature);
-
-        return (amount0Delta, amount1Delta);
-    }
-
-    /**
-     * @notice Verify the signature for a gasless swap
-     * @param params The gasless swap parameters
-     * @param signature The signature to verify
-     */
-    function _verifySignature(
-        IHyperDexPool.GaslessSwapParams calldata params,
-        bytes calldata signature
-    ) internal view {
-        // Hash the swap parameters according to EIP-712 standard
+        // 4. Hash the swap parameters according to EIP-712 standard
         bytes32 structHash = _hashGaslessSwap(params);
         bytes32 digest = _hashTypedDataV4(structHash);
 
-        // Recover the signer address from the digest and signature
+        // 5. Signature Verification: Recover the signer address from the digest and signature
         address signer = digest.recover(signature);
         if (signer != params.trader || signer == address(0)) {
             revert(ERROR_INVALID_SIGNATURE);
         }
 
-        // Check for replay attack
+        // 6. Replay Protection: Check if this exact meta-transaction (based on trader and nonce) has already been executed
+        //    We use a hash of trader and nonce as the unique ID for the meta-transaction.
         bytes32 metaTxId = keccak256(abi.encodePacked(params.trader, params.nonce));
         if (executedMetaTxs[metaTxId]) {
             revert(ERROR_META_TX_ALREADY_EXECUTED);
         }
-    }
 
-    /**
-     * @notice Execute the actual swap after verification
-     * @param params The gasless swap parameters
-     * @param signature The verified signature
-     * @return amount0Delta Token0 amount delta
-     * @return amount1Delta Token1 amount delta
-     */
-    function _executeSwap(
-        IHyperDexPool.GaslessSwapParams calldata params,
-        bytes calldata signature
-    ) internal returns (int256 amount0Delta, int256 amount1Delta) {
-        // Mark as executed and increment nonce (Checks-Effects-Interactions pattern)
-        bytes32 metaTxId = keccak256(abi.encodePacked(params.trader, params.nonce));
+        // 7. Mark as executed and increment nonce *before* the external call (Checks-Effects-Interactions pattern)
         executedMetaTxs[metaTxId] = true;
         userNonces[params.trader]++;
 
-        // Determine Pool Address
-        address token0;
-        address token1;
-        if (params.zeroForOne) {
-            token0 = params.tokenOut;
-            token1 = params.tokenIn;
-        } else {
-            token0 = params.tokenIn;
-            token1 = params.tokenOut;
-        }
+        // 8. Determine Pool Address: Find the pool for the given tokens and fee using the factory
+        (address token0, address token1) = params.zeroForOne
+            ? (params.tokenOut, params.tokenIn) // If zeroForOne, tokenIn is token1, tokenOut is token0
+            : (params.tokenIn, params.tokenOut); // If not zeroForOne, tokenIn is token0, tokenOut is token1
 
         address poolAddress = factory.getPool(token0, token1, params.fee);
         if (poolAddress == address(0)) {
             revert(ERROR_POOL_NOT_FOUND);
         }
 
-        // Execute Swap on the Pool
-        (amount0Delta, amount1Delta) = IHyperDexPool(poolAddress).gaslessSwap(params, signature);
+        // 9. Execute Swap on the Pool: Call the gaslessSwap function on the specific pool contract
+        //    The pool contract itself handles the token transfers and state updates.
+        //    Note: The pool's gaslessSwap also verifies the relayer, which is redundant here but harmless.
+        (amount0Delta, amount1Delta) = IHyperDexPool(poolAddress).gaslessSwap(params, signature); // Pass signature again for pool's internal check if needed
 
-        // Emit Event
+        // 10. Emit Event
         emit GaslessSwapExecuted(
             metaTxId,
             params.trader,
@@ -204,7 +169,7 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
             amount0Delta,
             amount1Delta
         );
-        
+
         return (amount0Delta, amount1Delta);
     }
 
@@ -216,7 +181,7 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
      * @param params The gasless swap parameters.
      * @return The EIP-712 struct hash.
      */
-    function _hashGaslessSwap(IHyperDexPool.GaslessSwapParams calldata params) internal pure returns (bytes32) {
+    function _hashGaslessSwap(GaslessSwapParams calldata params) internal pure returns (bytes32) {
         return keccak256(
             abi.encode(
                 _GASLESS_SWAP_TYPEHASH,
@@ -238,19 +203,27 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
      * @notice Retrieves the latest analytics data for a specific pool from the factory.
      * @dev This function acts as a read-only proxy to the factory's stored analytics.
      * Calculation of derived metrics like APR might be added here later.
+     * @param poolAddress The address of the HyperDex pool.
      * @return tvl Current Total Value Locked in the pool (needs interpretation based on factory implementation).
      * @return volume24h Trading volume in the last 24 hours (needs interpretation).
      * @return lastUpdate Timestamp of the last analytics update in the factory.
      */
-    function getPoolAnalyticsData(address)
+    function getPoolAnalyticsData(address poolAddress)
         external
-        pure
+        view
         returns (
             uint256 tvl,
             uint256 volume24h,
             uint256 lastUpdate
         )
     {
+        // Fetch basic info directly from the factory's PoolInfo struct
+        // Note: Requires knowing the tokens and fee to query the factory.
+        // This might be inefficient. A better approach could be for the factory
+        // to store analytics keyed directly by pool address.
+        // For now, we assume the caller knows the pool details or this function
+        // is enhanced later.
+
         // Placeholder: Returning raw data from factory requires knowing tokenA, tokenB, fee.
         // Example (assuming you can get these details):
         // IHyperDexPool pool = IHyperDexPool(poolAddress);
@@ -299,3 +272,49 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
     }
 }
 
+// --- Interfaces (Define these in separate files or inline if preferred) ---
+
+// Interface for HyperDexFactory (based on hyperdex-factory.txt)
+interface IHyperDexFactory {
+    struct PoolInfo {
+        address poolAddress;
+        address token0;
+        address token1;
+        uint24 fee;
+        int24 tickSpacing;
+        bool enabled;
+        uint256 creationTimestamp;
+        uint256 totalValueLocked;
+        uint256 volume24h;
+        uint256 lastAnalyticsUpdate;
+    }
+
+    function getPool(address tokenA, address tokenB, uint24 fee) external view returns (address pool);
+    function getPoolInfo(address tokenA, address tokenB, uint24 fee) external view returns (PoolInfo memory);
+    // Add other functions if needed by HyperDex main contract
+}
+
+// Interface for HyperDexPool (based on hyperdex-pool.txt & hyperdex-pool-continued.txt)
+interface IHyperDexPool {
+    // Mirror the GaslessSwapParams struct from the pool contract
+    struct GaslessSwapParams {
+        address trader;
+        address tokenIn;  // Added tokenIn for clarity in main contract hashing
+        address tokenOut; // Added tokenOut for clarity in main contract hashing
+        uint24 fee;       // Added fee for pool lookup
+        bool zeroForOne;
+        int256 amountSpecified;
+        uint160 sqrtPriceLimitX96;
+        uint256 deadline;
+        uint256 nonce;
+        // bytes signature; // Signature is passed separately to executeGaslessSwap
+    }
+
+    function gaslessSwap(GaslessSwapParams calldata params, bytes calldata signature)
+        external returns (int256 amount0, int256 amount1);
+
+    function token0() external view returns (address);
+    function token1() external view returns (address);
+    function fee() external view returns (uint24);
+    // Add other functions if needed
+}

@@ -1,0 +1,26 @@
+Test file execution completed
+
+
+  HyperDex: Gasless Swaps (JavaScript)
+Inside beforeEach - Checking ethers.BigNumber: [Function: BigNumber] {
+  from: [Function (anonymous)],
+  isBigNumber: [Function (anonymous)]
+}
+Inside beforeEach - TickMath defined: {
+  MIN_SQRT_RATIO: BigNumber { value: "4295128739" },
+  MAX_SQRT_RATIO: BigNumber { value: "1461446703485210103287273052203988822378723970342" }
+}
+Creating a new pool with relayer authorization...
+    1) "before each" hook for "Should execute a valid gasless swap (T0->T1) via the relayer"
+
+
+  0 passing (-8h)
+  1 failing
+
+  1) HyperDex: Gasless Swaps (JavaScript)
+       "before each" hook for "Should execute a valid gasless swap (T0->T1) via the relayer":
+     TypeError: Cannot read properties of undefined (reading 'address')
+      at Context.<anonymous> (test/HyperDex.test.js:125:53)
+
+
+

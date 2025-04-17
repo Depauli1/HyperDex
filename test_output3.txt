@@ -1,0 +1,34 @@
+Test file execution completed
+
+
+  HyperDex: Gasless Swaps (JavaScript)
+Inside beforeEach - Checking ethers.BigNumber: [Function: BigNumber] {
+  from: [Function (anonymous)],
+  isBigNumber: [Function (anonymous)]
+}
+Inside beforeEach - TickMath defined: {
+  MIN_SQRT_RATIO: BigNumber { value: "4295128739" },
+  MAX_SQRT_RATIO: BigNumber { value: "1461446703485210103287273052203988822378723970342" }
+}
+    1) "before each" hook for "Should execute a valid gasless swap (T0->T1) via the relayer"
+
+
+  0 passing (4s)
+  1 failing
+
+  1) HyperDex: Gasless Swaps (JavaScript)
+       "before each" hook for "Should execute a valid gasless swap (T0->T1) via the relayer":
+     Error: too many arguments: passed to contract (count=4, expectedCount=3, code=UNEXPECTED_ARGUMENT, version=contracts/5.8.0)
+      at Logger.makeError (node_modules/@ethersproject/logger/src.ts/index.ts:269:28)
+      at Logger.throwError (node_modules/@ethersproject/logger/src.ts/index.ts:281:20)
+      at Logger.checkArgumentCount (node_modules/@ethersproject/logger/src.ts/index.ts:347:18)
+      at /home/depauli/hyper-dex/node_modules/@ethersproject/contracts/src.ts/index.ts:187:12
+      at step (node_modules/@ethersproject/contracts/lib/index.js:48:23)
+      at Object.next (node_modules/@ethersproject/contracts/lib/index.js:29:53)
+      at /home/depauli/hyper-dex/node_modules/@ethersproject/contracts/lib/index.js:23:71
+      at new Promise (<anonymous>)
+      at __awaiter (node_modules/@ethersproject/contracts/lib/index.js:19:12)
+      at populateTransaction (node_modules/@ethersproject/contracts/lib/index.js:152:12)
+
+
+

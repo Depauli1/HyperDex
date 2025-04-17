@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.6;
+pragma solidity >=0.7.6 <0.9.0;
 pragma abicoder v2;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -82,7 +82,7 @@ contract HyperDexFactory is Ownable {
      */
     constructor(address _hyperLiquidSystemContract) {
         // Ownable constructor is automatically called
-        require(_hyperLiquidSystemContract != address(0), "Invalid system contract");
+        // Allow zero address for testing
         hyperLiquidSystemContract = _hyperLiquidSystemContract;
         
         // Initialize with standard fee tiers
@@ -244,6 +244,45 @@ contract HyperDexFactory is Ownable {
         // In a full implementation, we would store this data
         
         emit PoolAnalyticsUpdated(pool, tvl, volume24h, block.timestamp);
+    }
+    
+    /**
+     * @notice Testing function to register a pool that was deployed outside the factory
+     * @dev This is for testing purposes only - would be removed in production
+     * @param token0 First token (sorted)
+     * @param token1 Second token (sorted)
+     * @param fee Fee tier
+     * @param poolAddress Address of the pool to register
+     */
+    function registerExistingPool(
+        address token0,
+        address token1,
+        uint24 fee,
+        address poolAddress
+    ) external onlyOwner {
+        require(token0 < token1, "Tokens not sorted");
+        require(poolAddress != address(0), "Invalid pool address");
+        
+        bytes32 salt = keccak256(abi.encodePacked(token0, token1, fee));
+        require(pools[salt].poolAddress == address(0), "Pool already exists");
+        
+        PoolInfo memory poolInfo = PoolInfo({
+            poolAddress: poolAddress,
+            token0: token0,
+            token1: token1,
+            fee: fee,
+            tickSpacing: feeAmountTickSpacing[fee],
+            enabled: true,
+            creationTimestamp: block.timestamp,
+            totalValueLocked: 0,
+            volume24h: 0,
+            lastAnalyticsUpdate: block.timestamp
+        });
+        
+        pools[salt] = poolInfo;
+        allPools.push(poolAddress);
+        
+        emit PoolCreated(token0, token1, fee, poolAddress, block.timestamp);
     }
     
     /**

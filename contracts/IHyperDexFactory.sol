@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.6;
+pragma solidity >=0.7.6 <0.9.0;
 pragma abicoder v2;
 
 // Interface for HyperDexFactory (based on hyperdex-factory.txt)
@@ -24,5 +24,5 @@ interface IHyperDexFactory {
     // Add other function signatures from HyperDexFactory.sol if HyperDex.sol needs to call them
      function updatePoolAnalytics(address pool, uint256 tvl, uint256 volume24h) external; // Added based on pool code
      function getProtocolFee(address pool) external view returns (uint32); // Added based on pool code
-
+     function allPools(uint256 index) external view returns (address); // Add access to the allPools array
 }

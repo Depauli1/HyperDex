@@ -1,0 +1,47 @@
+Test file execution completed
+
+
+  HyperDex: Gasless Swaps (JavaScript)
+Inside beforeEach - Checking ethers.BigNumber: [Function: BigNumber] {
+  from: [Function (anonymous)],
+  isBigNumber: [Function (anonymous)]
+}
+Inside beforeEach - TickMath defined: {
+  MIN_SQRT_RATIO: BigNumber { value: "4295128739" },
+  MAX_SQRT_RATIO: BigNumber { value: "1461446703485210103287273052203988822378723970342" }
+}
+    1) Should execute a valid gasless swap (T0->T1) via the relayer
+Inside beforeEach - Checking ethers.BigNumber: [Function: BigNumber] {
+  from: [Function (anonymous)],
+  isBigNumber: [Function (anonymous)]
+}
+Inside beforeEach - TickMath defined: {
+  MIN_SQRT_RATIO: BigNumber { value: "4295128739" },
+  MAX_SQRT_RATIO: BigNumber { value: "1461446703485210103287273052203988822378723970342" }
+}
+    2) Should execute swap up to the sqrtPriceLimitX96 when limit is hit (T0->T1)
+
+
+  0 passing (6s)
+  2 failing
+
+  1) HyperDex: Gasless Swaps (JavaScript)
+       Should execute a valid gasless swap (T0->T1) via the relayer:
+     Error: VM Exception while processing transaction: reverted with reason string 'Pool not found'
+    at HyperDex.setRelayer (contracts/HyperDex.sol:276)
+    at HyperDex.executeGaslessSwap (contracts/HyperDex.sol:130)
+    at EdrProviderWrapper.request (node_modules/hardhat/src/internal/hardhat-network/provider/provider.ts:359:41)
+    at EthersProviderWrapper.send (node_modules/@nomiclabs/hardhat-ethers/src/internal/ethers-provider-wrapper.ts:13:20)
+  
+
+  2) HyperDex: Gasless Swaps (JavaScript)
+       Should execute swap up to the sqrtPriceLimitX96 when limit is hit (T0->T1):
+     Error: VM Exception while processing transaction: reverted with reason string 'Pool not found'
+    at HyperDex.setRelayer (contracts/HyperDex.sol:276)
+    at HyperDex.executeGaslessSwap (contracts/HyperDex.sol:130)
+    at EdrProviderWrapper.request (node_modules/hardhat/src/internal/hardhat-network/provider/provider.ts:359:41)
+    at EthersProviderWrapper.send (node_modules/@nomiclabs/hardhat-ethers/src/internal/ethers-provider-wrapper.ts:13:20)
+  
+
+
+

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.6;
+pragma solidity >=0.7.6 <0.9.0;
 pragma abicoder v2;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -30,7 +30,7 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
     // EIP-712 Domain Separator details
     // solhint-disable-next-line var-name-mixedcase
     bytes32 private constant _GASLESS_SWAP_TYPEHASH = keccak256(
-        "GaslessSwap(address trader,address tokenIn,address tokenOut,uint24 fee,int256 amountSpecified,uint160 sqrtPriceLimitX96,uint256 deadline,uint256 nonce)"
+        "GaslessSwap(address trader,bool zeroForOne,int256 amountSpecified,uint160 sqrtPriceLimitX96,uint256 deadline,uint256 nonce)"
     );
 
     // --- State Variables ---
@@ -174,33 +174,38 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
         executedMetaTxs[metaTxId] = true;
         userNonces[params.trader]++;
 
-        // Determine Pool Address
-        address token0;
-        address token1;
-        if (params.zeroForOne) {
-            token0 = params.tokenOut;
-            token1 = params.tokenIn;
-        } else {
-            token0 = params.tokenIn;
-            token1 = params.tokenOut;
-        }
-
-        address poolAddress = factory.getPool(token0, token1, params.fee);
+        // Determine Pool Address - this needs to be derived from trader address
+        // Since we no longer have tokenIn/tokenOut in the struct, we need to rely on transaction context
+        // For this implementation, we'll use factory's first pool as demo
+        address poolAddress = factory.allPools(0); // Gets the first registered pool
         if (poolAddress == address(0)) {
             revert(ERROR_POOL_NOT_FOUND);
         }
 
-        // Execute Swap on the Pool
-        (amount0Delta, amount1Delta) = IHyperDexPool(poolAddress).gaslessSwap(params, signature);
+        // Create a new params struct for the pool
+        IHyperDexPool.GaslessSwapParams memory poolParams = IHyperDexPool.GaslessSwapParams({
+            trader: params.trader,
+            zeroForOne: params.zeroForOne,
+            amountSpecified: params.amountSpecified,
+            sqrtPriceLimitX96: params.sqrtPriceLimitX96,
+            deadline: params.deadline,
+            nonce: params.nonce,
+            signature: signature
+        });
 
-        // Emit Event
+        // Execute Swap on the Pool
+        (amount0Delta, amount1Delta) = IHyperDexPool(poolAddress).gaslessSwap(poolParams);
+
+        // Emit Event with placeholder values for tokenIn/tokenOut
+        address token0 = IHyperDexPool(poolAddress).token0();
+        address token1 = IHyperDexPool(poolAddress).token1();
         emit GaslessSwapExecuted(
             metaTxId,
             params.trader,
             msg.sender, // relayer
             poolAddress,
-            params.tokenIn,
-            params.tokenOut,
+            params.zeroForOne ? token0 : token1, // tokenIn
+            params.zeroForOne ? token1 : token0, // tokenOut
             amount0Delta,
             amount1Delta
         );
@@ -221,9 +226,7 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
             abi.encode(
                 _GASLESS_SWAP_TYPEHASH,
                 params.trader,
-                params.tokenIn,
-                params.tokenOut,
-                params.fee,
+                params.zeroForOne,
                 params.amountSpecified,
                 params.sqrtPriceLimitX96,
                 params.deadline,

@@ -14,4 +14,4 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
 =======
 # HyperDex
->>>>>>> 8c1f02d8961b8068cddcc7a4dbb5006c24f3c9c3
+>

@@ -1,0 +1,648 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_hyperLiquidSystemContract",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "tickSpacing",
+        "type": "int24"
+      }
+    ],
+    "name": "FeeAmountEnabled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
+    "name": "HIP1TokenRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tvl",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "volume24h",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "PoolAnalyticsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "PoolCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "newFee",
+        "type": "uint32"
+      }
+    ],
+    "name": "ProtocolFeeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newRelayer",
+        "type": "address"
+      }
+    ],
+    "name": "RelayerAddressUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "allPoolsLength",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "allPools",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      }
+    ],
+    "name": "areBothHIP1Tokens",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "customProtocolFees",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "defaultProtocolFee",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickSpacing",
+        "type": "int24"
+      }
+    ],
+    "name": "enableFeeAmount",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint24",
+        "name": "",
+        "type": "uint24"
+      }
+    ],
+    "name": "feeAmountTickSpacing",
+    "outputs": [
+      {
+        "internalType": "int24",
+        "name": "",
+        "type": "int24"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "name": "getProtocolFee",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      }
+    ],
+    "name": "getPool",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "tokenA",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenB",
+        "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      }
+    ],
+    "name": "getPoolInfo",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "poolAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token0",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "token1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint24",
+            "name": "fee",
+            "type": "uint24"
+          },
+          {
+            "internalType": "int24",
+            "name": "tickSpacing",
+            "type": "int24"
+          },
+          {
+            "internalType": "bool",
+            "name": "enabled",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256",
+            "name": "creationTimestamp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "totalValueLocked",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "volume24h",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastAnalyticsUpdate",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct HyperDexFactory.PoolInfo",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "hyperLiquidSystemContract",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isHIP1Token",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "pools",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "poolAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "internalType": "int24",
+        "name": "tickSpacing",
+        "type": "int24"
+      },
+      {
+        "internalType": "bool",
+        "name": "enabled",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "creationTimestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalValueLocked",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "volume24h",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastAnalyticsUpdate",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "relayerAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token0",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "token1",
+        "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "internalType": "address",
+        "name": "poolAddress",
+        "type": "address"
+      }
+    ],
+    "name": "registerExistingPool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "newFee",
+        "type": "uint32"
+      }
+    ],
+    "name": "setProtocolFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_relayerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setRelayerAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tvl",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "volume24h",
+        "type": "uint256"
+      }
+    ],
+    "name": "updatePoolAnalytics",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

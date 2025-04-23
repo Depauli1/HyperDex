@@ -1,0 +1,118 @@
+groups:
+  - name: hyperdex_relayer_alerts
+    rules:
+      # Critical service alerts
+      - alert: RelayerServiceDown
+        expr: up{job="hyperdex-relayer"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Relayer service is down"
+          description: "The relayer service has been down for more than 1 minute."
+
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes / 1024 / 1024 > 1024  # > 1GB
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "The relayer is using more than 1GB of memory for more than 5 minutes."
+
+      - alert: HighCpuUsage
+        expr: rate(process_cpu_seconds_total[5m]) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "The relayer is using more than 80% CPU for more than 5 minutes."
+
+      # RPC Provider alerts
+      - alert: AllProvidersDown
+        expr: sum(hyperdex_provider_health) == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "All RPC providers are down"
+          description: "All configured RPC providers are not responding."
+
+      - alert: ProviderFailures
+        expr: rate(hyperdex_provider_requests_total{status="error"}[5m]) > 5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High RPC provider failure rate"
+          description: "More than 5 provider requests are failing per minute."
+
+      # Transaction processing alerts
+      - alert: HighTransactionFailureRate
+        expr: rate(hyperdex_transactions_total{status="failed"}[15m]) / rate(hyperdex_transactions_total[15m]) > 0.2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High transaction failure rate"
+          description: "More than 20% of transactions are failing."
+
+      - alert: LowTransactionThroughput
+        expr: rate(hyperdex_transactions_total{status="confirmed"}[15m]) < 0.1
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low transaction throughput"
+          description: "Transaction confirmation rate is below expected levels."
+
+      # Gas price alerts
+      - alert: HighGasPrice
+        expr: hyperdex_current_gas_price_gwei{priority="medium"} > 100
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High gas price"
+          description: "Medium priority gas price is above 100 Gwei for more than 10 minutes."
+
+      # Circuit breaker alerts
+      - alert: CircuitBreakerOpen
+        expr: hyperdex_circuit_breaker_state{state="open"} == 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Circuit breaker is open"
+          description: "The relayer circuit breaker has been open for more than 5 minutes."
+
+      # Database alerts
+      - alert: DatabaseConnectionFailure
+        expr: hyperdex_database_connected == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database connection failure"
+          description: "The relayer cannot connect to the database for more than 2 minutes."
+
+      # API alerts
+      - alert: HighAPIErrorRate
+        expr: sum(rate(hyperdex_http_requests_total{status=~"5.."}[5m])) / sum(rate(hyperdex_http_requests_total[5m])) > 0.05
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High API error rate"
+          description: "More than 5% of API requests are resulting in 5xx errors."
+
+      # Webhook alerts
+      - alert: HighWebhookFailureRate
+        expr: sum(rate(hyperdex_webhook_delivery_total{status="failed"}[5m])) / sum(rate(hyperdex_webhook_delivery_total[5m])) > 0.2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High webhook failure rate"
+          description: "More than 20% of webhook deliveries are failing."

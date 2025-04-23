@@ -1,0 +1,129 @@
+global:
+  # The smarthost and SMTP sender used for mail notifications
+  smtp_smarthost: 'smtp.example.com:587'
+  smtp_from: 'alertmanager@hyperdex.io'
+  smtp_auth_username: 'alertmanager'
+  smtp_auth_password: 'password' # Use secret references in production
+
+  # The Slack webhook URL
+  slack_api_url: 'https://hooks.slack.com/services/TXXXXXXXX/BXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX' # Use secret references in production
+
+  # Default receiver
+  resolve_timeout: 5m
+
+# Templates for notifications
+templates:
+  - '/etc/alertmanager/template/*.tmpl'
+
+# The root route on which each incoming alert enters
+route:
+  # The root route must not have any matchers as it is the entry point for all alerts
+  group_by: ['alertname', 'job']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'slack-notifications'
+
+  # All the above attributes are inherited by all child routes and can be overridden
+  routes:
+    - match:
+        severity: critical
+      receiver: 'pagerduty-critical'
+      continue: true
+
+    - match:
+        severity: critical
+      group_wait: 15s
+      group_interval: 1m
+      repeat_interval: 1h
+      receiver: 'slack-critical'
+
+    - match:
+        severity: warning
+      receiver: 'slack-warnings'
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+
+# Inhibition rules allow to mute a set of alerts given that another alert is firing
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    # Apply inhibition if the alertname is the same
+    equal: ['alertname', 'instance']
+
+# Receivers define how to send notifications when alerts are triggered
+receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+    - channel: '#hyperdex-alerts'
+      send_resolved: true
+      icon_url: 'https://avatars3.githubusercontent.com/u/3380462'
+      title: |-
+        [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}
+      text: >-
+        {{ range .Alerts -}}
+        *Alert:* {{ .Annotations.summary }}
+
+        *Description:* {{ .Annotations.description }}
+
+        *Severity:* {{ .Labels.severity }}
+
+        *Details:*
+          {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+          {{ end }}
+        {{ end }}
+
+  - name: 'slack-critical'
+    slack_configs:
+    - channel: '#hyperdex-critical'
+      send_resolved: true
+      icon_url: 'https://avatars3.githubusercontent.com/u/3380462'
+      title: |-
+        [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}
+      text: >-
+        {{ range .Alerts -}}
+        *Alert:* {{ .Annotations.summary }}
+
+        *Description:* {{ .Annotations.description }}
+
+        *Severity:* {{ .Labels.severity }}
+
+        *Details:*
+          {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+          {{ end }}
+        {{ end }}
+
+  - name: 'slack-warnings'
+    slack_configs:
+    - channel: '#hyperdex-warnings'
+      send_resolved: true
+      icon_url: 'https://avatars3.githubusercontent.com/u/3380462'
+      title: |-
+        [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}
+      text: >-
+        {{ range .Alerts -}}
+        *Alert:* {{ .Annotations.summary }}
+
+        *Description:* {{ .Annotations.description }}
+
+        *Severity:* {{ .Labels.severity }}
+
+        *Details:*
+          {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+          {{ end }}
+        {{ end }}
+
+  - name: 'pagerduty-critical'
+    pagerduty_configs:
+    - service_key: 'your_pagerduty_service_key' # Use secret references in production
+      send_resolved: true
+      description: |-
+        [{{ .Status | toUpper }}] {{ .CommonLabels.alertname }}
+      details:
+        firing: '{{ template "pagerduty.default.instances" .Alerts.Firing }}'
+        resolved: '{{ template "pagerduty.default.instances" .Alerts.Resolved }}'
+        system: 'HyperDex Relayer'
+        priority: 'P1'

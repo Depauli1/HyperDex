@@ -1,0 +1,46 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+.search {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.error {
+  color: red;
+  margin: 1rem 0;
+}
+.webhook-form {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.webhook-form input,
+.webhook-form button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+.webhook-list {
+  margin-top: 2rem;
+}
+.webhook-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.webhook-list th,
+.webhook-list td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+.webhook-list th {
+  background-color: #f4f4f4;
+}
+.webhook-list button {
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}

@@ -1,0 +1,274 @@
+version: '3.8'
+
+services:
+  # Nginx load balancer
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/ssl:ro
+    depends_on:
+      - relayer1
+      - relayer2
+      - relayer3
+    networks:
+      - hyperdex-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: hyperdex
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: hyperdex_relayer
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    networks:
+      - hyperdex-network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hyperdex"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  # Redis for rate limiting and caching
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - hyperdex-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # Prometheus monitoring
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus-alerts.yml:/etc/prometheus/prometheus-alerts.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - hyperdex-network
+    restart: always
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+
+  # Grafana for monitoring visualization
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana-dashboard.json:/etc/grafana/provisioning/dashboards/hyperdex-dashboard.json:ro
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    networks:
+      - hyperdex-network
+    restart: always
+    depends_on:
+      - prometheus
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # Alertmanager for alert notifications
+  alertmanager:
+    image: prom/alertmanager
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    ports:
+      - "9093:9093"
+    networks:
+      - hyperdex-network
+    restart: always
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 256M
+
+  # HyperDex Relayer instances (3 for redundancy)
+  relayer1:
+    build:
+      context: ..
+      dockerfile: ./deployment/Dockerfile
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      LOG_LEVEL: info
+      ETHEREUM_RPC_URLS: ${ETHEREUM_RPC_URL_1},${ETHEREUM_RPC_URL_2}
+      DATABASE_URL: postgres://hyperdex:${DB_PASSWORD}@postgres:5432/hyperdex_relayer
+      REDIS_URL: redis://redis:6379
+      INSTANCE_ID: relayer1
+      PROVIDER_HEALTH_CHECK_INTERVAL_MS: 30000
+      PROVIDER_TIMEOUT_MS: 10000
+      MAX_GAS_PRICE_GWEI: 100
+      CIRCUIT_BREAKER_PROVIDER_FAILURES: 5
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - hyperdex-network
+    restart: always
+    secrets:
+      - relayer_private_key
+    volumes:
+      - relayer1-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  relayer2:
+    build:
+      context: ..
+      dockerfile: ./deployment/Dockerfile
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      LOG_LEVEL: info
+      ETHEREUM_RPC_URLS: ${ETHEREUM_RPC_URL_2},${ETHEREUM_RPC_URL_3}
+      DATABASE_URL: postgres://hyperdex:${DB_PASSWORD}@postgres:5432/hyperdex_relayer
+      REDIS_URL: redis://redis:6379
+      INSTANCE_ID: relayer2
+      PROVIDER_HEALTH_CHECK_INTERVAL_MS: 30000
+      PROVIDER_TIMEOUT_MS: 10000
+      MAX_GAS_PRICE_GWEI: 100
+      CIRCUIT_BREAKER_PROVIDER_FAILURES: 5
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - hyperdex-network
+    restart: always
+    secrets:
+      - relayer_private_key
+    volumes:
+      - relayer2-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+  relayer3:
+    build:
+      context: ..
+      dockerfile: ./deployment/Dockerfile
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      LOG_LEVEL: info
+      ETHEREUM_RPC_URLS: ${ETHEREUM_RPC_URL_3},${ETHEREUM_RPC_URL_1}
+      DATABASE_URL: postgres://hyperdex:${DB_PASSWORD}@postgres:5432/hyperdex_relayer
+      REDIS_URL: redis://redis:6379
+      INSTANCE_ID: relayer3
+      PROVIDER_HEALTH_CHECK_INTERVAL_MS: 30000
+      PROVIDER_TIMEOUT_MS: 10000
+      MAX_GAS_PRICE_GWEI: 100
+      CIRCUIT_BREAKER_PROVIDER_FAILURES: 5
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - hyperdex-network
+    restart: always
+    secrets:
+      - relayer_private_key
+    volumes:
+      - relayer3-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+
+networks:
+  hyperdex-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+  prometheus-data:
+  grafana-data:
+  alertmanager-data:
+  relayer1-data:
+  relayer2-data:
+  relayer3-data:
+
+secrets:
+  relayer_private_key:
+    file: ./secrets/relayer_private_key.txt

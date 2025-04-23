@@ -1,0 +1,976 @@
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:11:38.979Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:12:04.150Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:12:25.390Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:08.559Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:08.593Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:08.602Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:08.609Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:08.616Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:11.605Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:15.823Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:15.834Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:15.840Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:15.855Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:15.859Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:21.198Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:27.382Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:27.364Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:27.389Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:27.394Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:27.398Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:22:27.400Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:25:37.997Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:25:37.935Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:25:37.974Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:25:37.984Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:25:37.989Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:25:38.004Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:25:39.875Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:27:53.539Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:27:53.581Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:27:53.589Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:27:53.597Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:27:53.602Z"}
+{"level":"error","message":"Error getting pool for tokens 0xTokenA and 0xTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:26.557Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:27.418Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:27.443Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:27.460Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:27.469Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:27.482Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:26.589Z"}
+{"level":"error","message":"Error getting pool for tokens 0xTokenA and 0xTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:26.612Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:26.692Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:28.153Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:29.186Z"}
+{"level":"error","message":"Error getting pool for tokens 0xTokenA and 0xTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:45.279Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:45.312Z"}
+{"level":"error","message":"Error getting pool for tokens 0xTokenA and 0xTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:45.334Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:45.370Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:46.174Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:46.196Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:46.202Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:46.205Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:46.219Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:50.480Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:31:50.929Z"}
+{"level":"error","message":"Error getting pool for tokens 0xTokenA and 0xTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:08.412Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:08.439Z"}
+{"level":"error","message":"Error getting pool for tokens 0xTokenA and 0xTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:08.460Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: this.hyperDex.getPoolForTokens is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:08.496Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:09.751Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:10.395Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:09.780Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:09.789Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:09.799Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:09.803Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:32:10.892Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:36:13.135Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:36:13.263Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:36:13.613Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:36:13.658Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:36:13.663Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:36:13.669Z"}
+{"level":"error","message":"Signature verification failed: invalid typed-data domain key: \"0\" (argument=\"domain\", value=\"0x5FbDB2315678afecb367f032d93F642f64180aa3\", code=INVALID_ARGUMENT, version=hash/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:36:13.676Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:39:34.139Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x90F79bf6EB2c4f870365E785982E1f101E93b906","service":"hyperdex-relayer","timestamp":"2025-04-17T16:39:34.229Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:39:34.238Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:39:34.246Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:39:34.260Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:39:32.311Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:39:32.410Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:41:01.707Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.087Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.089Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.090Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.091Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.093Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.095Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.096Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.097Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.098Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.099Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'getAddress')","service":"hyperdex-relayer","timestamp":"2025-04-18T00:39:11.106Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:30.368Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:30.427Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:30.988Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:31.007Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:31.011Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:31.015Z"}
+{"level":"error","message":"Transaction 17bab891-6455-47bb-8b5e-73977cc43ddd processing error: Cannot read properties of undefined (reading 'toString')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:31.118Z"}
+{"level":"error","message":"Transaction dd168f90-8415-4894-97fe-57821ff46b49 processing error: network timeout","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:31.127Z"}
+{"level":"error","message":"Transaction 0b27a087-f061-4cc4-be65-fcd914104e5f processing error: Cannot read properties of undefined (reading 'toString')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:31.256Z"}
+{"level":"error","message":"Transaction d8944c71-f5eb-490a-bf82-456fb937113f processing error: Cannot read properties of undefined (reading 'toString')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:43:31.266Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:35.541Z"}
+{"level":"error","message":"Transaction c68c9d6c-474a-474b-a536-eb7262b88921 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.107Z"}
+{"level":"error","message":"Transaction 9c59187b-1a00-40e2-9ea9-7a91d3f8b7c3 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.125Z"}
+{"level":"error","message":"Transaction 25e802ce-4f95-4f02-8d7d-520946a9bf06 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.334Z"}
+{"level":"error","message":"Transaction ebc84079-003b-47c2-9dc0-21887ec33a88 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.646Z"}
+{"level":"error","message":"Transaction 72db494b-61d8-446d-a9c0-c1008f7ca059 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.677Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:35.635Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.656Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.679Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.691Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:46:36.694Z"}
+{"level":"error","message":"Transaction 939203d2-8653-44cf-8e1e-a03f24414214 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:34.267Z"}
+{"level":"error","message":"Transaction 31a56c09-4cf9-4242-b870-b6436a0e4041 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:34.328Z"}
+{"level":"error","message":"Transaction 00026112-3950-41f4-b479-7f9385cba60d processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:34.562Z"}
+{"level":"error","message":"Transaction e281e1b3-234b-450a-af3d-59e3ee3155c2 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:34.882Z"}
+{"level":"error","message":"Transaction 8b2689db-9df6-4cff-a35c-9dba257ffcfb processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:34.897Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:35.216Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:35.273Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:36.568Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:36.783Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:36.588Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:36.590Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:36.603Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:38.237Z"}
+{"level":"error","message":"Transaction 389334f7-f61d-4591-88a8-f70302eb1481 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:53.520Z"}
+{"level":"error","message":"Transaction f8b3e09e-6f55-4baf-a953-d6e0c87cc36a processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:53.580Z"}
+{"level":"error","message":"Transaction 1b20aa08-c519-467a-8bf7-49041dc48c1a processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:53.794Z"}
+{"level":"error","message":"Transaction 2bae1b02-ed8b-49af-90fa-9cd4f9e500ec processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.078Z"}
+{"level":"error","message":"Transaction 13659d0b-f2a0-4a32-a442-4ba5503a52d9 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.084Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.368Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.448Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.528Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.681Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.697Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:54.712Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:58.771Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:47:59.208Z"}
+{"level":"error","message":"Transaction bf2c8b04-885d-4231-b802-f92ccdaad03c processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:16.455Z"}
+{"level":"error","message":"Transaction be0a2027-4484-4125-a59f-910fe12ddd76 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:16.478Z"}
+{"level":"error","message":"Transaction 0e1891b1-a3dd-4607-ad8f-e40bd0121e43 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:16.747Z"}
+{"level":"error","message":"Transaction 958b7352-993e-44f2-9a81-3b10d614e873 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:17.050Z"}
+{"level":"error","message":"Transaction 778daa1f-c77e-4dfd-ad6d-f2a9d7c78551 processing error: Cannot read properties of undefined (reading 'hyperDex')","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:17.096Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:18.604Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:18.620Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:18.646Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:18.649Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:18.652Z"}
+{"level":"error","message":"Error executing gasless swap: Missing required parameter: tokenIn","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:18.778Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:18.833Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T16:48:19.678Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 51699361848398646112436864336537331204117624075347098140258589041567917338298","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:11.829Z"}
+{"level":"error","message":"Transaction 054c008f-a299-4695-b543-ce9f50688445 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.262Z"}
+{"level":"error","message":"Transaction 054c008f-a299-4695-b543-ce9f50688445 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.272Z"}
+{"level":"error","message":"Transaction 054c008f-a299-4695-b543-ce9f50688445 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.278Z"}
+{"level":"error","message":"Transaction 054c008f-a299-4695-b543-ce9f50688445 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.282Z"}
+{"level":"error","message":"Transaction f68da37f-7a65-4111-83fe-93f57f06fd2b processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.298Z"}
+{"level":"error","message":"Transaction f68da37f-7a65-4111-83fe-93f57f06fd2b processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.311Z"}
+{"level":"error","message":"Transaction f68da37f-7a65-4111-83fe-93f57f06fd2b processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.314Z"}
+{"level":"error","message":"Transaction f68da37f-7a65-4111-83fe-93f57f06fd2b processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.317Z"}
+{"level":"error","message":"Transaction 1e406f30-f454-405e-b951-71c9fca432d6 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.532Z"}
+{"level":"error","message":"Transaction 1e406f30-f454-405e-b951-71c9fca432d6 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.540Z"}
+{"level":"error","message":"Transaction 1e406f30-f454-405e-b951-71c9fca432d6 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.545Z"}
+{"level":"error","message":"Transaction 1e406f30-f454-405e-b951-71c9fca432d6 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.552Z"}
+{"level":"error","message":"Transaction 8ac31e45-fa62-42eb-9ec3-ab194ba170d0 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.849Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 114821986414603002427072137766128950830458535141900631351063042621830923392206","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:11.874Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 102196115603193285932457882203762553516048878127151898905256743420113434785959","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:11.879Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 101147182346978449420923183066841569167033511002737001666250701184632553511811","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:11.884Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:12.845Z"}
+{"level":"error","message":"Transaction 12ed697f-a264-4e95-8bf2-5c0238a0116d processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.628Z"}
+{"level":"error","message":"Transaction 12ed697f-a264-4e95-8bf2-5c0238a0116d processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.632Z"}
+{"level":"error","message":"Transaction 12ed697f-a264-4e95-8bf2-5c0238a0116d processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.635Z"}
+{"level":"error","message":"Transaction 12ed697f-a264-4e95-8bf2-5c0238a0116d processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.638Z"}
+{"level":"error","message":"Transaction 1207ef72-77ad-4aa4-a708-ec2fd0019268 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.646Z"}
+{"level":"error","message":"Transaction 1207ef72-77ad-4aa4-a708-ec2fd0019268 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.651Z"}
+{"level":"error","message":"Transaction 1207ef72-77ad-4aa4-a708-ec2fd0019268 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.655Z"}
+{"level":"error","message":"Transaction 1207ef72-77ad-4aa4-a708-ec2fd0019268 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.657Z"}
+{"level":"error","message":"Transaction 2b1308df-72d3-4dbc-8896-4c240d5d67aa processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.800Z"}
+{"level":"error","message":"Transaction 2b1308df-72d3-4dbc-8896-4c240d5d67aa processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.805Z"}
+{"level":"error","message":"Transaction 2b1308df-72d3-4dbc-8896-4c240d5d67aa processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.808Z"}
+{"level":"error","message":"Transaction 2b1308df-72d3-4dbc-8896-4c240d5d67aa processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:14.811Z"}
+{"level":"error","message":"Transaction 6e894ad6-7772-4037-8197-4edba3a354d6 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:15.107Z"}
+{"level":"error","message":"Transaction 34a89035-ee1d-4b45-8c30-69c97a8a14ba processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.366Z"}
+{"level":"error","message":"Transaction 34a89035-ee1d-4b45-8c30-69c97a8a14ba processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.374Z"}
+{"level":"error","message":"Transaction 34a89035-ee1d-4b45-8c30-69c97a8a14ba processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.378Z"}
+{"level":"error","message":"Transaction 34a89035-ee1d-4b45-8c30-69c97a8a14ba processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.382Z"}
+{"level":"error","message":"Transaction 96454938-703e-480d-b567-9e1b7db672e4 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.389Z"}
+{"level":"error","message":"Transaction 96454938-703e-480d-b567-9e1b7db672e4 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.392Z"}
+{"level":"error","message":"Transaction 96454938-703e-480d-b567-9e1b7db672e4 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.396Z"}
+{"level":"error","message":"Transaction 96454938-703e-480d-b567-9e1b7db672e4 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.404Z"}
+{"level":"error","message":"Transaction 39bdbd0a-45c1-441d-aa1f-b22e50a6863a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.545Z"}
+{"level":"error","message":"Transaction 39bdbd0a-45c1-441d-aa1f-b22e50a6863a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.548Z"}
+{"level":"error","message":"Transaction 39bdbd0a-45c1-441d-aa1f-b22e50a6863a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.552Z"}
+{"level":"error","message":"Transaction 39bdbd0a-45c1-441d-aa1f-b22e50a6863a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.556Z"}
+{"level":"error","message":"Transaction 0a1b3c4e-aa84-4780-87eb-18041b217caf processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:17.852Z"}
+{"level":"error","message":"Transaction 92e07940-a7ad-42bf-b9e5-aa9ee891f919 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.231Z"}
+{"level":"error","message":"Transaction 92e07940-a7ad-42bf-b9e5-aa9ee891f919 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.240Z"}
+{"level":"error","message":"Transaction 92e07940-a7ad-42bf-b9e5-aa9ee891f919 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.248Z"}
+{"level":"error","message":"Transaction 92e07940-a7ad-42bf-b9e5-aa9ee891f919 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.252Z"}
+{"level":"error","message":"Transaction 206b520c-3a34-4164-b009-1376d454a6d0 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.271Z"}
+{"level":"error","message":"Transaction 206b520c-3a34-4164-b009-1376d454a6d0 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.274Z"}
+{"level":"error","message":"Transaction 206b520c-3a34-4164-b009-1376d454a6d0 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.277Z"}
+{"level":"error","message":"Transaction 206b520c-3a34-4164-b009-1376d454a6d0 processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.295Z"}
+{"level":"error","message":"Transaction b7effe8e-af63-47b1-9f2c-69c0edb6c66a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.575Z"}
+{"level":"error","message":"Transaction b7effe8e-af63-47b1-9f2c-69c0edb6c66a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.579Z"}
+{"level":"error","message":"Transaction b7effe8e-af63-47b1-9f2c-69c0edb6c66a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.594Z"}
+{"level":"error","message":"Transaction b7effe8e-af63-47b1-9f2c-69c0edb6c66a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.598Z"}
+{"level":"error","message":"Transaction 4295bb9d-8da6-444a-992e-a9fc89f7251a processing error: this.nonceManager.reserveNonce is not a function","service":"hyperdex-relayer","timestamp":"2025-04-17T16:59:20.885Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:02:50.489Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:02:50.624Z"}
+{"level":"error","message":"Failed to get next nonce: Cannot read properties of undefined (reading 'add')","service":"hyperdex-relayer","timestamp":"2025-04-17T17:02:50.412Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:02:59.643Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:00.992Z"}
+{"level":"error","message":"Transaction acaeec1c-9f40-43b1-ae00-a2bd09dbe2d5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:01.552Z"}
+{"level":"error","message":"Transaction acaeec1c-9f40-43b1-ae00-a2bd09dbe2d5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:01.555Z"}
+{"level":"error","message":"Transaction acaeec1c-9f40-43b1-ae00-a2bd09dbe2d5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:01.557Z"}
+{"level":"error","message":"Transaction acaeec1c-9f40-43b1-ae00-a2bd09dbe2d5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:01.559Z"}
+{"level":"error","message":"Transaction c229c4a2-51f4-43ed-958f-12b987ee0cf2 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:01.697Z"}
+{"level":"error","message":"Transaction c229c4a2-51f4-43ed-958f-12b987ee0cf2 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:01.701Z"}
+{"level":"error","message":"Transaction c229c4a2-51f4-43ed-958f-12b987ee0cf2 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:01.704Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:03:03.467Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:44.938Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:46.766Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:47.122Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:46.899Z"}
+{"level":"error","message":"Transaction 63d1dece-c459-4f5b-9654-c99e65b74993 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:48.092Z"}
+{"level":"error","message":"Transaction 63d1dece-c459-4f5b-9654-c99e65b74993 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:48.108Z"}
+{"level":"error","message":"Transaction 63d1dece-c459-4f5b-9654-c99e65b74993 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:48.112Z"}
+{"level":"error","message":"Transaction 63d1dece-c459-4f5b-9654-c99e65b74993 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:48.126Z"}
+{"level":"error","message":"Transaction 6f539231-8a31-47ad-a672-6e32b66e952a processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:48.474Z"}
+{"level":"error","message":"Transaction 6f539231-8a31-47ad-a672-6e32b66e952a processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:48.478Z"}
+{"level":"error","message":"Transaction 6f539231-8a31-47ad-a672-6e32b66e952a processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:48.481Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:10:49.445Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:06.344Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:06.294Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:06.443Z"}
+{"level":"error","message":"Transaction 6796873a-36d2-4555-8db0-93edef933116 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:07.250Z"}
+{"level":"error","message":"Transaction 6796873a-36d2-4555-8db0-93edef933116 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:07.259Z"}
+{"level":"error","message":"Transaction 6796873a-36d2-4555-8db0-93edef933116 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:07.265Z"}
+{"level":"error","message":"Transaction 6796873a-36d2-4555-8db0-93edef933116 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:07.268Z"}
+{"level":"error","message":"Transaction d7f10b86-3402-440c-8ba9-fd9ad4af4972 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:07.385Z"}
+{"level":"error","message":"Transaction d7f10b86-3402-440c-8ba9-fd9ad4af4972 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:07.388Z"}
+{"level":"error","message":"Transaction d7f10b86-3402-440c-8ba9-fd9ad4af4972 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:07.393Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:13.135Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:13.598Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:31.786Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:32.106Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:31.933Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.296Z"}
+{"level":"error","message":"Transaction 01733f3d-fe8c-4614-975b-0c87b52e9e59 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.413Z"}
+{"level":"error","message":"Transaction 01733f3d-fe8c-4614-975b-0c87b52e9e59 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.418Z"}
+{"level":"error","message":"Transaction 01733f3d-fe8c-4614-975b-0c87b52e9e59 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.422Z"}
+{"level":"error","message":"Transaction 01733f3d-fe8c-4614-975b-0c87b52e9e59 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.431Z"}
+{"level":"error","message":"Transaction 825f80f4-235f-4a2a-b015-4660267b1f3b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.561Z"}
+{"level":"error","message":"Transaction 825f80f4-235f-4a2a-b015-4660267b1f3b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.564Z"}
+{"level":"error","message":"Transaction 825f80f4-235f-4a2a-b015-4660267b1f3b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:34.567Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:11:35.115Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:25.091Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:28.097Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:28.148Z"}
+{"level":"error","message":"Transaction 3253b277-c971-4e9e-ad04-d4cccc9f992c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:14:06.070Z"}
+{"level":"error","message":"Transaction 3253b277-c971-4e9e-ad04-d4cccc9f992c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:56.869Z"}
+{"level":"error","message":"Transaction e95447fd-e878-4b3a-92d9-c3c67d287306 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:57.052Z"}
+{"level":"error","message":"Transaction 3253b277-c971-4e9e-ad04-d4cccc9f992c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:57.091Z"}
+{"level":"error","message":"Transaction e95447fd-e878-4b3a-92d9-c3c67d287306 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:57.099Z"}
+{"level":"error","message":"Transaction 3253b277-c971-4e9e-ad04-d4cccc9f992c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:15:57.202Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:16:03.488Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:28.725Z"}
+{"level":"error","message":"Transaction 1819ce1a-4566-4e81-8d8a-e88f2c1ed992 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.387Z"}
+{"level":"error","message":"Transaction 1819ce1a-4566-4e81-8d8a-e88f2c1ed992 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.397Z"}
+{"level":"error","message":"Transaction 66db9942-1162-4cdd-891b-5c6f436384fd processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.484Z"}
+{"level":"error","message":"Transaction 1819ce1a-4566-4e81-8d8a-e88f2c1ed992 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.641Z"}
+{"level":"error","message":"Transaction 1819ce1a-4566-4e81-8d8a-e88f2c1ed992 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.646Z"}
+{"level":"error","message":"Transaction 66db9942-1162-4cdd-891b-5c6f436384fd processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.656Z"}
+{"level":"error","message":"Transaction 1819ce1a-4566-4e81-8d8a-e88f2c1ed992 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:29.651Z"}
+{"level":"error","message":"Transaction 1819ce1a-4566-4e81-8d8a-e88f2c1ed992 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:29.654Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.160Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:26.204Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:30.155Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:17:34.698Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:30.851Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:32.783Z"}
+{"level":"error","message":"Transaction 2ff5271a-1269-495c-98b5-37fd80523bc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:31.142Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:32.949Z"}
+{"level":"error","message":"Transaction 2ff5271a-1269-495c-98b5-37fd80523bc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:31.172Z"}
+{"level":"error","message":"Transaction 410b5eda-cde3-442a-b034-ca8b375f00ac processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:31.302Z"}
+{"level":"error","message":"Transaction 2ff5271a-1269-495c-98b5-37fd80523bc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:31.601Z"}
+{"level":"error","message":"Transaction 2ff5271a-1269-495c-98b5-37fd80523bc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:31.606Z"}
+{"level":"error","message":"Transaction 410b5eda-cde3-442a-b034-ca8b375f00ac processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:31.610Z"}
+{"level":"error","message":"Transaction 2ff5271a-1269-495c-98b5-37fd80523bc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:33.069Z"}
+{"level":"error","message":"Transaction 2ff5271a-1269-495c-98b5-37fd80523bc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:33.072Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:32.989Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:33.003Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:33.032Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:33.715Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.335Z"}
+{"level":"error","message":"Transaction 2544da8d-41a7-400d-a76a-85b7e3f33e6e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.426Z"}
+{"level":"error","message":"Transaction 2544da8d-41a7-400d-a76a-85b7e3f33e6e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.436Z"}
+{"level":"error","message":"Transaction 4133f97b-4c62-47f1-8c51-51cd6660c3b5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.581Z"}
+{"level":"error","message":"Transaction 2544da8d-41a7-400d-a76a-85b7e3f33e6e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.783Z"}
+{"level":"error","message":"Transaction 2544da8d-41a7-400d-a76a-85b7e3f33e6e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.792Z"}
+{"level":"error","message":"Transaction 4133f97b-4c62-47f1-8c51-51cd6660c3b5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.799Z"}
+{"level":"error","message":"Transaction 2544da8d-41a7-400d-a76a-85b7e3f33e6e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.828Z"}
+{"level":"error","message":"Transaction 2544da8d-41a7-400d-a76a-85b7e3f33e6e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.862Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.508Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.487Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.527Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:50.540Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:55.483Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:23:55.894Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:13.623Z"}
+{"level":"error","message":"Transaction befe66ee-bca3-442e-80b2-8e7b12f1556c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:13.589Z"}
+{"level":"error","message":"Transaction befe66ee-bca3-442e-80b2-8e7b12f1556c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:13.629Z"}
+{"level":"error","message":"Transaction e1c8edd9-cc5c-4f97-8a99-c050a6625f76 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:13.778Z"}
+{"level":"error","message":"Transaction befe66ee-bca3-442e-80b2-8e7b12f1556c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:14.076Z"}
+{"level":"error","message":"Transaction befe66ee-bca3-442e-80b2-8e7b12f1556c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:14.085Z"}
+{"level":"error","message":"Transaction e1c8edd9-cc5c-4f97-8a99-c050a6625f76 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:14.090Z"}
+{"level":"error","message":"Transaction befe66ee-bca3-442e-80b2-8e7b12f1556c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:15.176Z"}
+{"level":"error","message":"Transaction befe66ee-bca3-442e-80b2-8e7b12f1556c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:15.179Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:16.051Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:14.983Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:15.141Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:15.174Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:15.188Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T17:24:16.919Z"}
+{"level":"error","message":"Transaction 3964fd13-ca71-42e1-b164-90f8c3a5c2c5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.457Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:33.304Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:31.023Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:33.314Z"}
+{"level":"error","message":"Transaction 3964fd13-ca71-42e1-b164-90f8c3a5c2c5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.470Z"}
+{"level":"error","message":"Transaction e0a9dea6-5ef5-40c0-815d-b6764fd40a3e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.550Z"}
+{"level":"error","message":"Transaction 3964fd13-ca71-42e1-b164-90f8c3a5c2c5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.664Z"}
+{"level":"error","message":"Transaction 3964fd13-ca71-42e1-b164-90f8c3a5c2c5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.674Z"}
+{"level":"error","message":"Transaction e0a9dea6-5ef5-40c0-815d-b6764fd40a3e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.680Z"}
+{"level":"error","message":"Transaction 3964fd13-ca71-42e1-b164-90f8c3a5c2c5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.769Z"}
+{"level":"error","message":"Transaction 3964fd13-ca71-42e1-b164-90f8c3a5c2c5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:32.775Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:33.375Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:33.382Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:33.390Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T01:25:34.644Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: No pool found for tokens 0xNonExistentTokenA and 0xNonExistentTokenB","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:52.363Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:53.224Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:55.214Z"}
+{"level":"error","message":"Transaction 6d056cba-4141-40fa-ad60-34d8584f8089 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:54.018Z"}
+{"level":"error","message":"Transaction 6d056cba-4141-40fa-ad60-34d8584f8089 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:54.107Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:55.276Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:55.304Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:55.315Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:00:56.404Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T01:59:06.064Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:18.412Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:17.190Z"}
+{"level":"error","message":"Transaction afd5ae1b-ff5c-4911-bf78-0deca2bc1c76 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:17.224Z"}
+{"level":"error","message":"Transaction afd5ae1b-ff5c-4911-bf78-0deca2bc1c76 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:17.312Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:19.150Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:20.300Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:20.329Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:20.335Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:03:20.346Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:04:16.422Z"}
+{"level":"error","message":"Transaction 5307cba6-095e-4d4d-b092-1021a137c0d0 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:04:16.723Z"}
+{"level":"error","message":"Transaction 5307cba6-095e-4d4d-b092-1021a137c0d0 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:04:17.040Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:27.471Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:28.194Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:28.293Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:28.332Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:28.337Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:28.344Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:04:36.741Z"}
+{"level":"error","message":"Transaction 55627975-91be-4a87-ae07-cdab9d6c07e7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:04:36.821Z"}
+{"level":"error","message":"Transaction 55627975-91be-4a87-ae07-cdab9d6c07e7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:04:37.092Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:54.591Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-18T02:02:55.010Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:01.389Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:02.384Z"}
+{"level":"error","message":"Transaction bd64342f-f883-4604-9cec-e12c87340f19 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:01.523Z"}
+{"level":"error","message":"Transaction bd64342f-f883-4604-9cec-e12c87340f19 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:01.689Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:02.639Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:02.728Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:02.742Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:02.752Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:05:03.283Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:08.793Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:08.999Z"}
+{"level":"error","message":"Transaction c1ee956f-0e17-45e5-8f6d-c3c378c1afea processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:09.065Z"}
+{"level":"error","message":"Transaction c1ee956f-0e17-45e5-8f6d-c3c378c1afea processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:09.080Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:11.848Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:12.093Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:12.098Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:12.103Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:12.375Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:27.140Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:27.235Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:27.250Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:27.257Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:27.175Z"}
+{"level":"error","message":"Transaction c28c95cc-2155-47a1-94c7-05813b14daf1 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:27.225Z"}
+{"level":"error","message":"Transaction c28c95cc-2155-47a1-94c7-05813b14daf1 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:27.231Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:37.205Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-18T02:12:47.638Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:39.983Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:40.508Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:39.466Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:38.707Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:39.509Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:39.515Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:39.522Z"}
+{"level":"error","message":"Transaction ae6c47b0-ab72-4dfc-a1f7-a7515166bee5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:38.738Z"}
+{"level":"error","message":"Transaction ae6c47b0-ab72-4dfc-a1f7-a7515166bee5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:14:38.750Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:45.665Z"}
+{"level":"error","message":"Transaction 2cbfdaf6-88bf-476a-8f32-2e674faa6a98 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:45.720Z"}
+{"level":"error","message":"Transaction 2cbfdaf6-88bf-476a-8f32-2e674faa6a98 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:45.741Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:47.430Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:48.060Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:48.507Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:48.577Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:48.582Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:48.586Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:49.307Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:49.351Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:19:49.352Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:28.001Z"}
+{"level":"error","message":"Transaction 796af208-0515-4d34-bd04-1a61431d901e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:28.033Z"}
+{"level":"error","message":"Transaction 796af208-0515-4d34-bd04-1a61431d901e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:28.037Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:29.045Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:29.871Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:29.991Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:30.083Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:30.086Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:30.588Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:30.616Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:30.620Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:30.630Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.159Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.301Z"}
+{"level":"error","message":"Transaction 80735ee3-d015-4d88-ad06-29d34ca2159b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.331Z"}
+{"level":"error","message":"Transaction 80735ee3-d015-4d88-ad06-29d34ca2159b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.355Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.255Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.256Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.903Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.924Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.930Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:47.935Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:51.650Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:20:52.300Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:09.671Z"}
+{"level":"error","message":"Transaction 1673d9de-70b9-405f-b79f-c8fa0694d0ba processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:09.703Z"}
+{"level":"error","message":"Transaction 1673d9de-70b9-405f-b79f-c8fa0694d0ba processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:09.711Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:10.618Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:11.054Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:10.717Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:10.718Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:11.608Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:12.165Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:12.185Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:12.189Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:21:12.194Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:04.561Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:03.567Z"}
+{"level":"error","message":"Transaction 90956978-99af-4f2d-a98d-2354cb6f0d61 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:03.625Z"}
+{"level":"error","message":"Transaction 90956978-99af-4f2d-a98d-2354cb6f0d61 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:03.639Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.296Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.454Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.524Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.525Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.915Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.940Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.946Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T02:44:05.952Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:06.402Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:06.460Z"}
+{"level":"error","message":"Transaction 0142416a-e40b-4197-962c-06a776bf8558 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:06.482Z"}
+{"level":"error","message":"Transaction 0142416a-e40b-4197-962c-06a776bf8558 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:06.490Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:06.488Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:06.490Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:07.144Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:07.172Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:07.176Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:07.181Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:10.701Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:11.166Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:30.491Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:30.803Z"}
+{"level":"error","message":"Transaction 18696062-f9ff-4f69-bffb-28cc6668239e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:30.886Z"}
+{"level":"error","message":"Transaction 18696062-f9ff-4f69-bffb-28cc6668239e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:30.897Z"}
+{"level":"error","message":"Failed to load wallet: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR, version=providers/5.8.0)","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:32.521Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:30.635Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:30.648Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:32.794Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:33.101Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:33.121Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:33.130Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-17T18:46:33.134Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:28.639Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:29.144Z"}
+{"level":"error","message":"Transaction fb8ea467-be4a-47d6-9660-1149187fee82 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:28.680Z"}
+{"level":"error","message":"Transaction fb8ea467-be4a-47d6-9660-1149187fee82 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:28.685Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:30.186Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:30.223Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:30.228Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:30.234Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:30.459Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:30.509Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:30.511Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.531Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.849Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.933Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:36.010Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:36.011Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.586Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.598Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.612Z"}
+{"level":"error","message":"Transaction 94a7ee4a-cc69-4270-8ac0-96d55f8d88b0 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.966Z"}
+{"level":"error","message":"Transaction 94a7ee4a-cc69-4270-8ac0-96d55f8d88b0 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:35.976Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:40.895Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:46.591Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:47.746Z"}
+{"level":"error","message":"Transaction 10737309-e850-4aa0-a85f-690a3140afeb processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:46.623Z"}
+{"level":"error","message":"Transaction 10737309-e850-4aa0-a85f-690a3140afeb processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:46.656Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:47.791Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:47.921Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:47.922Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:48.732Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:48.847Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:48.855Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:42:48.862Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:08.045Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:08.217Z"}
+{"level":"error","message":"Transaction 740aae1c-6717-4ddf-9cf6-900b5f69002e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:08.276Z"}
+{"level":"error","message":"Transaction 740aae1c-6717-4ddf-9cf6-900b5f69002e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:08.313Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:08.141Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:08.142Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:09.393Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:09.429Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:09.442Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:09.456Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:11.252Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:15.426Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:15.553Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:15.554Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:15.393Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:15.503Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:15.510Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:15.533Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:16.199Z"}
+{"level":"error","message":"Transaction 2512ba17-68bd-49dd-a830-b1f7561f0c9a processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:16.215Z"}
+{"level":"error","message":"Transaction 2512ba17-68bd-49dd-a830-b1f7561f0c9a processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:16.220Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:19.904Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:24.097Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:24.168Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:24.183Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:24.223Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:24.333Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:24.410Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:24.411Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:26.051Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:26.699Z"}
+{"level":"error","message":"Transaction cac7ab4e-5033-46bf-92b9-d56428c3b08e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:26.710Z"}
+{"level":"error","message":"Transaction cac7ab4e-5033-46bf-92b9-d56428c3b08e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T16:54:26.713Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:25:39.106Z"}
+{"level":"error","message":"Error processing swap: Cannot read properties of undefined (reading 'verifySignature')","service":"hyperdex-relayer","timestamp":"2025-04-18T17:25:40.483Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:04.185Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 96645611371403798775000063847954711016951892368207961329468462139854394196489","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:05.003Z"}
+{"level":"error","message":"Error processing swap: Invalid signature format","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:05.006Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:40.219Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:41.350Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:41.520Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:41.596Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:41.606Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:40.593Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:42.001Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:40.709Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:40.712Z"}
+{"level":"error","message":"Transaction edc8b616-6f35-481c-8ba5-610d545ae825 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:42.109Z"}
+{"level":"error","message":"Transaction edc8b616-6f35-481c-8ba5-610d545ae825 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:42.112Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 39398373306688735460146344551199874606348153404909492818522249084947189052709","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:43.230Z"}
+{"level":"error","message":"Error processing swap: Invalid signature format","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:43.233Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:47.132Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:47.518Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:47.620Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:47.621Z"}
+{"level":"error","message":"Transaction 40d8df55-c66a-4fe6-bccd-a4a4604f0caf processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:47.154Z"}
+{"level":"error","message":"Transaction 40d8df55-c66a-4fe6-bccd-a4a4604f0caf processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:47.160Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:48.058Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:48.100Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:48.109Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:48.117Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:52.052Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 106553309412019153393403465391873974736684419106759469179882479074469734409622","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:52.741Z"}
+{"level":"error","message":"Error processing swap: Invalid signature format","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:52.744Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:56.570Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:56.705Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:56.706Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:57.694Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.504Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.616Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.631Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.636Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.563Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 76362775388597908976908153827305414464289732050285455136857361159131984419018","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.834Z"}
+{"level":"error","message":"Error processing swap: Invalid signature format","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.838Z"}
+{"level":"error","message":"Transaction a743c2a2-d0e2-4ab0-aeed-21c9c8de27b5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.584Z"}
+{"level":"error","message":"Transaction a743c2a2-d0e2-4ab0-aeed-21c9c8de27b5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T17:41:58.587Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:13.307Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:15.504Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-19T02:07:21.670Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-19T02:07:21.671Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 89352366634912238488351729679027980129735840553156834088820476952547901172351","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:19.210Z"}
+{"level":"error","message":"Error processing swap: Invalid signature format","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:19.215Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:15.501Z"}
+{"level":"error","message":"Transaction a833f305-59b8-421c-a029-240385fca6f5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:15.563Z"}
+{"level":"error","message":"Transaction a833f305-59b8-421c-a029-240385fca6f5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:15.579Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:16.789Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:16.828Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:16.833Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:19.495Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:24.550Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:24.797Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:24.798Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:24.367Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:24.431Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:24.439Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:24.451Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:25.452Z"}
+{"level":"error","message":"Transaction 4bc020c5-fc1a-471f-a65c-5cd5d17ea658 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:25.484Z"}
+{"level":"error","message":"Transaction 4bc020c5-fc1a-471f-a65c-5cd5d17ea658 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:25.499Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:29.363Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 49743396089740179183850386393158932621523966209232607123323320982383704111309","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:29.991Z"}
+{"level":"error","message":"Error processing swap: Invalid signature format","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:29.993Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-19T02:07:41.822Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:34.769Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:33.787Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:33.788Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:34.841Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: 85913237777536818276785600758782657372381579205724308471688617966342005069222","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:35.563Z"}
+{"level":"error","message":"Error processing swap: Invalid signature format","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:35.575Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:34.893Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:34.909Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:34.914Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:35.891Z"}
+{"level":"error","message":"Transaction cfcb9941-1b81-4561-bac9-cdb6061ee475 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:35.928Z"}
+{"level":"error","message":"Transaction cfcb9941-1b81-4561-bac9-cdb6061ee475 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-18T18:09:35.950Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-19T02:09:46.965Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:14:09.296Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:15:38.017Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-18T18:22:11.007Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:48.969Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:48.981Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:49.112Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:49.113Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:49.772Z"}
+{"level":"error","message":"Transaction 0f828346-5bae-4188-9eb8-e7e1671887ae processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:49.002Z"}
+{"level":"error","message":"Transaction 0f828346-5bae-4188-9eb8-e7e1671887ae processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:49.006Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:50.572Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:50.602Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:50.664Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: undefined","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:50.688Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: undefined","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:50.706Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:55.855Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:56.006Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:55.698Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:55.846Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:55.969Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: undefined","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:56.000Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format: undefined","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:56.050Z"}
+{"level":"error","message":"Transaction 5d44cf0a-ce77-40e7-9712-1eebf9b56b7c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:56.039Z"}
+{"level":"error","message":"Transaction 5d44cf0a-ce77-40e7-9712-1eebf9b56b7c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:56.050Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:55.987Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T02:55:55.988Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T02:56:01.892Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T18:58:00.054Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T03:15:01.833Z"}
+{"level":"error","message":"Transaction c5afc162-6387-4702-980b-ee6a37568673 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T19:16:55.226Z"}
+{"level":"error","message":"Transaction c5afc162-6387-4702-980b-ee6a37568673 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T19:16:55.230Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-21T03:15:09.754Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T03:15:09.888Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T03:15:09.888Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:17.105Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:24.717Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:24.824Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:24.825Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:23.981Z"}
+{"level":"error","message":"Transaction f7bb9130-fbbd-4858-af82-674609349300 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:24.033Z"}
+{"level":"error","message":"Transaction f7bb9130-fbbd-4858-af82-674609349300 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:24.039Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:29.591Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:33.667Z"}
+{"level":"error","message":"Transaction 41356094-fb0b-44de-b146-240c6c4447c7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:33.690Z"}
+{"level":"error","message":"Transaction 41356094-fb0b-44de-b146-240c6c4447c7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:33.702Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:33.707Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:33.835Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T19:17:33.847Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T03:15:42.407Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:22.612Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:22.683Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:22.693Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:22.699Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:24.230Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:24.647Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:25.081Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:25.224Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:25.232Z"}
+{"level":"error","message":"Transaction ab64683d-b3f2-4a76-930a-19630cdce972 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:24.317Z"}
+{"level":"error","message":"Transaction ab64683d-b3f2-4a76-930a-19630cdce972 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T03:31:24.460Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T03:59:59.110Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-21T03:59:59.110Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T04:00:00.036Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T04:00:01.042Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T04:00:01.089Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T04:00:01.351Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T03:59:59.440Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T03:59:59.442Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:02:09.542Z"}
+{"level":"error","message":"Transaction c668652f-69af-4f80-b9e0-88763c8d99a9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:02:09.550Z"}
+{"level":"error","message":"Transaction c668652f-69af-4f80-b9e0-88763c8d99a9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:02:09.553Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T04:09:53.607Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:21.583Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:21.716Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:21.721Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:22.875Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:24.601Z"}
+{"level":"error","message":"Transaction 83e89235-6818-4219-8b63-ab00b3129cd2 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:25.879Z"}
+{"level":"error","message":"Transaction 83e89235-6818-4219-8b63-ab00b3129cd2 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:25.888Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:20.397Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:20.494Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:20.505Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T04:17:20.511Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:37.346Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:37.516Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:37.592Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:37.596Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:50.392Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:51.545Z"}
+{"level":"error","message":"Transaction 4a8e7987-da18-4ace-aa52-543b0cf44155 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:51.623Z"}
+{"level":"error","message":"Transaction 4a8e7987-da18-4ace-aa52-543b0cf44155 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:51.673Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:57.971Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:58.229Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:25:58.230Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:10.383Z"}
+{"level":"error","message":"Transaction 0c6c7d21-50f6-4921-a3fd-cb7c8fcc046c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:10.399Z"}
+{"level":"error","message":"Transaction 0c6c7d21-50f6-4921-a3fd-cb7c8fcc046c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:10.403Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:12.747Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:12.793Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:12.793Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:13.360Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:27.159Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:27.197Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:27.208Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:33:27.214Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:44.144Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:44.730Z"}
+{"level":"error","message":"Transaction c02a94e4-6ec2-4381-8f2c-3d7b67877fe3 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:44.214Z"}
+{"level":"error","message":"Transaction c02a94e4-6ec2-4381-8f2c-3d7b67877fe3 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:44.224Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:45.599Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:45.750Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:45.759Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:45.776Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:48.095Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:48.165Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:38:48.165Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:41:37.843Z"}
+{"level":"error","message":"Transaction fb150877-b391-4a8a-92ab-eac998c8a793 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:41:37.882Z"}
+{"level":"error","message":"Transaction fb150877-b391-4a8a-92ab-eac998c8a793 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:41:37.884Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T20:41:47.966Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:41:48.510Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:41:48.510Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:41:50.358Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:42:07.962Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:42:08.745Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T20:42:14.134Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:42:14.141Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:10.020Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:10.092Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:10.099Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:10.107Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:10.716Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:12.172Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:12.258Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:12.259Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:15.593Z"}
+{"level":"error","message":"Transaction b149591d-2ae5-41bd-a2d7-c8ae66d160e8 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:15.600Z"}
+{"level":"error","message":"Transaction b149591d-2ae5-41bd-a2d7-c8ae66d160e8 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:43:15.602Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T04:56:33.141Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:26.507Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:26.517Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:26.525Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:27.114Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:29.166Z"}
+{"level":"error","message":"Transaction 31acbfb8-f284-4060-8910-fdf096dccdc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:29.173Z"}
+{"level":"error","message":"Transaction 31acbfb8-f284-4060-8910-fdf096dccdc9 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:29.175Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:30.155Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:30.241Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T20:58:30.242Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:31.891Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:31.994Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:32.011Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:32.023Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:34.078Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:34.162Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:34.162Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:34.203Z"}
+{"level":"error","message":"Transaction 2233b0ed-25db-40d2-bad5-6105ef3bcd50 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:34.221Z"}
+{"level":"error","message":"Transaction 2233b0ed-25db-40d2-bad5-6105ef3bcd50 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T21:02:34.224Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:41.979Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:43.015Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-21T05:02:50.522Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:43.154Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:43.156Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:47.515Z"}
+{"level":"error","message":"Transaction e30704a8-993f-4391-8000-f5e119f178ab processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:47.525Z"}
+{"level":"error","message":"Transaction e30704a8-993f-4391-8000-f5e119f178ab processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:47.532Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:44.093Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:44.113Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-20T21:04:44.211Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:34.658Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:35.131Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:34.328Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:34.417Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:34.418Z"}
+{"level":"error","message":"Transaction d5f67666-0122-49d3-a469-ed88b18886ba processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:34.688Z"}
+{"level":"error","message":"Transaction d5f67666-0122-49d3-a469-ed88b18886ba processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:34.699Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:36.113Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:36.160Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:36.164Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:36.170Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:42.820Z"}
+{"level":"error","message":"Transaction 869fa0f5-6a13-4d28-acf8-37499678c3b3 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:42.852Z"}
+{"level":"error","message":"Transaction 869fa0f5-6a13-4d28-acf8-37499678c3b3 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:42.857Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:43.446Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:43.520Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:43.520Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:42.591Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:42.715Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:42.738Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:42.773Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:48.464Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:51.471Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:52.358Z"}
+{"level":"error","message":"Transaction b1dd8636-fea2-4ac6-9dab-a9dea6da394e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:51.530Z"}
+{"level":"error","message":"Transaction b1dd8636-fea2-4ac6-9dab-a9dea6da394e processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:51.591Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:52.500Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:52.597Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:52.607Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:52.620Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:53.384Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:53.455Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:52:53.456Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:15.555Z"}
+{"level":"error","message":"Transaction 69e27723-33c4-4f59-9b53-63d1cb5a0c8d processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:15.585Z"}
+{"level":"error","message":"Transaction 69e27723-33c4-4f59-9b53-63d1cb5a0c8d processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:15.599Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:16.541Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:16.577Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:16.643Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:16.655Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:16.663Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:17.615Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:17.699Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:17.704Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:21.989Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.246Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.322Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.325Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.270Z"}
+{"level":"error","message":"Transaction 3dd3f855-ce69-4a0d-b682-e85b0f32808b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.304Z"}
+{"level":"error","message":"Transaction 3dd3f855-ce69-4a0d-b682-e85b0f32808b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.322Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.095Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.108Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:22.121Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:26.936Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.065Z"}
+{"level":"error","message":"Transaction b0251550-37e7-4f8d-a033-64fd909fc771 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.107Z"}
+{"level":"error","message":"Transaction b0251550-37e7-4f8d-a033-64fd909fc771 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.120Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.345Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.415Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.416Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.920Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.987Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:32.996Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:33.008Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T10:58:33.995Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:00:13.411Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:12:28.932Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:14:29.364Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:22.756Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:22.843Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:22.846Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:22.876Z"}
+{"level":"error","message":"Transaction e21a9225-a7f2-4a1d-9432-190c0286ef82 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:22.907Z"}
+{"level":"error","message":"Transaction e21a9225-a7f2-4a1d-9432-190c0286ef82 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:22.923Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:14:29.846Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:14:29.895Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T19:14:29.904Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:23.687Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:16:24.150Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.473Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.546Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.558Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.565Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.797Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.876Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.880Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.864Z"}
+{"level":"error","message":"Transaction eac1c7e0-9145-4e06-aab2-b6848869b507 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.898Z"}
+{"level":"error","message":"Transaction eac1c7e0-9145-4e06-aab2-b6848869b507 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:02.907Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:17:07.147Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:19:36.895Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:21:59.446Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:23:26.260Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:26:06.478Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:27:10.478Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:29.833Z"}
+{"level":"error","message":"Transaction 7e55066c-08dc-431e-9f05-f5fd9004cb4a processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:29.933Z"}
+{"level":"error","message":"Transaction 7e55066c-08dc-431e-9f05-f5fd9004cb4a processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:29.959Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T19:27:36.321Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:31.644Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:31.904Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:31.905Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:33.052Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:33.135Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:33.143Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:29:33.155Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:14.045Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:14.477Z"}
+{"level":"error","message":"Transaction 9aa1f29a-3ce1-4ea2-b13a-7fb27d7eb917 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:14.528Z"}
+{"level":"error","message":"Transaction 9aa1f29a-3ce1-4ea2-b13a-7fb27d7eb917 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:14.547Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:14.163Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:14.178Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:14.189Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T19:28:21.408Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T19:28:21.442Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T19:28:21.459Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:19.743Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:35.550Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T19:28:41.335Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T19:28:41.409Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T19:28:41.411Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:37.743Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:38.009Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:38.013Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:38.020Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:38.956Z"}
+{"level":"error","message":"Transaction 2c485049-7e72-4f81-94f0-d38108430955 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:39.061Z"}
+{"level":"error","message":"Transaction 2c485049-7e72-4f81-94f0-d38108430955 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:30:39.104Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:01.252Z"}
+{"level":"error","message":"Transaction 7fcaa090-7403-4707-a9b0-7b43fbd13b28 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:01.288Z"}
+{"level":"error","message":"Transaction 7fcaa090-7403-4707-a9b0-7b43fbd13b28 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:01.302Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:01.360Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:01.555Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:01.565Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:02.346Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:02.449Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:02.464Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:02.496Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:03.784Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:23.950Z"}
+{"level":"error","message":"Transaction 0f4495b9-3399-4702-8cbd-b655669c9f90 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:24.004Z"}
+{"level":"error","message":"Transaction 0f4495b9-3399-4702-8cbd-b655669c9f90 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:24.019Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:24.176Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:24.352Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:24.354Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:29:31.676Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:29:31.736Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T19:29:31.746Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:29:31.755Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:31:26.955Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:34.410Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:34.544Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:34.547Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:34.474Z"}
+{"level":"error","message":"Transaction 26828a40-5fe1-4b36-850e-2e977c9a2db5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:34.523Z"}
+{"level":"error","message":"Transaction 26828a40-5fe1-4b36-850e-2e977c9a2db5 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:34.531Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.357Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.368Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.469Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.482Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.516Z"}

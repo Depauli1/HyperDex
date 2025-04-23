@@ -73,18 +73,23 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
             pool.address
         );
 
+        // Deploy HyperDex
+        const HyperDex = await ethers.getContractFactory("HyperDex");
+        hyperdex = await HyperDex.deploy(factory.address);
+        await hyperdex.deployed();
+
         // Impersonate factory to authorize HyperDex as relayer in pool
         await network.provider.request({
             method: "hardhat_impersonateAccount",
             params: [factory.address],
         });
+        // Fund impersonated factory for gas
+        await network.provider.send("hardhat_setBalance", [
+            factory.address,
+            ethers.utils.parseEther("1").toHexString()
+        ]);
         const factorySigner = await ethers.provider.getSigner(factory.address);
         await pool.connect(factorySigner).setRelayerAuthorization(hyperdex.address, true);
-
-        // Deploy HyperDex
-        const HyperDex = await ethers.getContractFactory("HyperDex");
-        hyperdex = await HyperDex.deploy(factory.address);
-        await hyperdex.deployed();
 
         // Set relayer on HyperDex contract
         await hyperdex.connect(owner).setRelayer(relayer.address);
@@ -98,6 +103,9 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
             verifyingContract: hyperdex.address,
         };
 
+        // Log domain setup for debugging
+        console.log("EIP-712 Domain:", JSON.stringify(domain, null, 2));
+
         // Fund and approve tokens
         const mintAmount = ethers.utils.parseUnits("1000", 18);
         await token0.connect(owner).mint(user.address, mintAmount);
@@ -108,10 +116,13 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
         await token1.connect(user).approve(hyperdex.address, ethers.constants.MaxUint256);
 
         // Provide initial liquidity
-        await token0.connect(owner).mint(owner.address, ethers.utils.parseUnits("50", 18));
-        await token1.connect(owner).mint(owner.address, ethers.utils.parseUnits("50", 18));
-        await token0.connect(owner).approve(pool.address, ethers.utils.parseUnits("50", 18));
-        await token1.connect(owner).approve(pool.address, ethers.utils.parseUnits("50", 18));
+        await token0.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
+        await token1.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
+        await token0.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
+        await token1.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
+        // Initialize the pool with an initial price before minting liquidity
+        const initialPrice = encodePriceSqrt(ethers.utils.parseUnits("1", 18));
+        await pool.connect(owner).initialize(initialPrice);
         await pool.connect(owner).mint(owner.address, -50, 50, ethers.utils.parseUnits("100", 18), "0x");
     });
 
@@ -130,14 +141,14 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
             ],
         };
         
-        // Ensure numeric values are properly formatted
+        // Ensure all parameters are properly formatted
         const paramsForSigning = {
             trader: params.trader,
             zeroForOne: params.zeroForOne,
             amountSpecified: params.amountSpecified.toString(),
             sqrtPriceLimitX96: params.sqrtPriceLimitX96.toString(),
             deadline: params.deadline.toString(),
-            nonce: params.nonce.toString(),
+            nonce: params.nonce.toString()
         };
         
         console.log("Signing params:", JSON.stringify(paramsForSigning, null, 2));
@@ -151,11 +162,11 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
         const amountIn = ethers.utils.parseUnits("1", 18);
         const currentNonce = await hyperdex.getNonce(user.address);
         
-        // Get the current block timestamp and add a very large buffer
+        // Get current block timestamp and add buffer for deadline
         const latestBlock = await ethers.provider.getBlock('latest');
-        const deadline = latestBlock.timestamp + 100000; // Add 100,000 seconds (~28 hours)
+        const deadline = latestBlock.timestamp + 100000; // ~28 hours
         
-        // Add debugging info
+        // Log test parameters for debugging
         console.log("------- TEST PARAMETERS -------");
         console.log("Token0:", token0.address);
         console.log("Token1:", token1.address);
@@ -167,11 +178,6 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
         console.log("Current blockchain timestamp:", latestBlock.timestamp);
         console.log("Deadline set to:", deadline);
 
-        // Check if our tokens are properly ordered
-        if (token0.address.toLowerCase() > token1.address.toLowerCase()) {
-            console.error("ERROR: token0 address is greater than token1 address. This would cause issues!");
-        }
-
         const params = {
             trader: user.address,
             zeroForOne: true,
@@ -179,7 +185,6 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
             sqrtPriceLimitX96: TickMath.MIN_SQRT_RATIO.add(1).toString(),
             deadline: deadline.toString(),
             nonce: currentNonce.toString(),
-            signature: "" // Will be set after signing
         };
         
         const signature = await signGaslessSwap(user, params);
@@ -239,12 +244,9 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
 
         const params = {
             trader: user.address,
-            tokenIn: token0.address,
-            tokenOut: token1.address,
-            fee: FEE_TIER,
-            zeroForOne: true, // Required by pool but not for signature
+            zeroForOne: true, 
             amountSpecified: amountIn.toString(),
-            sqrtPriceLimitX96: priceLimitX96.toString(), // Apply the calculated limit
+            sqrtPriceLimitX96: priceLimitX96.toString(), 
             deadline: deadline.toString(),
             nonce: currentNonce.toString(),
         };
@@ -281,4 +283,3 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
 }); // End describe block
 
 console.log("Test file execution completed");
-

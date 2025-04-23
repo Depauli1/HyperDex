@@ -10,10 +10,10 @@ async function main() {
   const weth9 = await WETH9.deploy();
   console.log("WETH9 deployed to:", weth9.address);
 
-  // Deploy UniswapV3Factory
-  const UniswapV3Factory = await hre.ethers.getContractFactory("UniswapV3Factory");
-  const factory = await UniswapV3Factory.deploy();
-  console.log("UniswapV3Factory deployed to:", factory.address);
+  // Deploy HyperDexFactory
+  const HyperDexFactory = await hre.ethers.getContractFactory("HyperDexFactory");
+  const factory = await HyperDexFactory.deploy(hre.ethers.constants.AddressZero);
+  console.log("HyperDexFactory deployed to:", factory.address);
 
   // Deploy SwapRouter
   const SwapRouter = await hre.ethers.getContractFactory("SwapRouter");
@@ -22,7 +22,7 @@ async function main() {
 
   // Deploy HyperDex
   const HyperDex = await hre.ethers.getContractFactory("HyperDex");
-  const hyperDex = await HyperDex.deploy(factory.address, router.address);
+  const hyperDex = await HyperDex.deploy(factory.address);
   console.log("HyperDex deployed to:", hyperDex.address);
 }
 

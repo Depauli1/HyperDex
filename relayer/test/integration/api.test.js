@@ -66,6 +66,13 @@ describe('API Integration Tests', () => {
         error: jest.fn(),
         warn: jest.fn(),
         debug: jest.fn()
+      },
+      providerManager: {
+        getHealthStatus: jest.fn().mockResolvedValue({ hasHealthyProvider: true, providers: [] }),
+        executeWithProvider: jest.fn().mockResolvedValue(12345678)
+      },
+      dbService: {
+        sequelize: { authenticate: jest.fn().mockResolvedValue() }
       }
     };
     

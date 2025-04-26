@@ -12,7 +12,7 @@
     "test:coverage": "jest --config test/jest.config.js --coverage --coverageReporters=text-summary"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.5.0",
     "ethers": "^5.6.5",
     "express": "^4.18.0",
     "express-rate-limit": "^6.3.0",

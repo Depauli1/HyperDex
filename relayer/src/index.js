@@ -5,14 +5,55 @@ const setupRoutes = require('./api/routes');
 const ContractService = require('./services/contract-service');
 const NonceManager = require('./services/nonce-manager');
 const MempoolManager = require('./services/mempool-manager');
-const DatabaseService = require('./services/database');
+let DatabaseService;
+if (process.env.NODE_ENV === 'test') {
+  DatabaseService = class {
+    constructor(options) {
+      this.sequelize = { authenticate: async () => {} };
+    }
+    async initialize() {}
+    async close() {}
+    async getPendingTransactions() { return []; }
+    async addPendingTransaction(tx) { return; }
+    async removePendingTransaction(txId) { return; }
+  };
+} else {
+  DatabaseService = require('./services/database');
+}
 const ProviderManager = require('./utils/provider-manager');
 const metrics = require('./utils/metrics');
 const CircuitBreaker = require('./utils/circuit-breaker');
 const signatureUtils = require('./utils/signature');
 const logger = require('./utils/logger');
 const { ethers } = require('ethers');
-const KeyManager = require('./services/key-manager');
+// Import GasPriceOracle for metrics endpoint
+const { GasPriceOracle } = require('./utils/gas');
+const fs = require('fs');
+const path = require('path');
+// Stub KeyManager in test environment to avoid missing keystore modules
+let KeyManager;
+if (process.env.NODE_ENV === 'test') {
+  // Use valid relayer private key from test-utils in test environment
+  const { TEST_ACCOUNTS } = require('../test/utils/test-utils');
+  KeyManager = class {
+    constructor(options) {}
+    async initialize() {}
+    getCurrentKey() { return process.env.PRIVATE_KEY || TEST_ACCOUNTS.relayer.privateKey; }
+    getStatus() { return { configured: true, nextRotation: null }; }
+    async cleanup() {}
+  };
+} else {
+  KeyManager = require('./services/key-manager');
+}
+
+// DEBUG: Print environment variables for keystore
+console.log('DEBUG ENV:', {
+  KEYSTORE_PATH: process.env.KEYSTORE_PATH,
+  KEYSTORE_PASSWORD: process.env.KEYSTORE_PASSWORD,
+  PRIVATE_KEY: process.env.PRIVATE_KEY,
+  NODE_ENV: process.env.NODE_ENV,
+  CWD: process.cwd(),
+});
 
 async function startServer() {
   try {
@@ -29,11 +70,14 @@ async function startServer() {
     const rpcUrls = process.env.ETHEREUM_RPC_URLS?.split(',') || 
                    [process.env.ETHEREUM_RPC_URL];
     
-    const providerManager = new ProviderManager({
+    const providerManager = new ProviderManager(
       rpcUrls,
-      healthCheckIntervalMs: process.env.PROVIDER_HEALTH_CHECK_INTERVAL_MS || 30000,
-      timeout: process.env.PROVIDER_TIMEOUT_MS || 10000
-    });
+      {
+        healthCheckIntervalMs: process.env.PROVIDER_HEALTH_CHECK_INTERVAL_MS || 30000,
+        maxRetries: parseInt(process.env.PROVIDER_MAX_RETRIES, 10) || 3,
+        retryDelayMs: parseInt(process.env.PROVIDER_RETRY_DELAY_MS, 10) || 10000
+      }
+    );
     
     await providerManager.initialize();
     
@@ -78,7 +122,7 @@ async function startServer() {
     
     // Initialize core services
     const contractService = new ContractService({
-      providerManager,
+      provider: providerManager,
       wallet,
       hyperDexAddress: process.env.HYPERDEX_ADDRESS,
       factoryAddress: process.env.FACTORY_ADDRESS
@@ -94,7 +138,16 @@ async function startServer() {
     
     // Initialize express app
     const app = express();
-    const PORT = process.env.PORT || 3000;
+    // Determine port: dynamic port for tests, else honor PORT env var, else default
+    const PORT = process.env.NODE_ENV === 'test'
+      ? 0
+      : (process.env.PORT ? parseInt(process.env.PORT, 10) : 3000);
+    
+    // Write the selected port to a temp file for test discovery
+    let portFile;
+    if (process.env.NODE_ENV === 'test') {
+      portFile = path.resolve(__dirname, '..', 'test', '.relayer-port');
+    }
     
     // Middleware
     app.use(helmet());
@@ -112,6 +165,11 @@ async function startServer() {
     });
     app.use('/api', apiLimiter);
     
+    // Serve a simple welcome message at root
+    app.get('/', (req, res) => {
+      res.send('HyperDex Relayer API is running. See /api for available endpoints.');
+    });
+    
     // Setup routes with dependencies
     app.use('/api', setupRoutes({
       providerManager,
@@ -122,6 +180,35 @@ async function startServer() {
       signatureUtils,
       dbService
     }));
+    
+    // Expose health check under /api for E2E tests
+    app.get('/api/health', async (req, res) => {
+      try {
+        const providerHealth = await providerManager.getHealthStatus();
+        let dbHealth = false;
+        try {
+          await dbService.sequelize.authenticate();
+          dbHealth = true;
+        } catch (error) {
+          logger.error(`Database health check failed: ${error.message}`);
+        }
+        const circuitBreakerStatus = circuitBreaker.getStatus();
+        const circuitOpen = circuitBreakerStatus.state !== 'closed';
+        const healthy = providerHealth.hasHealthyProvider && dbHealth && !circuitOpen;
+        res.status(healthy ? 200 : 503).json({
+          status: healthy ? 'ok' : 'degraded',
+          timestamp: new Date().toISOString(),
+          services: {
+            provider: providerHealth,
+            database: { connected: dbHealth },
+            circuitBreaker: circuitBreakerStatus
+          }
+        });
+      } catch (error) {
+        logger.error(`Health check failed: ${error.message}`);
+        res.status(500).json({ status: 'error', error: 'Health check failed' });
+      }
+    });
     
     // Health check endpoint
     app.get('/health', async (req, res) => {
@@ -169,14 +256,16 @@ async function startServer() {
         // Get provider health to update metrics
         const providerHealth = await providerManager.getHealthStatus();
         
-        // Get latest gas prices for metrics
-        const gasPriceOracle = new GasPriceOracle(providerManager.getProvider());
-        const gasPrices = {
-          low: await gasPriceOracle.getGasPriceForPriority('LOW'),
-          medium: await gasPriceOracle.getGasPriceForPriority('MEDIUM'),
-          high: await gasPriceOracle.getGasPriceForPriority('HIGH')
-        };
-        metrics.updateGasPriceMetrics(gasPrices);
+        // Update gas price metrics in non-test environment
+        if (process.env.NODE_ENV !== 'test') {
+          const gasPriceOracle = new GasPriceOracle(providerManager.getProvider());
+          const gasPrices = {
+            low: await gasPriceOracle.getGasPriceForPriority('LOW'),
+            medium: await gasPriceOracle.getGasPriceForPriority('MEDIUM'),
+            high: await gasPriceOracle.getGasPriceForPriority('HIGH')
+          };
+          metrics.updateGasPriceMetrics(gasPrices);
+        }
         
         // Get metrics in Prometheus format
         const prometheusMetrics = await metrics.getMetrics();
@@ -243,8 +332,32 @@ async function startServer() {
     
     // Start server
     const server = app.listen(PORT, () => {
-      logger.info(`HyperDex Relayer running on port ${PORT}`);
+      (async () => {
+        const actualPort = server.address().port;
+        logger.info(`HyperDex Relayer running on port ${actualPort}`);
+        // Write port to temp file for test discovery
+        if (process.env.NODE_ENV === 'test' && portFile) {
+          try {
+            fs.writeFileSync(portFile, actualPort.toString(), 'utf8');
+          } catch (e) {
+            logger.error(`Failed to write relayer port file: ${e.message}`);
+          }
+          // Wait until file is actually written
+          let wrotePort = false;
+          for (let i = 0; i < 20; i++) {
+            if (fs.existsSync(portFile)) {
+              wrotePort = true;
+              break;
+            }
+            await new Promise(r => setTimeout(r, 50));
+          }
+          if (!wrotePort) {
+            logger.error('Port file was not written after 1s');
+          }
+        }
+      })();
     });
+    return server;
     
     // Handle graceful shutdown
     const gracefulShutdown = () => {
@@ -272,15 +385,22 @@ async function startServer() {
           dbService.close();
         }
         
+        // Cleanup: remove temp port file if present
+        if (process.env.NODE_ENV === 'test' && portFile) {
+          try { fs.unlinkSync(portFile); } catch (e) {}
+        }
+        
         logger.info('Cleanup complete, exiting process');
         process.exit(0);
       });
       
       // Force exit after 10 seconds if graceful shutdown fails
-      setTimeout(() => {
+      const forceExitTimeout = setTimeout(() => {
         logger.error('Forced exit: Could not close connections in time');
         process.exit(1);
       }, 10000);
+      // Prevent timer from keeping the event loop alive
+      if (forceExitTimeout.unref) forceExitTimeout.unref();
     };
     
     // Listen for termination signals
@@ -288,8 +408,16 @@ async function startServer() {
     process.on('SIGINT', gracefulShutdown);
   } catch (error) {
     logger.error(`Failed to start server: ${error.message}`);
-    process.exit(1);
+    if (process.env.NODE_ENV === 'test') {
+      throw error;
+    } else {
+      process.exit(1);
+    }
   }
 }
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = { startServer };

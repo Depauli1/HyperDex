@@ -5,12 +5,19 @@ pragma abicoder v2;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MockERC20 is ERC20 {
+    uint8 private _customDecimals;
+
     constructor(
         string memory name,
         string memory symbol,
-        uint8 decimals
+        uint8 decimals_
     ) ERC20(name, symbol) {
-        _setupDecimals(decimals);
+        _customDecimals = decimals_;
+    }
+
+    /// @notice Return token decimals
+    function decimals() public view virtual override returns (uint8) {
+        return _customDecimals;
     }
 
     function mint(address to, uint256 amount) external {

@@ -974,3 +974,716 @@
 {"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.469Z"}
 {"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.482Z"}
 {"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T11:32:36.516Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T17:04:08.595Z"}
+{"level":"error","message":"Health check failed: Cannot read properties of undefined (reading 'getHealthStatus')","service":"hyperdex-relayer","timestamp":"2025-04-23T17:04:08.635Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T17:11:26.090Z"}
+{"level":"error","message":"Health check failed: Cannot read properties of undefined (reading 'getHealthStatus')","service":"hyperdex-relayer","timestamp":"2025-04-23T17:11:26.151Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:11:26.918Z"}
+{"level":"error","message":"Error fetching usage statistics: stat.timestamp.toISOString is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:11:26.934Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:11:26.993Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-23T17:11:28.077Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:22:47.470Z"}
+{"level":"error","message":"Error fetching usage statistics: stat.timestamp.toISOString is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:22:47.485Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:22:47.613Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-23T17:22:48.830Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T17:22:49.029Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:43:45.426Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:43:45.474Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T17:43:45.515Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-23T17:43:46.557Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:48:02.144Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:48:02.225Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T17:48:02.261Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-23T17:48:04.399Z"}
+{"level":"error","message":"Failed to start server: Missing required parameters for ContractService","service":"hyperdex-relayer","timestamp":"2025-04-23T17:48:07.177Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:21.555Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:21.612Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:21.726Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:22.794Z"}
+{"level":"error","message":"Failed to recover pending transactions: this.dbService.getPendingTransactions is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:25.219Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:26.664Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:28.677Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:30.461Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:32.467Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:34.474Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:36.676Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:38.682Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:40.687Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:42.693Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:44.700Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:46.744Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:48.749Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:50.748Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:52.754Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T17:57:54.759Z"}
+{"level":"error","message":"Failed to start server: No key configuration found","service":"hyperdex-relayer","timestamp":"2025-04-23T18:03:45.734Z"}
+{"level":"error","message":"Failed to start server: No key configuration found","service":"hyperdex-relayer","timestamp":"2025-04-23T18:05:27.605Z"}
+{"level":"error","message":"Failed to start server: No key configuration found","service":"hyperdex-relayer","timestamp":"2025-04-24T02:06:07.956Z"}
+{"level":"error","message":"Failed to start server: No key configuration found","service":"hyperdex-relayer","timestamp":"2025-04-23T18:08:40.484Z"}
+{"level":"error","message":"Failed to start server: No key configuration found","service":"hyperdex-relayer","timestamp":"2025-04-23T18:09:34.309Z"}
+{"level":"error","message":"Failed to recover pending transactions: this.dbService.getPendingTransactions is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:12:44.933Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:13.929Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:13.997Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:14.479Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:16.450Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:17.369Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:18.584Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:20.610Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:22.626Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:24.705Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:14:32.758Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:28.759Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:30.767Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:33.095Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:35.102Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:37.090Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:39.096Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:41.112Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:43.136Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:45.140Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:16:47.134Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:54.102Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-24T02:37:00.195Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-24T02:37:00.239Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:55.464Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.131Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.140Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.148Z"}
+{"level":"error","message":"Error creating transaction record: Cannot read properties of undefined (reading 'trader')","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.876Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.605Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.616Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.676Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.683Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.694Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.698Z"}
+{"level":"error","message":"Transaction 2c4dc583-f56d-495f-87ef-914c6cb38044 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.709Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.744Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.750Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.789Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.801Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.810Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.879Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.885Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.891Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.900Z"}
+{"level":"error","message":"Transaction 91e8e817-beaf-4436-b2ce-36257e9992b7 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.908Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.174Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.201Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.238Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.245Z"}
+{"level":"error","message":"Transaction bfd11fee-9296-43fd-a33f-95cdc0e45206 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.257Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.754Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.757Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.763Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.771Z"}
+{"level":"error","message":"Transaction 5b5288c0-4594-4596-bb40-b088591762ee processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.777Z"}
+{"level":"error","message":"Transaction 5b5288c0-4594-4596-bb40-b088591762ee processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.888Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.139Z"}
+{"level":"error","message":"Transaction 2c4dc583-f56d-495f-87ef-914c6cb38044 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.144Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.152Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.159Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.163Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.169Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.175Z"}
+{"level":"error","message":"Transaction 91e8e817-beaf-4436-b2ce-36257e9992b7 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.181Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.195Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.201Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.204Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.207Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.236Z"}
+{"level":"error","message":"Transaction bfd11fee-9296-43fd-a33f-95cdc0e45206 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.240Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.245Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.250Z"}
+{"level":"error","message":"Transaction 5b5288c0-4594-4596-bb40-b088591762ee processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.257Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.262Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.269Z"}
+{"level":"error","message":"Transaction 5b5288c0-4594-4596-bb40-b088591762ee processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.273Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.284Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.289Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.297Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.301Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.310Z"}
+{"level":"error","message":"Transaction 2c4dc583-f56d-495f-87ef-914c6cb38044 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.341Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.385Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.396Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.410Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.450Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.519Z"}
+{"level":"error","message":"Transaction bfd11fee-9296-43fd-a33f-95cdc0e45206 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.538Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.552Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.562Z"}
+{"level":"error","message":"Transaction 5b5288c0-4594-4596-bb40-b088591762ee processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.577Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.595Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.599Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.603Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.607Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.636Z"}
+{"level":"error","message":"Transaction 2c4dc583-f56d-495f-87ef-914c6cb38044 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.669Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.705Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.710Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.719Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.723Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.762Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.793Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.844Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.848Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.909Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.911Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.967Z"}
+{"level":"error","message":"Transaction bfd11fee-9296-43fd-a33f-95cdc0e45206 processing error: executeWithProvider is not defined","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:58.975Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:59.092Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:59.096Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:59.115Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:59.117Z"}
+{"level":"error","message":"Error creating transaction record: Cannot read properties of undefined (reading 'trader')","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:56.945Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.142Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-23T18:38:57.150Z"}
+{"level":"error","message":"Error creating transaction record: Cannot read properties of undefined (reading 'trader')","service":"hyperdex-relayer","timestamp":"2025-04-23T18:51:53.583Z"}
+{"level":"error","message":"Error creating transaction record: Cannot read properties of undefined (reading 'trader')","service":"hyperdex-relayer","timestamp":"2025-04-23T18:51:53.662Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-23T18:51:53.777Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-23T18:51:53.793Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T18:51:55.180Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T18:51:55.340Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-23T18:51:55.351Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.543Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.574Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.290Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.296Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:02.972Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:02.979Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.023Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.029Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.047Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.054Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.075Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.077Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.079Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.109Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.118Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.124Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.150Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.159Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.180Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.196Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.200Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.211Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.223Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.233Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.252Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.254Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.261Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.264Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.271Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.294Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.301Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.310Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.313Z"}
+{"level":"error","message":"Transaction 7bdeccc5-e4a7-4a78-a2b9-328e90a92e46 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.351Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.360Z"}
+{"level":"error","message":"Transaction 7bdeccc5-e4a7-4a78-a2b9-328e90a92e46 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.373Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.379Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.409Z"}
+{"level":"error","message":"Transaction 7bdeccc5-e4a7-4a78-a2b9-328e90a92e46 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.411Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.421Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.425Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.428Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.436Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.509Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.513Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.521Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.576Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.644Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.646Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:03.647Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.200Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.203Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.204Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.212Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.214Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.220Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.222Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.231Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.236Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.238Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.248Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.257Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.260Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.262Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.265Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.269Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.277Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.280Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T02:50:04.282Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:09.898Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:09.960Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:09.968Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.471Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.575Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.580Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.710Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.717Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.746Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.828Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.847Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.861Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.902Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.907Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.913Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.925Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.929Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.932Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.951Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.957Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:10.976Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.029Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.033Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.044Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.141Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.148Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.152Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.156Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.167Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.171Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.177Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.200Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.233Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.244Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.334Z"}
+{"level":"error","message":"Transaction 129d487b-d978-4e79-9d23-88ea38632395 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.372Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.404Z"}
+{"level":"error","message":"Transaction 129d487b-d978-4e79-9d23-88ea38632395 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.521Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.586Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.591Z"}
+{"level":"error","message":"Transaction 129d487b-d978-4e79-9d23-88ea38632395 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.594Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.603Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.605Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.607Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.610Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.566Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.572Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.585Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.591Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.626Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.629Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.632Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.656Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.660Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.663Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.700Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.707Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.731Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-24T03:00:17.746Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.936Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.947Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.950Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.965Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.978Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.983Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.986Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.989Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:11.997Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:12.008Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:12.011Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:12.017Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:12.279Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:12.394Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:12.400Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-23T19:02:12.406Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-24T18:09:53.057Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:09:53.821Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-24T18:09:53.825Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:09:53.864Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:01.909Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:04.038Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:06.045Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:08.051Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:10.038Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:12.044Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:14.078Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:16.084Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:18.090Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:20.090Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:22.095Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:24.104Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:26.110Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:28.114Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:10:30.114Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:38.325Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:38.355Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:38.760Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:46.371Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:48.378Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:50.357Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:52.363Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:54.368Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:56.400Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:21:58.406Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:05.139Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:07.145Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:09.150Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:11.155Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:13.160Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:15.165Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:17.170Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T02:20:19.174Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-24T18:22:17.141Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-24T18:25:52.617Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:25:52.888Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:25:53.208Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-24T18:25:56.708Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:43:45.533Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-24T18:43:45.534Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-24T18:43:45.574Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-24T18:43:46.494Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:43:56.913Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:43:58.895Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:00.902Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:02.913Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:04.920Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:06.928Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:08.879Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:10.886Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:12.966Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:14.973Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:16.980Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:19.177Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:21.183Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:22.990Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-24T18:44:24.995Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T12:29:57.929Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:04.789Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:04.799Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:04.869Z"}
+{"level":"error","message":"Error serving metrics: GasPriceOracle is not defined","service":"hyperdex-relayer","timestamp":"2025-04-25T12:30:03.834Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:30:07.361Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:14.734Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:30:11.396Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:30:13.403Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:20.755Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:22.764Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:24.771Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:26.777Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:28.784Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:30.789Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:32.794Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:34.799Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:30:31.365Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:30:33.371Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:28:40.815Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:06.780Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:06.931Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:08.136Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:08.242Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:09.183Z"}
+{"level":"error","message":"Error updating gas price metrics: ethers is not defined","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:17.048Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:19.024Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:32:26.586Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:32:28.595Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:32:30.602Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:32:32.607Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:32:34.614Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:32:36.620Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:32:38.626Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:35.229Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:37.236Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:39.241Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:40.930Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:42.937Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:45.257Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:34:47.262Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T12:42:34.215Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T12:42:34.300Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T12:42:35.687Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T12:42:36.469Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T12:42:37.485Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:40.439Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:40.485Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:41.623Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:42.563Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:47.483Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T20:57:54.808Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:51.478Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:53.484Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:55.703Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:57.751Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T12:59:59.848Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:01.854Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:03.862Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:05.998Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:08.042Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:10.049Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:12.309Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:14.370Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:00:16.390Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:07.411Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:08.922Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:09.792Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:11.798Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:11.854Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:13.539Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:21.549Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:23.607Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:25.616Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:27.624Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:29.643Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:31.651Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:33.631Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:35.641Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:37.650Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:39.680Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:41.686Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:43.688Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:45.693Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:49.368Z"}
+{"level":"error","message":"Error retrieving transaction from database: this.dbService.getTransaction is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T13:23:51.375Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T13:27:20.984Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T13:27:22.501Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T13:27:23.548Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T21:25:29.882Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T21:25:29.959Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:28:57.902Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:28:57.953Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T13:28:58.874Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T21:27:05.155Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T13:29:00.590Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:31:16.754Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:31:16.828Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T13:31:17.860Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T13:31:20.686Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T13:31:20.815Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T21:30:25.277Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T21:30:25.348Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T21:30:25.623Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T21:30:26.349Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T21:30:26.988Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T13:33:25.294Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T13:33:25.975Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T13:33:27.458Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:33:27.535Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:33:27.591Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T13:34:47.739Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T13:34:48.529Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T13:34:48.999Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:34:49.271Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T13:34:49.333Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:31.812Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.271Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.276Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.290Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.291Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.298Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.300Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.315Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.317Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.318Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.321Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.323Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.324Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.329Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.331Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.335Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.337Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.391Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.395Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.399Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.403Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.405Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.407Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.413Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.415Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.416Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.424Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.426Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.429Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.431Z"}
+{"level":"error","message":"Transaction 0e1a122d-922d-4aff-ae90-0c96dc70745c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.436Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.442Z"}
+{"level":"error","message":"Transaction 0e1a122d-922d-4aff-ae90-0c96dc70745c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.449Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.453Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.459Z"}
+{"level":"error","message":"Transaction 0e1a122d-922d-4aff-ae90-0c96dc70745c processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.462Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.467Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.470Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.472Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.475Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.508Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.590Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.595Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.598Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.612Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.615Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.617Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.630Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.633Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.635Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.653Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.655Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.660Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.661Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.668Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.674Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.676Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.680Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.684Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.686Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:32.688Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T22:47:37.835Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T22:47:37.837Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T22:47:37.845Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T22:47:37.847Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T22:47:37.850Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:33.855Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:33.935Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:33.937Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:34.625Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:34.654Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:34.658Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:34.662Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:35.739Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:35.827Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:35.929Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:36.901Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:36.978Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T14:49:36.989Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.712Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.715Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.744Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.747Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.759Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.762Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.805Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.807Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.810Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.817Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.819Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.825Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.850Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.852Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.862Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.875Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.877Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.888Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.894Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.908Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.924Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.926Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.942Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.944Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.946Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.981Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:39.996Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.002Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.005Z"}
+{"level":"error","message":"Transaction b301a954-cade-4032-ae8e-3f1ab5aac89d processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.019Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.028Z"}
+{"level":"error","message":"Transaction b301a954-cade-4032-ae8e-3f1ab5aac89d processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.176Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.188Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.199Z"}
+{"level":"error","message":"Transaction b301a954-cade-4032-ae8e-3f1ab5aac89d processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.205Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.210Z"}
+{"level":"error","message":"Error updating retry in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.217Z"}
+{"level":"error","message":"Error updating transaction failure in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.219Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.223Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.363Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.366Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.391Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.396Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.484Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.489Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.491Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.497Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.502Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.504Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.519Z"}
+{"level":"error","message":"Failed to initialize database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.522Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.528Z"}
+{"level":"error","message":"Error storing transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.531Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.545Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.623Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.628Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.663Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.684Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.686Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.688Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.689Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.691Z"}
+{"level":"error","message":"Database initialization error: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.695Z"}
+{"level":"error","message":"Error updating transaction in database: Sequelize is not a constructor","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.697Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:40.703Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:41.856Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:41.929Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:44.056Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:44.343Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:44.401Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:44.434Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:50.213Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:51.208Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:51.265Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T14:51:51.289Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T22:50:03.813Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-25T22:50:03.224Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T22:50:03.675Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T22:50:03.678Z"}
+{"level":"error","message":"Failed to start server: Cannot read properties of null (reading 'fromRed')","service":"hyperdex-relayer","timestamp":"2025-04-25T22:50:06.963Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:07.861Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:07.865Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:07.874Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:07.877Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:07.878Z"}
+{"level":"error","message":"Transaction c2cf9686-210d-4d56-aa3b-179694dc88bd processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.415Z"}
+{"level":"error","message":"Transaction c2cf9686-210d-4d56-aa3b-179694dc88bd processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.419Z"}
+{"level":"error","message":"Transaction c2cf9686-210d-4d56-aa3b-179694dc88bd processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.521Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.522Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.836Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.839Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.851Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.858Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.861Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:16:08.884Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:29.116Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:29.966Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:33.114Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:33.216Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:34.805Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:34.827Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:34.828Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:35.992Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:36.107Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:36.113Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:35.309Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:36.103Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:36.115Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T23:14:36.125Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:15.958Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:15.965Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:15.980Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:15.985Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:15.988Z"}
+{"level":"error","message":"Transaction ea4c4843-e84f-4334-bb36-739d72750a33 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.008Z"}
+{"level":"error","message":"Transaction ea4c4843-e84f-4334-bb36-739d72750a33 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.011Z"}
+{"level":"error","message":"Transaction ea4c4843-e84f-4334-bb36-739d72750a33 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.021Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.023Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.038Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.042Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.054Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.066Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.067Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-25T15:55:16.070Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:23.396Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:23.440Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:24.705Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:30.047Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.651Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.810Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.844Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.845Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.678Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.682Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.685Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.865Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.881Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-25T23:53:34.884Z"}
+{"level":"error","message":"Error fetching gas price history: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-26T13:03:01.073Z"}
+{"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-26T21:01:08.397Z"}
+{"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-26T13:03:01.238Z"}
+{"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-26T13:03:08.386Z"}

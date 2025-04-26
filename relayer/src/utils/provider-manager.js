@@ -1,10 +1,11 @@
 /**
  * Provider Manager for handling multiple RPC providers with automatic failover
  */
+const EventEmitter = require('events');
 const { ethers } = require('ethers');
 const logger = require('./logger');
 
-class ProviderManager {
+class ProviderManager extends EventEmitter {
   /**
    * Initialize the provider manager with multiple RPC endpoints
    * 
@@ -15,6 +16,7 @@ class ProviderManager {
    * @param {number} options.retryDelayMs - Delay between retries in ms
    */
   constructor(rpcUrls, options = {}) {
+    super();
     if (!rpcUrls || !Array.isArray(rpcUrls) || rpcUrls.length === 0) {
       throw new Error('At least one RPC URL must be provided');
     }
@@ -178,6 +180,27 @@ class ProviderManager {
       active: i === this.activeProviderIndex,
       ...health
     }));
+  }
+
+  /**
+   * Initialize provider manager by performing initial health check.
+   */
+  async initialize() {
+    try {
+      await this.checkProviderHealth();
+    } catch (err) {
+      // ignore errors during initialization
+    }
+  }
+
+  /**
+   * Get summarized health status of providers.
+   * @returns {{hasHealthyProvider: boolean, providers: Array<Object>}}
+   */
+  async getHealthStatus() {
+    const providers = this.getProvidersHealth();
+    const hasHealthyProvider = providers.some(p => p.healthy);
+    return { hasHealthyProvider, providers };
   }
 
   /**

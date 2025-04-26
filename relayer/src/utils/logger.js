@@ -11,10 +11,12 @@ const logger = winston.createLogger({
   transports: [
     // Console output
     new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.simple()
-      )
+      format: process.env.NODE_ENV === 'test'
+        ? winston.format.simple()
+        : winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple()
+          )
     }),
     // File output for errors
     new winston.transports.File({ 
@@ -28,8 +30,8 @@ const logger = winston.createLogger({
   ]
 });
 
-// If we're in development, also log to the console with a simpler format
-if (process.env.NODE_ENV !== 'production') {
+// Add extra console logging only in non-production non-test
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
       winston.format.colorize(),

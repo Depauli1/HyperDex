@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  analytics:
+    build: './analytics-service'
+    ports:
+      - '4000:4000'
+    environment:
+      - PORT=4000
+      # Set your .env variables or override here
+
+  dashboard:
+    build: './dashboard'
+    ports:
+      - '3000:3000'
+    environment:
+      - REACT_APP_ANALYTICS_URL=http://analytics:4000
+    depends_on:
+      - analytics

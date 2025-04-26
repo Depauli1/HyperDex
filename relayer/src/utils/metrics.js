@@ -3,12 +3,20 @@
  */
 const promClient = require('prom-client');
 const logger = require('./logger');
+const { ethers } = require('ethers');
 
 // Create a registry
 const register = new promClient.Registry();
 
-// Add default metrics (memory, CPU, etc.)
-promClient.collectDefaultMetrics({ register });
+// Add default metrics (memory, CPU, etc.), skip in test to prevent open intervals
+let defaultMetricsInterval;
+if (process.env.NODE_ENV !== 'test') {
+  defaultMetricsInterval = promClient.collectDefaultMetrics({ register });
+  // Unref interval so it doesn't block process exit
+  if (defaultMetricsInterval && typeof defaultMetricsInterval.unref === 'function') {
+    defaultMetricsInterval.unref();
+  }
+}
 
 // Create custom metrics
 const metrics = {

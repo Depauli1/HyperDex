@@ -60,9 +60,8 @@ describeE2E('End-to-End Gasless Swap Test', () => {
   const startRelayer = async () => {
     // Create test .env file for the relayer
     const envPath = join(__dirname, '../../.env');
-    
+    // Write test env file with NO PORT (let server pick ephemeral port)
     await fs.writeFile(envPath, `
-PORT=3001
 LOG_LEVEL=info
 NODE_ENV=test
 ETHEREUM_RPC_URL=${process.env.ETHEREUM_RPC_URL}
@@ -102,7 +101,23 @@ DEADLINE_VALIDATION_ENABLED=false
     });
     
     // Wait for relayer to start
-    relayerUrl = 'http://localhost:3001';
+    // Read the actual port from the temp file written by the relayer
+    const portFile = join(__dirname, '../../test/.relayer-port');
+    let actualPort = 0;
+    let portRaw = '';
+    for (let i = 0; i < 100; i++) { // Wait up to 10s
+      if (fsSync.existsSync(portFile)) {
+        portRaw = fsSync.readFileSync(portFile, 'utf8').trim();
+        actualPort = parseInt(portRaw, 10);
+        if (actualPort > 0 && actualPort < 65536) break;
+      }
+      await sleep(100);
+    }
+    if (!actualPort) {
+      console.error('E2E: .relayer-port contents:', portRaw);
+      throw new Error('Could not determine relayer port from .relayer-port');
+    }
+    relayerUrl = `http://localhost:${actualPort}`;
     
     // Poll for relayer to come online
     const maxAttempts = 30;

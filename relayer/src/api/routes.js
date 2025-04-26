@@ -26,6 +26,10 @@ module.exports = function(services) {
     standardHeaders: true,
     message: { error: 'Too many requests, please try again later' }
   });
+  // Unref MemoryStore interval to avoid blocking tests
+  if (defaultLimiter.store?.clearInterval?.unref) {
+    defaultLimiter.store.clearInterval.unref();
+  }
 
   // More restrictive rate limit for admin/analytics endpoints
   const adminLimiter = rateLimit({
@@ -34,6 +38,51 @@ module.exports = function(services) {
     standardHeaders: true,
     message: { error: 'Too many admin requests, please try again later' }
   });
+  if (adminLimiter.store?.clearInterval?.unref) {
+    adminLimiter.store.clearInterval.unref();
+  }
+
+  // Destructure dbService for tier-based rate limiting
+  const { dbService } = services;
+  // Tier-based rate limiters
+  const tierLimiters = {
+    default: rateLimit({
+      windowMs: 60 * 1000,
+      max: RATE_LIMITS.DEFAULT,
+      standardHeaders: true,
+      message: { error: 'Too many requests, please try again later' }
+    }),
+    premium: rateLimit({
+      windowMs: 60 * 1000,
+      max: RATE_LIMITS.PREMIUM,
+      standardHeaders: true,
+      message: { error: 'Too many requests, please try again later' }
+    }),
+    unlimited: (req, res, next) => next()
+  };
+  // Unref tier limiter store intervals
+  Object.values(tierLimiters).forEach(limiter => {
+    if (limiter?.store?.clearInterval?.unref) {
+      limiter.store.clearInterval.unref();
+    }
+  });
+  // Middleware to apply user tier limits based on trader address or param
+  function tierBasedLimiter(req, res, next) {
+    const address = req.body.trader || req.params.address;
+    // Fallback to default if no address or getUserTier not available
+    if (!address || typeof dbService.getUserTier !== 'function') {
+      return defaultLimiter(req, res, next);
+    }
+    dbService.getUserTier(address)
+      .then(tier => {
+        const limiter = tierLimiters[tier] || tierLimiters.default;
+        limiter(req, res, next);
+      })
+      .catch(err => {
+        logger.error(`Error retrieving user tier: ${err.message}`);
+        defaultLimiter(req, res, next);
+      });
+  }
 
   // Create router
   const router = express.Router();
@@ -46,26 +95,26 @@ module.exports = function(services) {
   router.get('/status/stats', defaultLimiter, statusController.getSystemStats);
   
   // Swap routes with validation middleware
-  router.post('/swap/gasless', defaultLimiter, validateSwapParams, swapController.submitGaslessSwap);
+  router.post('/swap/gasless', tierBasedLimiter, validateSwapParams, swapController.submitGaslessSwap);
   
   // Transaction history routes
   router.get('/history/trader/:address', 
-             defaultLimiter, 
+             tierBasedLimiter, 
              validateAddress('address'), 
              historyController.getTraderHistory);
   
   // Webhook registration and management
   router.post('/webhooks/register', 
-              defaultLimiter, 
+              tierBasedLimiter, 
               webhookController.registerWebhook);
   
   router.get('/webhooks/trader/:address', 
-             defaultLimiter, 
+             tierBasedLimiter, 
              validateAddress('address'),
              webhookController.getTraderWebhooks);
   
   router.put('/webhooks/:id', 
-             defaultLimiter, 
+             tierBasedLimiter, 
              webhookController.updateWebhook);
   
   // Analytics endpoints (admin/monitoring only)

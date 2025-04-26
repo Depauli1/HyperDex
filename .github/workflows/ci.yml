@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  analytics-service:
+    name: Analytics Service Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install & Test
+        working-directory: analytics-service
+        run: |
+          npm ci
+          npm test
+
+  dashboard:
+    name: Dashboard Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install & Test
+        working-directory: dashboard
+        run: |
+          npm ci
+          npm test -- --watchAll=false
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install Dependencies
+        run: |
+          cd analytics-service && npm ci
+          cd ../dashboard && npm ci
+          cd ../e2e && npm ci
+      - name: Start Services
+        run: |
+          cd analytics-service && npm start &
+          cd ../dashboard && npm start &
+      - name: Wait for services
+        working-directory: e2e
+        run: npx wait-on http://localhost:4000 http://localhost:3000
+      - name: Run E2E Tests
+        working-directory: e2e
+        run: npm test

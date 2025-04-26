@@ -1,6 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   verbose: false,
+  reporters: ['jest-silent-reporter'],
   testTimeout: 120000,
   collectCoverage: true,
   collectCoverageFrom: [

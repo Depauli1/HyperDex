@@ -107,7 +107,9 @@ module.exports = function(services) {
         const endpointTotals = {};
         
         for (const stat of usageStats) {
-          const day = stat.timestamp.toISOString().split('T')[0];
+          // Ensure timestamp is Date
+          const ts = stat.timestamp instanceof Date ? stat.timestamp : new Date(stat.timestamp);
+          const day = ts.toISOString().split('T')[0];
           
           // Initialize day in dailyStats if not exists
           if (!dailyStats[day]) {

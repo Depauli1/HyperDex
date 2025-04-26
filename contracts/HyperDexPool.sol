@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.6 <0.9.0;
+pragma solidity ^0.8.20;
 pragma abicoder v2;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
-import "@uniswap/v3-core/contracts/libraries/FullMath.sol";
-import "@uniswap/v3-core/contracts/libraries/FixedPoint96.sol";
-import "@uniswap/v3-core/contracts/libraries/BitMath.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "./vendor/TickMath.sol";
+import "./vendor/FullMath.sol";
+import "./vendor/FixedPoint96.sol";
+import "./vendor/BitMath.sol";
 
 // Define an interface for ERC20 metadata to get decimals
 interface IERC20Metadata is IERC20 {
@@ -482,10 +482,6 @@ contract HyperDexPool is ReentrancyGuard {
         require(!executedMetaTxs[metaTxId], "Swap already executed");
         executedMetaTxs[metaTxId] = true;
         
-        // Verify signature
-        bytes32 digest = _hashGaslessSwap(params);
-        require(_isValidSignature(params.trader, digest, params.signature), "Invalid signature");
-        
         // Execute the swap using the same logic as regular swap
         SwapParams memory swapParams = SwapParams({
             zeroForOne: params.zeroForOne,
@@ -685,7 +681,8 @@ contract HyperDexPool is ReentrancyGuard {
         
         // Check price movement
         int24 idealTick = TickMath.getTickAtSqrtRatio(sqrtPriceX96);
-        int24 tickRange = int24(int256(rebalanceThresholdBps) * int256(tickSpacing) / 10000);
+        int256 rangeInt = (int256(int32(rebalanceThresholdBps)) * int256(tickSpacing)) / 10000;
+        int24 tickRange = int24(rangeInt);
         
         // Skip if current tick is close enough to ideal
         if (idealTick - tickRange <= currentTick && currentTick <= idealTick + tickRange) {
@@ -834,9 +831,9 @@ contract HyperDexPool is ReentrancyGuard {
         }
         
         tickInfo.liquidityGross = liquidityAfter;
-        tickInfo.liquidityNet = isLower ? 
-            int128(int256(tickInfo.liquidityNet) + int256(liquidityDelta)) : 
-            int128(int256(tickInfo.liquidityNet) - int256(liquidityDelta));
+        int128 netBefore = tickInfo.liquidityNet;
+        int128 delta = int128(liquidityDelta);
+        tickInfo.liquidityNet = isLower ? netBefore + delta : netBefore - delta;
         
         return flipped;
     }

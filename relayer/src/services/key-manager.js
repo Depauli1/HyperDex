@@ -17,6 +17,11 @@ class KeyManager {
     this.rotationInterval = options.rotationInterval || parseInt(process.env.KEY_ROTATION_INTERVAL_MS) || 86400000;
     this.currentKey = null;
     this.rotationTimeout = null;
+    logger.info('[DEBUG] KeyManager options:', {
+      keystorePath: this.keystorePath,
+      keystorePassword: this.keystorePassword,
+      rotationInterval: this.rotationInterval
+    });
   }
 
   /** Initialize manager and schedule rotation */

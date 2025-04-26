@@ -24,6 +24,7 @@ const PRIORITY_LEVELS = {
 // Rate limits (requests per minute)
 const RATE_LIMITS = {
   DEFAULT: process.env.NODE_ENV === 'test' ? 1000 : 10,
+  ADMIN: 30,
   PREMIUM: process.env.NODE_ENV === 'test' ? 3000 : 30,
   ENTERPRISE: process.env.NODE_ENV === 'test' ? 10000 : 100
 };

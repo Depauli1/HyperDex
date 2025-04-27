@@ -394,15 +394,7 @@ contract HyperDexPool is ReentrancyGuard {
         require(params.sqrtPriceLimitX96 > 0, "Invalid price limit");
         
         // Compute swap result based on current state
-        (amount0, amount1) = _computeSwapStep(
-            sqrtPriceX96,
-            params.zeroForOne ? 
-                (params.sqrtPriceLimitX96 < sqrtPriceX96 ? params.sqrtPriceLimitX96 : TickMath.MIN_SQRT_RATIO + 1) : 
-                (params.sqrtPriceLimitX96 > sqrtPriceX96 ? params.sqrtPriceLimitX96 : TickMath.MAX_SQRT_RATIO - 1),
-            liquidity,
-            params.amountSpecified,
-            params.zeroForOne
-        );
+        (amount0, amount1) = _internalSwap(params, msg.sender);
         
         // Update pool state with new price and tick
         if (params.zeroForOne) {
@@ -435,8 +427,11 @@ contract HyperDexPool is ReentrancyGuard {
         
         // Update fee growth accumulators
         if (liquidity > 0) {
-            feeGrowthGlobal0X128 += FullMath.mulDiv(uint256(amount0), FixedPoint96.Q96, liquidity);
-            feeGrowthGlobal1X128 += FullMath.mulDiv(uint256(amount1), FixedPoint96.Q96, liquidity);
+            require(liquidity != 0, "Liquidity is zero during fee growth");
+            uint256 absAmount0 = amount0 > 0 ? uint256(amount0) : uint256(-amount0);
+            uint256 absAmount1 = amount1 > 0 ? uint256(amount1) : uint256(-amount1);
+            feeGrowthGlobal0X128 += FullMath.mulDiv(absAmount0, FixedPoint96.Q96, liquidity);
+            feeGrowthGlobal1X128 += FullMath.mulDiv(absAmount1, FixedPoint96.Q96, liquidity);
         }
         
         // Update analytics
@@ -514,7 +509,17 @@ contract HyperDexPool is ReentrancyGuard {
         uint160 currentSqrtPriceX96 = sqrtPriceX96;
         uint128 currentLiquidity = liquidity;
         
-        // Compute swap result
+        // --- DEBUGGING: Add checks before swap math ---
+        require(currentLiquidity > 0, "No liquidity in pool");
+        require(params.amountSpecified != 0, "Amount specified is zero");
+        require(
+            (params.zeroForOne && params.sqrtPriceLimitX96 < currentSqrtPriceX96) ||
+            (!params.zeroForOne && params.sqrtPriceLimitX96 > currentSqrtPriceX96),
+            "Invalid sqrtPriceLimitX96 for direction"
+        );
+        // Defensive: check denominators for mulDiv in _computeSwapStep
+        // (We can't check inside FullMath, but we can check before calling)
+        // --- END DEBUGGING ---
         (amount0, amount1) = _computeSwapStep(
             currentSqrtPriceX96,
             params.zeroForOne ? 
@@ -544,6 +549,8 @@ contract HyperDexPool is ReentrancyGuard {
         
         // Protocol fee calculation
         uint32 protocolFeeBps = IHyperDexFactory(factory).getProtocolFee(address(this));
+        // Defensive: protocolFeeBps should not exceed 10000
+        require(protocolFeeBps <= 10000, "Protocol fee too high");
         
         // Calculate and collect protocol fees
         if (protocolFeeBps > 0) {
@@ -556,8 +563,11 @@ contract HyperDexPool is ReentrancyGuard {
         
         // Update fee growth accumulators
         if (liquidity > 0) {
-            feeGrowthGlobal0X128 += FullMath.mulDiv(uint256(amount0), FixedPoint96.Q96, liquidity);
-            feeGrowthGlobal1X128 += FullMath.mulDiv(uint256(amount1), FixedPoint96.Q96, liquidity);
+            require(liquidity != 0, "Liquidity is zero during fee growth");
+            uint256 absAmount0 = amount0 > 0 ? uint256(amount0) : uint256(-amount0);
+            uint256 absAmount1 = amount1 > 0 ? uint256(amount1) : uint256(-amount1);
+            feeGrowthGlobal0X128 += FullMath.mulDiv(absAmount0, FixedPoint96.Q96, liquidity);
+            feeGrowthGlobal1X128 += FullMath.mulDiv(absAmount1, FixedPoint96.Q96, liquidity);
         }
         
         // Update analytics
@@ -777,6 +787,7 @@ contract HyperDexPool is ReentrancyGuard {
         // Simplified calculation - in production would use LiquidityAmounts library
         if (sqrtPriceX96 <= sqrtRatioAX96) {
             // Current price is below the position, only token0 needed
+            require(sqrtRatioAX96 > 0, "sqrtRatioAX96 is zero");
             amount0 = FullMath.mulDiv(
                 amount,
                 FixedPoint96.Q96,
@@ -785,11 +796,15 @@ contract HyperDexPool is ReentrancyGuard {
             amount1 = 0;
         } else if (sqrtPriceX96 < sqrtRatioBX96) {
             // Current price is within the position, both tokens needed
+            require(sqrtRatioBX96 > sqrtPriceX96, "sqrtRatioBX96 <= sqrtPriceX96");
+            require(sqrtRatioBX96 > 0, "sqrtRatioBX96 is zero");
             amount0 = FullMath.mulDiv(
                 amount,
                 sqrtRatioBX96 - sqrtPriceX96,
                 sqrtRatioBX96
             );
+            require(sqrtPriceX96 > sqrtRatioAX96, "sqrtPriceX96 <= sqrtRatioAX96");
+            require(sqrtPriceX96 > 0, "sqrtPriceX96 is zero");
             amount1 = FullMath.mulDiv(
                 amount,
                 sqrtPriceX96 - sqrtRatioAX96,
@@ -797,6 +812,7 @@ contract HyperDexPool is ReentrancyGuard {
             );
         } else {
             // Current price is above the position, only token1 needed
+            require(sqrtRatioBX96 > sqrtRatioAX96, "sqrtRatioBX96 <= sqrtRatioAX96");
             amount0 = 0;
             amount1 = FullMath.mulDiv(
                 amount,
@@ -933,6 +949,8 @@ contract HyperDexPool is ReentrancyGuard {
         // Simplified calculation - in production would handle exact calculations
         if (zeroForOne) {
             // Calculate token1 amount based on price difference
+            require(targetSqrtRatioX96 > 0, "targetSqrtRatioX96 is zero");
+            require(sqrtRatioX96 > 0, "sqrtRatioX96 is zero");
             amount1 = -int256(
                 FullMath.mulDiv(
                     uint256(liquidityAmount),
@@ -942,6 +960,7 @@ contract HyperDexPool is ReentrancyGuard {
             );
             
             // Calculate token0 amount based on token1 amount
+            require(FixedPoint96.Q96 > 0, "FixedPoint96.Q96 is zero");
             amount0 = int256(
                 FullMath.mulDiv(
                     uint256(-amount1),
@@ -953,6 +972,7 @@ contract HyperDexPool is ReentrancyGuard {
             // Cap by amount remaining
             if (amountRemaining < amount0) {
                 amount0 = amountRemaining;
+                require(sqrtRatioX96 > 0, "sqrtRatioX96 is zero");
                 amount1 = -int256(
                     FullMath.mulDiv(
                         uint256(amount0),
@@ -963,6 +983,8 @@ contract HyperDexPool is ReentrancyGuard {
             }
         } else {
             // Calculate token0 amount based on price difference
+            require(targetSqrtRatioX96 > sqrtRatioX96, "targetSqrtRatioX96 <= sqrtRatioX96");
+            require(targetSqrtRatioX96 > 0, "targetSqrtRatioX96 is zero");
             amount0 = -int256(
                 FullMath.mulDiv(
                     uint256(liquidityAmount),
@@ -972,6 +994,7 @@ contract HyperDexPool is ReentrancyGuard {
             );
             
             // Calculate token1 amount based on token0 amount
+            require(sqrtRatioX96 > 0, "sqrtRatioX96 is zero");
             amount1 = int256(
                 FullMath.mulDiv(
                     uint256(-amount0),
@@ -983,6 +1006,7 @@ contract HyperDexPool is ReentrancyGuard {
             // Cap by amount remaining
             if (amountRemaining < amount1) {
                 amount1 = amountRemaining;
+                require(FixedPoint96.Q96 > 0, "FixedPoint96.Q96 is zero");
                 amount0 = -int256(
                     FullMath.mulDiv(
                         uint256(amount1),

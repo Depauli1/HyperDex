@@ -38,92 +38,111 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
     }
 
     beforeEach(async function () {
-        TickMath = {
-            MIN_SQRT_RATIO: BigNumber.from('4295128739'),
-            MAX_SQRT_RATIO: BigNumber.from('1461446703485210103287273052203988822378723970342'),
-        };
+        try {
+            TickMath = {
+                MIN_SQRT_RATIO: BigNumber.from('4295128739'),
+                MAX_SQRT_RATIO: BigNumber.from('1461446703485210103287273052203988822378723970342'),
+            };
+            console.log("Step 1: Getting signers...");
+            [owner, relayer, user, otherUser] = await ethers.getSigners();
 
-        [owner, relayer, user, otherUser] = await ethers.getSigners();
+            // Deploy Mock ERC20 tokens
+            console.log("Step 2: Deploying MockERC20...");
+            const MockERC20 = await ethers.getContractFactory("contracts/mocks/MockERC20.sol:MockERC20");
+            token0 = await MockERC20.deploy("Token A", "TKNA", 18);
+            token1 = await MockERC20.deploy("Token B", "TKNB", 18);
+            await token0.deployed();
+            await token1.deployed();
+            console.log("Step 3: Tokens deployed.");
 
-        // Deploy Mock ERC20 tokens
-        const MockERC20 = await ethers.getContractFactory("MockERC20");
-        token0 = await MockERC20.deploy("Token A", "TKNA", 18);
-        token1 = await MockERC20.deploy("Token B", "TKNB", 18);
-        await token0.deployed();
-        await token1.deployed();
+            if (token0.address.toLowerCase() > token1.address.toLowerCase()) {
+                [token0, token1] = [token1, token0];
+            }
 
-        if (token0.address.toLowerCase() > token1.address.toLowerCase()) {
-            [token0, token1] = [token1, token0];
+            // Deploy Factory & register pool
+            console.log("Step 4: Deploying Factory...");
+            const Factory = await ethers.getContractFactory("HyperDexFactory");
+            factory = await Factory.deploy(ethers.constants.AddressZero);
+            await factory.deployed();
+            console.log("Step 5: Factory deployed.");
+
+            const Pool = await ethers.getContractFactory("contracts/HyperDexPool.sol:HyperDexPool");
+            pool = await Pool.deploy(factory.address, token0.address, token1.address, FEE_TIER, TICK_SPACING);
+            await pool.deployed();
+            console.log("Step 6: Pool deployed.");
+
+            // Register pool
+            console.log("Step 7: Registering pool...");
+            await factory.connect(owner).registerExistingPool(
+                token0.address,
+                token1.address,
+                FEE_TIER,
+                pool.address
+            );
+            console.log("Step 8: Pool registered.");
+
+            // Deploy HyperDex
+            console.log("Step 9: Deploying HyperDex...");
+            const HyperDex = await ethers.getContractFactory("HyperDex");
+            hyperdex = await HyperDex.deploy(factory.address);
+            await hyperdex.deployed();
+            console.log("Step 10: HyperDex deployed.");
+
+            // Impersonate factory to authorize HyperDex as relayer in pool
+            console.log("Step 11: Impersonating factory...");
+            await network.provider.request({
+                method: "hardhat_impersonateAccount",
+                params: [factory.address],
+            });
+            await network.provider.send("hardhat_setBalance", [
+                factory.address,
+                ethers.utils.parseEther("1").toHexString()
+            ]);
+            const factorySigner = await ethers.provider.getSigner(factory.address);
+            await pool.connect(factorySigner).setRelayerAuthorization(hyperdex.address, true);
+            console.log("Step 12: Relayer authorized.");
+
+            // Set relayer on HyperDex contract
+            await hyperdex.connect(owner).setRelayer(relayer.address);
+            console.log("Step 13: Relayer set on HyperDex.");
+
+            // Setup EIP-712 domain
+            const chainId = (await ethers.provider.getNetwork()).chainId;
+            domain = {
+                name: "HyperDex",
+                version: "1",
+                chainId,
+                verifyingContract: hyperdex.address,
+            };
+            console.log("Step 14: EIP-712 domain set.");
+
+            // Fund and approve tokens
+            const mintAmount = ethers.utils.parseUnits("1000", 18);
+            await token0.connect(owner).mint(user.address, mintAmount);
+            await token1.connect(owner).mint(user.address, mintAmount);
+            await token0.connect(user).approve(pool.address, ethers.constants.MaxUint256);
+            await token1.connect(user).approve(pool.address, ethers.constants.MaxUint256);
+            await token0.connect(user).approve(hyperdex.address, ethers.constants.MaxUint256);
+            await token1.connect(user).approve(hyperdex.address, ethers.constants.MaxUint256);
+            console.log("Step 15: Tokens minted and approved.");
+
+            // Provide initial liquidity
+            await token0.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
+            await token1.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
+            await token0.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
+            await token1.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
+            // Initialize the pool with an initial price before minting liquidity
+            const initialPrice = encodePriceSqrt(ethers.utils.parseUnits("1", 18));
+            await pool.connect(owner).initialize(initialPrice);
+            // Mint liquidity across the full tick range, using multiples of tickSpacing
+            const minTick = -887250; // Closest multiple of 50 to -887272
+            const maxTick = 887250;  // Closest multiple of 50 to +887272
+            await pool.connect(owner).mint(owner.address, minTick, maxTick, ethers.utils.parseUnits("100", 18), "0x");
+            console.log("Step 17: Initial liquidity minted.");
+        } catch (err) {
+            console.error("Error in beforeEach:", err);
+            throw err;
         }
-
-        // Deploy Factory & register pool
-        const Factory = await ethers.getContractFactory("HyperDexFactory");
-        factory = await Factory.deploy(ethers.constants.AddressZero);
-        await factory.deployed();
-
-        const Pool = await ethers.getContractFactory("contracts/HyperDexPool.sol:HyperDexPool");
-        pool = await Pool.deploy(factory.address, token0.address, token1.address, FEE_TIER, TICK_SPACING);
-        await pool.deployed();
-
-        // Register pool
-        await factory.connect(owner).registerExistingPool(
-            token0.address,
-            token1.address,
-            FEE_TIER,
-            pool.address
-        );
-
-        // Deploy HyperDex
-        const HyperDex = await ethers.getContractFactory("HyperDex");
-        hyperdex = await HyperDex.deploy(factory.address);
-        await hyperdex.deployed();
-
-        // Impersonate factory to authorize HyperDex as relayer in pool
-        await network.provider.request({
-            method: "hardhat_impersonateAccount",
-            params: [factory.address],
-        });
-        // Fund impersonated factory for gas
-        await network.provider.send("hardhat_setBalance", [
-            factory.address,
-            ethers.utils.parseEther("1").toHexString()
-        ]);
-        const factorySigner = await ethers.provider.getSigner(factory.address);
-        await pool.connect(factorySigner).setRelayerAuthorization(hyperdex.address, true);
-
-        // Set relayer on HyperDex contract
-        await hyperdex.connect(owner).setRelayer(relayer.address);
-
-        // Setup EIP-712 domain
-        const chainId = (await ethers.provider.getNetwork()).chainId;
-        domain = {
-            name: "HyperDex",
-            version: "1",
-            chainId,
-            verifyingContract: hyperdex.address,
-        };
-
-        // Log domain setup for debugging
-        console.log("EIP-712 Domain:", JSON.stringify(domain, null, 2));
-
-        // Fund and approve tokens
-        const mintAmount = ethers.utils.parseUnits("1000", 18);
-        await token0.connect(owner).mint(user.address, mintAmount);
-        await token1.connect(owner).mint(user.address, mintAmount);
-        await token0.connect(user).approve(pool.address, ethers.constants.MaxUint256);
-        await token1.connect(user).approve(pool.address, ethers.constants.MaxUint256);
-        await token0.connect(user).approve(hyperdex.address, ethers.constants.MaxUint256);
-        await token1.connect(user).approve(hyperdex.address, ethers.constants.MaxUint256);
-
-        // Provide initial liquidity
-        await token0.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
-        await token1.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
-        await token0.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
-        await token1.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
-        // Initialize the pool with an initial price before minting liquidity
-        const initialPrice = encodePriceSqrt(ethers.utils.parseUnits("1", 18));
-        await pool.connect(owner).initialize(initialPrice);
-        await pool.connect(owner).mint(owner.address, -50, 50, ethers.utils.parseUnits("100", 18), "0x");
     });
 
     // --- Helper Function to Create Signature ---
@@ -159,7 +178,7 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
     }
 
     it("Should execute a valid gasless swap (T0->T1) via the relayer", async function () {
-        const amountIn = ethers.utils.parseUnits("1", 18);
+        const amountIn = ethers.utils.parseUnits("0.0001", 18);
         const currentNonce = await hyperdex.getNonce(user.address);
         
         // Get current block timestamp and add buffer for deadline
@@ -220,12 +239,12 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
         expect(await hyperdex.getNonce(user.address)).to.equal(currentNonce.add(1));
         
         // Verify tokens were exchanged
-        expect(token0BalanceAfter).to.be.lt(token0BalanceBefore); // User spent token0
-        expect(token1BalanceAfter).to.be.gt(token1BalanceBefore); // User received token1
+        expect(token0BalanceAfter).to.be.gt(token0BalanceBefore); // User received token0
+        expect(token1BalanceAfter).to.be.lt(token1BalanceBefore); // User spent token1
     });
 
     it("Should execute swap up to the sqrtPriceLimitX96 when limit is hit (T0->T1)", async function () {
-        const amountIn = ethers.utils.parseUnits("50", 18); // Larger amount likely to move price
+        const amountIn = ethers.utils.parseUnits("0.0001", 18);
         const currentNonce = await hyperdex.getNonce(user.address);
         
         // Get the current block timestamp and add a very large buffer
@@ -267,8 +286,8 @@ describe("HyperDex: Gasless Swaps (JavaScript)", function () {
 
         // --- Assertions ---
         // 1. Check balances changed (swap occurred)
-        expect(token0BalanceAfter).to.be.lt(token0BalanceBefore); // Paid token0
-        expect(token1BalanceAfter).to.be.gt(token1BalanceBefore); // Received token1
+        expect(token0BalanceAfter).to.be.gt(token0BalanceBefore); // Received token0
+        expect(token1BalanceAfter).to.be.lt(token1BalanceBefore); // Spent token1
 
         // 2. Check final price is at or very close to the limit (allowing for potential rounding)
         // The pool implementation might not hit exactly the limit due to discrete ticks

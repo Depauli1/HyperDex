@@ -1687,3 +1687,78 @@
 {"level":"error","message":"Error processing swap: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-26T21:01:08.397Z"}
 {"level":"error","message":"Error fetching usage statistics: DB failure","service":"hyperdex-relayer","timestamp":"2025-04-26T13:03:01.238Z"}
 {"level":"error","message":"Error fetching trader history: DB error","service":"hyperdex-relayer","timestamp":"2025-04-26T13:03:08.386Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.315Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.517Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.522Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.526Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.502Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.589Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.650Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.652Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.515Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.519Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.515Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.525Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.534Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.536Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.538Z"}
+{"level":"error","message":"Transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.550Z"}
+{"level":"error","message":"Transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.553Z"}
+{"level":"error","message":"Transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.556Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.557Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.565Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.567Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.575Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.578Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.580Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.581Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.146Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.148Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.236Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.241Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.245Z"}
+{"level":"error","message":"Transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.282Z"}
+{"level":"error","message":"Transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.285Z"}
+{"level":"error","message":"Transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.290Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.292Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.314Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.321Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.348Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.356Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.358Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.505Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.723Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.761Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.783Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.857Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.050Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.050Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.840Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.884Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.889Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.892Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:20.778Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.166Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.171Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.177Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.899Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.933Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.935Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:28.670Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:28.924Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:28.928Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.835Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.838Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.882Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.887Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.889Z"}
+{"level":"error","message":"Transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.904Z"}
+{"level":"error","message":"Transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.906Z"}
+{"level":"error","message":"Transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.908Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.909Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.917Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.918Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.927Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.931Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.932Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.934Z"}

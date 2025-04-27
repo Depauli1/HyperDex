@@ -16,6 +16,8 @@ library FullMath {
         uint256 b,
         uint256 denominator
     ) internal pure returns (uint256 result) {
+        // Defensive: check denominator
+        require(denominator > 0, "FullMath: denominator is zero");
         // 512-bit multiply [prod1 prod0] = a * b
         // Compute the product mod 2**256 and mod 2**256 - 1
         // then use the Chinese Remainder Theorem to reconstruct
@@ -31,7 +33,7 @@ library FullMath {
 
         // Handle non-overflow cases, 256 by 256 division
         if (prod1 == 0) {
-            require(denominator > 0);
+            require(denominator > 0, "FullMath: denominator is zero (prod1==0)");
             assembly {
                 result := div(prod0, denominator)
             }
@@ -40,7 +42,7 @@ library FullMath {
 
         // Make sure the result is less than 2**256.
         // Also prevents denominator == 0
-        require(denominator > prod1);
+        require(denominator > prod1, "FullMath: denominator <= prod1");
 
         ///////////////////////////////////////////////
         // 512 by 256 division.

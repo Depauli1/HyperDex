@@ -9,6 +9,8 @@ contract FeeController is Ownable, Pausable {
     AggregatorV3Interface public gasPriceFeed;
     uint256 public baseFeeBP;
     uint256 public maxFeeBP;
+    uint256 public feeUpdateCooldown;
+    uint256 public lastFeeUpdate;
     uint256[] private history;
     event FeeUpdated(uint256 feeBP, uint256 timestamp);
 
@@ -21,10 +23,12 @@ contract FeeController is Ownable, Pausable {
     function updateFee() external whenNotPaused {
         (, int256 gasPrice,,,) = gasPriceFeed.latestRoundData();
         require(gasPrice > 0, "Invalid gas price");
+        require(block.timestamp >= lastFeeUpdate + feeUpdateCooldown, "Fee cooldown in effect");
         uint256 gpGwei = uint256(gasPrice) / 1e9;
         uint256 fee = baseFeeBP + gpGwei;
         if (fee > maxFeeBP) fee = maxFeeBP;
         history.push(fee);
+        lastFeeUpdate = block.timestamp;
         emit FeeUpdated(fee, block.timestamp);
     }
 
@@ -49,6 +53,10 @@ contract FeeController is Ownable, Pausable {
 
     function setMaxFee(uint256 _maxFeeBP) external onlyOwner {
         maxFeeBP = _maxFeeBP;
+    }
+
+    function setFeeUpdateCooldown(uint256 _cooldown) external onlyOwner {
+        feeUpdateCooldown = _cooldown;
     }
 
     function pause() external onlyOwner {

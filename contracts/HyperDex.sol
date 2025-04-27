@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 
@@ -21,7 +22,7 @@ import "./IHyperDexPool.sol"; // Import the interface
  * and potentially accessing aggregated analytics in the future.
  * Leverages EIP-712 for secure off-chain signature verification.
  */
-contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
+contract HyperDex is Ownable, Pausable, ReentrancyGuard, EIP712 {
     using SafeERC20 for IERC20;
     using ECDSA for bytes32;
 
@@ -106,7 +107,7 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
     function executeGaslessSwap(
         IHyperDexPool.GaslessSwapParams calldata params,
         bytes calldata signature
-    ) external nonReentrant returns (int256 amount0Delta, int256 amount1Delta) {
+    ) external nonReentrant whenNotPaused returns (int256 amount0Delta, int256 amount1Delta) {
         // 1. Authorization: Only the authorized relayer can submit meta-transactions
         if (msg.sender != relayer) {
             revert(ERROR_INVALID_RELAYER);
@@ -280,6 +281,16 @@ contract HyperDex is Ownable, ReentrancyGuard, EIP712 {
         address oldRelayer = relayer;
         relayer = _newRelayer;
         emit RelayerUpdated(oldRelayer, _newRelayer);
+    }
+
+    /// @notice Pause contract in emergencies
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    /// @notice Unpause contract after emergency
+    function unpause() external onlyOwner {
+        _unpause();
     }
 
     /* // Uncomment if using hyperLiquidSystemContract

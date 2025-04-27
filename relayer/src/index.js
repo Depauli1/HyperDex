@@ -26,6 +26,9 @@ const CircuitBreaker = require('./utils/circuit-breaker');
 const signatureUtils = require('./utils/signature');
 const logger = require('./utils/logger');
 const { ethers } = require('ethers');
+const BridgeWatcher = require('./services/bridge-watcher');
+const ConnextAdapter = require('./services/adapters/ConnextAdapter');
+const LayerZeroAdapter = require('./services/adapters/LayerZeroAdapter');
 // Import GasPriceOracle for metrics endpoint
 const { GasPriceOracle } = require('./utils/gas');
 const fs = require('fs');
@@ -332,6 +335,52 @@ async function startServer() {
     
     // Start server
     const server = app.listen(PORT, () => {
+      // Initialize cross-chain watcher
+      (async () => {
+        try {
+          const adapters = new Map();
+          // Adapter keys (bytes32)
+          const CONNEXT_KEY = ethers.utils.formatBytes32String('CONNEXT');
+          const LAYERZERO_KEY = ethers.utils.formatBytes32String('LAYERZERO');
+          // Instantiate adapters
+          adapters.set(CONNEXT_KEY, new ConnextAdapter({
+            sourceProvider: provider,
+            connextAddress: process.env.CONNEXT_ADDRESS,
+            connextABI: require('./config/connext-abi.json'),
+            wallet,
+            domainMapping: JSON.parse(process.env.CONNEXT_DOMAIN_MAPPING),
+            slippage: Number(process.env.CONNEXT_SLIPPAGE) || 30,
+            callData: process.env.CONNEXT_CALL_DATA || '0x',
+            delegate: process.env.CONNEXT_DELEGATE
+          }));
+          adapters.set(LAYERZERO_KEY, new LayerZeroAdapter({
+            endpointAddress: process.env.LAYERZERO_ENDPOINT_ADDRESS,
+            endpointABI: require('./config/layerzero-abi.json'),
+            wallet,
+            chainIdMapping: JSON.parse(process.env.LAYERZERO_CHAIN_MAPPING),
+            adapterParams: process.env.LAYERZERO_ADAPTER_PARAMS || '0x',
+            zroPaymentAddress: process.env.LAYERZERO_ZRO_PAYMENT_ADDRESS || ethers.constants.AddressZero,
+            refundAddress: process.env.LAYERZERO_REFUND_ADDRESS || wallet.address
+          }));
+          // Create watcher
+          const watcher = new BridgeWatcher({
+            sourceProvider: provider,
+            destProvider: provider,
+            wallet,
+            sourceRouterAddress: process.env.BRIDGE_ROUTER_SOURCE,
+            destRouterAddress: process.env.BRIDGE_ROUTER_DEST,
+            adapters,
+            srcChainId: Number(process.env.SRC_CHAIN_ID),
+            dstChainId: Number(process.env.DST_CHAIN_ID),
+            token: process.env.BRIDGE_TOKEN_ADDRESS,
+            confirmations: Number(process.env.BRIDGE_CONFIRMATIONS) || 12
+          });
+          await watcher.start();
+          logger.info('BridgeWatcher started');
+        } catch (err) {
+          logger.error(`BridgeWatcher init error: ${err.message}`);
+        }
+      })();
       (async () => {
         const actualPort = server.address().port;
         logger.info(`HyperDex Relayer running on port ${actualPort}`);

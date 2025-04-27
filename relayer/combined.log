@@ -5894,3 +5894,301 @@
 {"level":"info","message":"ContractService initialized with HyperDex at 0x5243D352162FEA7cdc1e831A1a9848611AD5fBa9","service":"hyperdex-relayer","timestamp":"2025-04-26T13:03:25.900Z"}
 {"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-26T13:03:25.916Z"}
 {"level":"info","message":"HyperDex Relayer running on port 42663","service":"hyperdex-relayer","timestamp":"2025-04-26T13:03:25.950Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.315Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.502Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.399Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.455Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.460Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.479Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.484Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.486Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.500Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.548Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.550Z"}
+{"level":"info","message":"Executing gasless swap for 0x757028709e10Af24955d97Aed7CDB0Ad1b4cF10A, amount: 1000000000000000000, pool: 0x9A676e781A523b5d0C0e43731313A708CB607508","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.554Z"}
+{"level":"info","message":"Gasless swap submitted: undefined","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.562Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.566Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.567Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.568Z"}
+{"level":"info","message":"Executing gasless swap directly on pool 0x9A676e781A523b5d0C0e43731313A708CB607508","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.571Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.583Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.585Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.586Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x0000000000000000000000000000000000000000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.587Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.589Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.641Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.644Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.648Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.650Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.652Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 1/2","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 2/2","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Excessive provider failures","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 1/2","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"info","message":"Circuit breaker: Resetting provider failure count","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Gas price too high: 60 Gwei (max: 50 Gwei)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - manual","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"info","message":"Circuit breaker: CLOSED - manual","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"info","message":"Circuit breaker: HALF-OPEN - Auto-reset timeout reached","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.424Z"}
+{"level":"info","message":"Circuit breaker: Successful operation in half-open state: op","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.424Z"}
+{"level":"info","message":"Circuit breaker: CLOSED - Successful operation in half-open state","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.424Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.324Z"}
+{"level":"info","message":"Circuit breaker: HALF-OPEN - Auto-reset timeout reached","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.424Z"}
+{"level":"warn","message":"Circuit breaker: Failed operation in half-open state: op fail","service":"hyperdex-relayer","stack":"Error: fail\n    at Object.<anonymous> (/home/depauli/HyperDex/relayer/test/unit/circuit-breaker.test.js:72:28)\n    at Promise.then.completed (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:316:40)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at _runTest (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:121:9)\n    at run (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/testWorker.js:106:12)","timestamp":"2025-04-27T16:10:04.424Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Failed operation in half-open state: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.424Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.517Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.522Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:01.526Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.515Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:04.519Z"}
+{"level":"warn","message":"Provider 0 (url1) error: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:05.449Z"}
+{"level":"info","message":"Switching from provider 0 to 1","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:05.455Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:10:10.462Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:10:10.504Z"}
+{"level":"info","message":"Processing transaction f3ab5683-7080-476f-b690-cebc6b722038 (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.509Z"}
+{"level":"info","message":"Added gasless swap to medium queue (ID: f3ab5683-7080-476f-b690-cebc6b722038)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.512Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.515Z"}
+{"level":"info","message":"Transaction f3ab5683-7080-476f-b690-cebc6b722038 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.517Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.525Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:10:10.529Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:10:10.531Z"}
+{"level":"info","message":"Processing transaction test-tx-retry (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.532Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.534Z"}
+{"level":"info","message":"Processing transaction test-tx-retry (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.535Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.536Z"}
+{"level":"info","message":"Transaction test-tx-retry confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.537Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.538Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:10:10.543Z"}
+{"level":"info","message":"Processing transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.547Z"}
+{"level":"info","message":"Added gasless swap to high queue (ID: 9fece1eb-20c4-455b-95e6-82221e7ce676)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.549Z"}
+{"level":"error","message":"Transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.550Z"}
+{"level":"info","message":"Processing transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.551Z"}
+{"level":"error","message":"Transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.553Z"}
+{"level":"info","message":"Processing transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.554Z"}
+{"level":"error","message":"Transaction 9fece1eb-20c4-455b-95e6-82221e7ce676 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.556Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.557Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:10:10.560Z"}
+{"level":"info","message":"Processing transaction 29215acd-425a-4d7c-8bc6-0ec30b7ffdec (low priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.562Z"}
+{"level":"info","message":"Added gasless swap to low queue (ID: 29215acd-425a-4d7c-8bc6-0ec30b7ffdec)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.563Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.565Z"}
+{"level":"info","message":"Transaction 29215acd-425a-4d7c-8bc6-0ec30b7ffdec confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.566Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.567Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:10:10.569Z"}
+{"level":"info","message":"Processing transaction 141b50fc-9a85-40a4-b0df-75dfdf673778 (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.571Z"}
+{"level":"info","message":"Added gasless swap to medium queue (ID: 141b50fc-9a85-40a4-b0df-75dfdf673778)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.572Z"}
+{"level":"info","message":"Retrying transaction 141b50fc-9a85-40a4-b0df-75dfdf673778 with 1.2x gas price","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.574Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.575Z"}
+{"level":"info","message":"Processing transaction 141b50fc-9a85-40a4-b0df-75dfdf673778 (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.576Z"}
+{"level":"info","message":"Transaction 141b50fc-9a85-40a4-b0df-75dfdf673778 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.577Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.578Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.580Z"}
+{"level":"info","message":"Transaction 141b50fc-9a85-40a4-b0df-75dfdf673778 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.580Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:10:10.581Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 1/2","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 2/2","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Excessive provider failures","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 1/2","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"info","message":"Circuit breaker: Resetting provider failure count","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Gas price too high: 60 Gwei (max: 50 Gwei)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - manual","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"info","message":"Circuit breaker: CLOSED - manual","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"info","message":"Circuit breaker: HALF-OPEN - Auto-reset timeout reached","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.499Z"}
+{"level":"info","message":"Circuit breaker: Successful operation in half-open state: op","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.499Z"}
+{"level":"info","message":"Circuit breaker: CLOSED - Successful operation in half-open state","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.499Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.399Z"}
+{"level":"info","message":"Circuit breaker: HALF-OPEN - Auto-reset timeout reached","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.499Z"}
+{"level":"warn","message":"Circuit breaker: Failed operation in half-open state: op fail","service":"hyperdex-relayer","stack":"Error: fail\n    at Object.<anonymous> (/home/depauli/HyperDex/relayer/test/unit/circuit-breaker.test.js:72:28)\n    at Promise.then.completed (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:316:40)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at _runTest (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:121:9)\n    at run (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/testWorker.js:106:12)","timestamp":"2025-04-27T16:12:02.499Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Failed operation in half-open state: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.499Z"}
+{"level":"info","message":"BridgeOutbound: id=0x2f12ceec41519db200dbfc7e31485a07e2ac03f0217f7de2a448ea3d133b3071, txHash=0xtxhash","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.697Z"}
+{"level":"warn","message":"Provider 0 (url1) error: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.149Z"}
+{"level":"info","message":"completeBridge tx sent: 0xabc","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:02.710Z"}
+{"level":"info","message":"Switching from provider 0 to 1","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.163Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:12:04.085Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:12:04.135Z"}
+{"level":"info","message":"Processing transaction 2f13d157-b7a6-4803-bb07-ea22cce72485 (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.139Z"}
+{"level":"info","message":"Added gasless swap to medium queue (ID: 2f13d157-b7a6-4803-bb07-ea22cce72485)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.142Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.146Z"}
+{"level":"info","message":"Transaction 2f13d157-b7a6-4803-bb07-ea22cce72485 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.147Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.148Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:12:04.151Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:12:04.153Z"}
+{"level":"info","message":"Processing transaction test-tx-retry (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.155Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.236Z"}
+{"level":"info","message":"Processing transaction test-tx-retry (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.238Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.241Z"}
+{"level":"info","message":"Transaction test-tx-retry confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.243Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.245Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:12:04.274Z"}
+{"level":"info","message":"Processing transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.278Z"}
+{"level":"info","message":"Added gasless swap to high queue (ID: aecda25e-b320-4585-a2a7-d33e2f4a8dc7)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.281Z"}
+{"level":"error","message":"Transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.282Z"}
+{"level":"info","message":"Processing transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.284Z"}
+{"level":"error","message":"Transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.285Z"}
+{"level":"info","message":"Processing transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.287Z"}
+{"level":"error","message":"Transaction aecda25e-b320-4585-a2a7-d33e2f4a8dc7 processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.290Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.292Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:12:04.297Z"}
+{"level":"info","message":"Processing transaction 24459aad-42d5-49e4-aebb-af3a1a424b44 (low priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.300Z"}
+{"level":"info","message":"Added gasless swap to low queue (ID: 24459aad-42d5-49e4-aebb-af3a1a424b44)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.310Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.314Z"}
+{"level":"info","message":"Transaction 24459aad-42d5-49e4-aebb-af3a1a424b44 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.319Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.321Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T16:12:04.326Z"}
+{"level":"info","message":"Processing transaction 47cae6f7-bb44-41e4-9694-4fab6080f69d (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.338Z"}
+{"level":"info","message":"Added gasless swap to medium queue (ID: 47cae6f7-bb44-41e4-9694-4fab6080f69d)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.341Z"}
+{"level":"info","message":"Retrying transaction 47cae6f7-bb44-41e4-9694-4fab6080f69d with 1.2x gas price","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.346Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.348Z"}
+{"level":"info","message":"Processing transaction 47cae6f7-bb44-41e4-9694-4fab6080f69d (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.350Z"}
+{"level":"info","message":"Transaction 47cae6f7-bb44-41e4-9694-4fab6080f69d confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.354Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.356Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.358Z"}
+{"level":"info","message":"Transaction 47cae6f7-bb44-41e4-9694-4fab6080f69d confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.504Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:04.505Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.723Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.761Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:03.783Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.678Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.723Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.735Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.751Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.754Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.757Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.789Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.791Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.805Z"}
+{"level":"info","message":"Executing gasless swap for 0x757028709e10Af24955d97Aed7CDB0Ad1b4cF10A, amount: 1000000000000000000, pool: 0x9A676e781A523b5d0C0e43731313A708CB607508","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.808Z"}
+{"level":"info","message":"Gasless swap submitted: undefined","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.825Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.831Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.833Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.835Z"}
+{"level":"info","message":"Executing gasless swap directly on pool 0x9A676e781A523b5d0C0e43731313A708CB607508","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.838Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.845Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.847Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.849Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x0000000000000000000000000000000000000000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.850Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:05.857Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.046Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.047Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.048Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.050Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.050Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.840Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.884Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.889Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T16:12:06.892Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:20.778Z"}
+{"level":"error","message":"Signature verification failed: Signature verification forced to fail for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.166Z"}
+{"level":"error","message":"Signature verification failed: Swap deadline has expired","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.171Z"}
+{"level":"error","message":"Signature verification failed: Invalid signature format for testing","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.177Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.674Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.858Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.860Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.864Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.866Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.868Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.873Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.875Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.876Z"}
+{"level":"info","message":"Executing gasless swap for 0x757028709e10Af24955d97Aed7CDB0Ad1b4cF10A, amount: 1000000000000000000, pool: 0x9A676e781A523b5d0C0e43731313A708CB607508","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.878Z"}
+{"level":"info","message":"Gasless swap submitted: undefined","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.879Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.883Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.884Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.886Z"}
+{"level":"info","message":"Executing gasless swap directly on pool 0x9A676e781A523b5d0C0e43731313A708CB607508","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.888Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.892Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.894Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.896Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x0000000000000000000000000000000000000000","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.897Z"}
+{"level":"error","message":"Failed to load HyperDex contract: Invalid contract address","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.899Z"}
+{"level":"info","message":"Loading HyperDex contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.925Z"}
+{"level":"info","message":"Loading HyperDexFactory contract at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.928Z"}
+{"level":"info","message":"Wallet is authorized as relayer for HyperDex","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.931Z"}
+{"level":"error","message":"Failed to get pool address: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.933Z"}
+{"level":"error","message":"Error getting pool for tokens 0xNonExistentTokenA and 0xNonExistentTokenB: Pool does not exist for 0xNonExistentTokenA/0xNonExistentTokenB with fee 3000","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:21.935Z"}
+{"level":"info","message":"BridgeOutbound: id=0x3ac75c619dafbc4cebcdb82197abbe8016780ac863e43674f6e8fc87dd16d7d4, txHash=0xtxhash","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.310Z"}
+{"level":"info","message":"completeBridge tx sent: 0xabc","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.334Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Provider 0 (url1) error: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:27.729Z"}
+{"level":"info","message":"Switching from provider 0 to 1","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:27.759Z"}
+{"level":"error","message":"Error creating transaction record: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:28.670Z"}
+{"level":"error","message":"Error recording gas price: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:28.924Z"}
+{"level":"error","message":"Error getting transaction count for status pending: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:28.928Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 1/2","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 2/2","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Excessive provider failures","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: Provider failure count: 1/2","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"info","message":"Circuit breaker: Resetting provider failure count","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Gas price too high: 60 Gwei (max: 50 Gwei)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - manual","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"info","message":"Circuit breaker: CLOSED - manual","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"info","message":"Circuit breaker: HALF-OPEN - Auto-reset timeout reached","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.935Z"}
+{"level":"info","message":"Circuit breaker: Successful operation in half-open state: op","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.935Z"}
+{"level":"info","message":"Circuit breaker: CLOSED - Successful operation in half-open state","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.935Z"}
+{"halfOpenTimeMs":50,"level":"info","maxGasPriceGwei":50,"message":"Circuit breaker initialized with settings:","providerFailureThreshold":2,"resetTimeoutMs":100,"service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.835Z"}
+{"level":"info","message":"Circuit breaker: HALF-OPEN - Auto-reset timeout reached","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.935Z"}
+{"level":"warn","message":"Circuit breaker: Failed operation in half-open state: op fail","service":"hyperdex-relayer","stack":"Error: fail\n    at Object.<anonymous> (/home/depauli/HyperDex/relayer/test/unit/circuit-breaker.test.js:72:28)\n    at Promise.then.completed (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:316:40)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at _runTest (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:121:9)\n    at run (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/home/depauli/HyperDex/relayer/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/home/depauli/HyperDex/relayer/node_modules/jest-runner/build/testWorker.js:106:12)","timestamp":"2025-04-27T17:19:22.935Z"}
+{"level":"warn","message":"Circuit breaker: OPEN - Failed operation in half-open state: fail","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:22.935Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T17:19:30.752Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T17:19:30.783Z"}
+{"level":"info","message":"Processing transaction b5e42746-8084-45fb-b0d0-50bd27275507 (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.806Z"}
+{"level":"info","message":"Added gasless swap to medium queue (ID: b5e42746-8084-45fb-b0d0-50bd27275507)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.833Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.835Z"}
+{"level":"info","message":"Transaction b5e42746-8084-45fb-b0d0-50bd27275507 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.837Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.838Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T17:19:30.840Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T17:19:30.877Z"}
+{"level":"info","message":"Processing transaction test-tx-retry (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.879Z"}
+{"level":"error","message":"Transaction test-tx-retry processing error: Transaction underpriced","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.882Z"}
+{"level":"info","message":"Processing transaction test-tx-retry (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.884Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.887Z"}
+{"level":"info","message":"Transaction test-tx-retry confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.888Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.889Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T17:19:30.898Z"}
+{"level":"info","message":"Processing transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.901Z"}
+{"level":"info","message":"Added gasless swap to high queue (ID: ac1e64e3-0ab7-4560-9f32-1f6439a4da5b)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.903Z"}
+{"level":"error","message":"Transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.904Z"}
+{"level":"info","message":"Processing transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.905Z"}
+{"level":"error","message":"Transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.906Z"}
+{"level":"info","message":"Processing transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b (high priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.907Z"}
+{"level":"error","message":"Transaction ac1e64e3-0ab7-4560-9f32-1f6439a4da5b processing error: Simulated error for retry test","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.908Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_failed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.909Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T17:19:30.911Z"}
+{"level":"info","message":"Processing transaction 307ac8b6-af5c-4098-96f9-7d35ce619d1d (low priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.913Z"}
+{"level":"info","message":"Added gasless swap to low queue (ID: 307ac8b6-af5c-4098-96f9-7d35ce619d1d)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.915Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.917Z"}
+{"level":"info","message":"Transaction 307ac8b6-af5c-4098-96f9-7d35ce619d1d confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.918Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.918Z"}
+{"level":"info","maxBatchSize":10,"maxRetries":3,"message":"Webhook service initialized","service":"hyperdex-relayer","timeoutMs":5000,"timestamp":"2025-04-27T17:19:30.921Z"}
+{"level":"info","message":"Processing transaction f3539bc5-b7a9-4f6f-a63d-1be094768b02 (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.922Z"}
+{"level":"info","message":"Added gasless swap to medium queue (ID: f3539bc5-b7a9-4f6f-a63d-1be094768b02)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.924Z"}
+{"level":"info","message":"Retrying transaction f3539bc5-b7a9-4f6f-a63d-1be094768b02 with 1.2x gas price","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.926Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.927Z"}
+{"level":"info","message":"Processing transaction f3539bc5-b7a9-4f6f-a63d-1be094768b02 (medium priority)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.928Z"}
+{"level":"info","message":"Transaction f3539bc5-b7a9-4f6f-a63d-1be094768b02 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.929Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.931Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_submitted: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.932Z"}
+{"level":"info","message":"Transaction f3539bc5-b7a9-4f6f-a63d-1be094768b02 confirmed (hash: 0x1111111111111111111111111111111111111111111111111111111111111111)","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.933Z"}
+{"level":"error","message":"Error delivering webhooks for event swap_confirmed: this.dbService.getWebhooksByEvent is not a function","service":"hyperdex-relayer","timestamp":"2025-04-27T17:19:30.934Z"}

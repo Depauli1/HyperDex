@@ -1,4 +1,4 @@
-const { ethers } = require('ethers');
+const { ethers, utils } = require('ethers');
 const ConnextAdapter = require('../../src/services/adapters/ConnextAdapter');
 
 describe('ConnextAdapter', () => {
@@ -45,7 +45,7 @@ describe('ConnextAdapter', () => {
 
   it('fetchProof returns byte array of txHash', async () => {
     const proof = await adapter.fetchProof('0x1234');
-    expect(proof).toEqual(ethers.utils.arrayify('0x1234'));
+    expect(proof).toEqual(utils.arrayify('0x1234'));
   });
 
   it('bridgeIn returns null', async () => {

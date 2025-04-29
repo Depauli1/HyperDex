@@ -1,4 +1,6 @@
+const { expect } = require('chai');
 const DatabaseService = require('../../src/services/database');
+const sinon = require('sinon');
 
 describe('DatabaseService', () => {
   let ds;
@@ -9,54 +11,64 @@ describe('DatabaseService', () => {
     ds.initialized = true;
     ds.models = {
       Transaction: {
-        create: jest.fn(),
-        count: jest.fn()
+        create: sinon.stub(),
+        count: sinon.stub()
       },
       GasPriceHistory: {
-        create: jest.fn()
+        create: sinon.stub()
       }
     };
   });
 
-  test('createTransaction returns created transaction', async () => {
+  it('should create transaction and return created transaction', async () => {
     const txn = { id: '1' };
-    ds.models.Transaction.create.mockResolvedValue(txn);
+    ds.models.Transaction.create.resolves(txn);
 
-    await expect(ds.createTransaction(txn)).resolves.toBe(txn);
-    expect(ds.models.Transaction.create).toHaveBeenCalledWith(txn);
+    const result = await ds.createTransaction(txn);
+    expect(result).to.be.deep.equal(txn);
+    expect(ds.models.Transaction.create.calledWith(txn)).to.be.true;
   });
 
-  test('createTransaction throws error on failure', async () => {
+  it('should throw error on create transaction failure', async () => {
     const txn = { id: '1' };
-    ds.models.Transaction.create.mockRejectedValue(new Error('fail'));
+    ds.models.Transaction.create.rejects(new Error('fail'));
 
-    await expect(ds.createTransaction(txn)).rejects.toThrow('fail');
+    try {
+      await ds.createTransaction(txn);
+      expect.fail('Expected error to be thrown');
+    } catch (error) {
+      expect(error.message).to.equal('fail');
+    }
   });
 
-  test('recordGasPrice returns record on success', async () => {
+  it('should record gas price and return record on success', async () => {
     const rec = { price: '100' };
-    ds.models.GasPriceHistory.create.mockResolvedValue(rec);
+    ds.models.GasPriceHistory.create.resolves(rec);
 
-    await expect(ds.recordGasPrice({ price: '100' })).resolves.toBe(rec);
-    expect(ds.models.GasPriceHistory.create).toHaveBeenCalledWith({ price: '100' });
+    const result = await ds.recordGasPrice({ price: '100' });
+    expect(result).to.be.deep.equal(rec);
+    expect(ds.models.GasPriceHistory.create.calledWith({ price: '100' })).to.be.true;
   });
 
-  test('recordGasPrice returns null on failure', async () => {
-    ds.models.GasPriceHistory.create.mockRejectedValue(new Error('fail'));
+  it('should return null on record gas price failure', async () => {
+    ds.models.GasPriceHistory.create.rejects(new Error('fail'));
 
-    await expect(ds.recordGasPrice({ price: '100' })).resolves.toBeNull();
+    const result = await ds.recordGasPrice({ price: '100' });
+    expect(result).to.be.null;
   });
 
-  test('getTransactionCountByStatus returns count on success', async () => {
-    ds.models.Transaction.count.mockResolvedValue(5);
+  it('should get transaction count by status and return count on success', async () => {
+    ds.models.Transaction.count.resolves(5);
 
-    await expect(ds.getTransactionCountByStatus('pending')).resolves.toBe(5);
-    expect(ds.models.Transaction.count).toHaveBeenCalledWith({ where: { status: 'pending' } });
+    const result = await ds.getTransactionCountByStatus('pending');
+    expect(result).to.equal(5);
+    expect(ds.models.Transaction.count.calledWith({ where: { status: 'pending' } })).to.be.true;
   });
 
-  test('getTransactionCountByStatus returns 0 on error', async () => {
-    ds.models.Transaction.count.mockRejectedValue(new Error('fail'));
+  it('should return 0 on get transaction count by status error', async () => {
+    ds.models.Transaction.count.rejects(new Error('fail'));
 
-    await expect(ds.getTransactionCountByStatus('pending')).resolves.toBe(0);
+    const result = await ds.getTransactionCountByStatus('pending');
+    expect(result).to.equal(0);
   });
 });

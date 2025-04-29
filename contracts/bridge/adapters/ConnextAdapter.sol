@@ -3,7 +3,6 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "../IBridgeAdapter.sol";
 
@@ -29,13 +28,15 @@ interface IConnext {
  * @notice Adapter for Connext bridge protocol
  * @dev Implements IBridgeAdapter; handles token escrow and xcall
  */
-contract ConnextAdapter is IBridgeAdapter, Ownable {
+contract ConnextAdapter is IBridgeAdapter {
     using SafeERC20 for IERC20;
 
     /// @notice Connext contract address
     IConnext public immutable connext;
     /// @notice Connext destination domain (e.g. Arbitrum = 0x66EEB)
     uint32 public immutable domain;
+    /// @notice Address of the BridgeRouter that owns this adapter
+    address public immutable bridgeRouter;
 
     /// @notice Tracks processed inbound requests (prevent replay)
     mapping(bytes32 => bool) public processed;
@@ -49,10 +50,12 @@ contract ConnextAdapter is IBridgeAdapter, Ownable {
     );
     event BridgeSucceeded(bytes32 indexed id, address user, address token, uint256 amount);
 
-    constructor(address _connext, uint32 _domain) {
+    constructor(address _connext, uint32 _domain, address _bridgeRouter) {
         require(_connext != address(0), "Connext: zero address");
+        require(_bridgeRouter != address(0), "Connext: zero router address");
         connext = IConnext(_connext);
         domain = _domain;
+        bridgeRouter = _bridgeRouter;
     }
 
     function getName() external pure override returns (string memory) {
@@ -95,8 +98,8 @@ contract ConnextAdapter is IBridgeAdapter, Ownable {
 
     /// @inheritdoc IBridgeAdapter
     function bridgeIn(BridgeRequest calldata req, bytes calldata /* proof */) external override {
-        // Only BridgeRouter can call
-        require(msg.sender == owner(), "ConnextAdapter: caller not owner");
+        // Only the associated BridgeRouter can call this function
+        require(msg.sender == bridgeRouter, "ConnextAdapter: caller not BridgeRouter");
         require(!processed[req.id], "ConnextAdapter: already processed");
 
         processed[req.id] = true;

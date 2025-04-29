@@ -6,8 +6,19 @@ describe("BridgeRouter", function () {
   let Token, FeeControllerMock, AdapterMock, Router;
   let token, feeController, adapter, router;
   let adapterKey;
+  let deadline;
   const amount = ethers.utils.parseUnits("100", 18);
-  const deadline = Math.floor(Date.now() / 1000) + 3600;
+  const refundTimeout = 3600;
+
+  // snapshot/revert to isolate time and state per test
+  let snapshotId;
+  before(async function () {
+    snapshotId = await ethers.provider.send('evm_snapshot', []);
+  });
+  beforeEach(async function () {
+    await ethers.provider.send('evm_revert', [snapshotId]);
+    snapshotId = await ethers.provider.send('evm_snapshot', []);
+  });
 
   beforeEach(async function () {
     [owner, relayer, user, other] = await ethers.getSigners();
@@ -24,7 +35,7 @@ describe("BridgeRouter", function () {
 
     // Deploy BridgeRouter
     Router = await ethers.getContractFactory("BridgeRouter");
-    router = await Router.deploy(feeController.address);
+    router = await Router.deploy(feeController.address, refundTimeout);
     await router.deployed();
 
     // Deploy mock adapter
@@ -40,6 +51,10 @@ describe("BridgeRouter", function () {
 
     // Approve router to transfer tokens
     await token.connect(user).approve(router.address, ethers.constants.MaxUint256);
+
+    // set test-specific deadline relative to current block
+    const block = await ethers.provider.getBlock('latest');
+    deadline = block.timestamp + refundTimeout;
   });
 
   function makeRequest() {
@@ -132,5 +147,35 @@ describe("BridgeRouter", function () {
     await expect(
       router.connect(relayer).initiateBridge(makeRequest(), adapterKey, { value: 0 })
     ).not.to.be.reverted;
+  });
+
+  it("reverts on refundBridge before timeout", async function () {
+    const req = makeRequest();
+    await router.connect(relayer).initiateBridge(req, adapterKey, { value: 0 });
+    await expect(
+      router.connect(relayer).refundBridge(req.id)
+    ).to.be.revertedWith("BridgeRouter: not timed out");
+  });
+
+  it("allows refundBridge after timeout", async function () {
+    const req = makeRequest();
+    await router.connect(relayer).initiateBridge(req, adapterKey, { value: 0 });
+    await ethers.provider.send("evm_increaseTime", [refundTimeout + 1]);
+    await ethers.provider.send("evm_mine");
+    await expect(
+      router.connect(relayer).refundBridge(req.id)
+    ).to.emit(router, "BridgeRefunded").withArgs(req.id);
+    expect(await router.requestStatus(req.id)).to.equal(4);
+    expect(await token.balanceOf(user.address)).to.equal(ethers.utils.parseUnits("1000", 18));
+  });
+
+  it("reverts refundBridge if non-relayer", async function () {
+    const req = makeRequest();
+    await router.connect(relayer).initiateBridge(req, adapterKey, { value: 0 });
+    await ethers.provider.send("evm_increaseTime", [refundTimeout + 1]);
+    await ethers.provider.send("evm_mine");
+    await expect(
+      router.connect(other).refundBridge(req.id)
+    ).to.be.revertedWithCustomError(router, "UnauthorizedRelayer").withArgs(other.address);
   });
 });

@@ -2,6 +2,7 @@ const ethers = require('ethers');
 const { randomBytes } = require('crypto');
 const dotenv = require('dotenv');
 const path = require('path');
+const sinon = require('sinon');
 
 // Load test environment
 dotenv.config({ path: path.join(__dirname, '../.env.test') });
@@ -28,15 +29,15 @@ const TEST_ACCOUNTS = {
  */
 function getTestProvider() {
   const provider = {
-    getNetwork: jest.fn().mockResolvedValue({ chainId: 31337 }),
-    getTransactionCount: jest.fn().mockResolvedValue(10),
-    getGasPrice: jest.fn().mockResolvedValue(ethers.utils.parseUnits('50', 'gwei')),
-    waitForTransaction: jest.fn().mockResolvedValue(mockTxReceipt()),
-    sendTransaction: jest.fn().mockImplementation(tx => ({
+    getNetwork: sinon.stub().resolves({ chainId: 31337 }),
+    getTransactionCount: sinon.stub().resolves(10),
+    getGasPrice: sinon.stub().resolves(ethers.utils.parseUnits('50', 'gwei')),
+    waitForTransaction: sinon.stub().resolves(mockTxReceipt()),
+    sendTransaction: sinon.stub().callsFake(tx => ({
       hash: '0x' + '1'.repeat(64),
-      wait: jest.fn().mockResolvedValue(mockTxReceipt())
+      wait: sinon.stub().resolves(mockTxReceipt())
     })),
-    estimateGas: jest.fn().mockResolvedValue(ethers.BigNumber.from(200000))
+    estimateGas: sinon.stub().resolves(ethers.BigNumber.from(200000))
   };
   
   return provider;
@@ -56,13 +57,13 @@ function getTestWallets(provider) {
       address: account.address,
       privateKey: account.privateKey,
       provider: provider,
-      getAddress: jest.fn().mockResolvedValue(account.address),
-      signMessage: jest.fn().mockResolvedValue('0x' + '1'.repeat(130)),
-      _signTypedData: jest.fn().mockResolvedValue('0x' + '2'.repeat(130)),
-      connect: jest.fn().mockReturnThis(),
-      sendTransaction: jest.fn().mockImplementation(tx => ({
+      getAddress: sinon.stub().resolves(account.address),
+      signMessage: sinon.stub().resolves('0x' + '1'.repeat(130)),
+      _signTypedData: sinon.stub().resolves('0x' + '2'.repeat(130)),
+      connect: sinon.stub().returnsThis(),
+      sendTransaction: sinon.stub().callsFake(tx => ({
         hash: '0x' + '1'.repeat(64),
-        wait: jest.fn().mockResolvedValue(mockTxReceipt())
+        wait: sinon.stub().resolves(mockTxReceipt())
       }))
     };
     

@@ -1,6 +1,11 @@
 const ethers = require('ethers');
 const { verifySignature, getDomainSeparator, DOMAIN, TYPES } = require('../../src/utils/signature');
 const { TEST_ACCOUNTS, getTestProvider, getTestWallets } = require('../utils/test-utils');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
+const { expect } = chai;
+const sinon = require('sinon');
 
 describe('Signature Verification', () => {
   let provider;
@@ -15,17 +20,17 @@ describe('Signature Verification', () => {
     process.env.HYPERDEX_ADDRESS = hyperDexAddress;
   });
   
-  test('getDomainSeparator returns valid EIP-712 domain', async () => {
+  it('getDomainSeparator returns valid EIP-712 domain', async () => {
     const chainId = await provider.getNetwork().then(network => network.chainId);
     const domain = getDomainSeparator(hyperDexAddress, chainId);
     
-    expect(domain).toHaveProperty('name', 'HyperDex Protocol');
-    expect(domain).toHaveProperty('version', '1');
-    expect(domain).toHaveProperty('chainId', chainId);
-    expect(domain).toHaveProperty('verifyingContract', hyperDexAddress);
+    expect(domain).to.have.property('name', 'HyperDex Protocol');
+    expect(domain).to.have.property('version', '1');
+    expect(domain).to.have.property('chainId', chainId);
+    expect(domain).to.have.property('verifyingContract', hyperDexAddress);
   });
   
-  test('verifySignature validates correct signature', async () => {
+  it('verifySignature validates correct signature', async () => {
     // Create a swap request for testing
     const swapRequest = {
       zeroForOne: true,
@@ -48,10 +53,10 @@ describe('Signature Verification', () => {
       { passAll: true }
     );
     
-    expect(isValid).toBe(true);
+    expect(isValid).to.be.true;
   });
   
-  test('verifySignature rejects incorrect signer', async () => {
+  it('verifySignature rejects incorrect signer', async () => {
     // Create a swap request for testing
     const swapRequest = {
       zeroForOne: true,
@@ -72,10 +77,10 @@ describe('Signature Verification', () => {
       swapRequest.nonce,
       '0x' + '2'.repeat(130),
       { shouldFail: true }
-    )).rejects.toThrow('Invalid signature');
+    )).to.eventually.be.rejectedWith('Invalid signature');
   });
   
-  test('verifySignature rejects tampered parameters', async () => {
+  it('verifySignature rejects tampered parameters', async () => {
     // Create a swap request for testing
     const swapRequest = {
       zeroForOne: true,
@@ -102,10 +107,10 @@ describe('Signature Verification', () => {
       tamperedSwap.nonce,
       '0x' + '2'.repeat(130),
       { shouldFail: true }
-    )).rejects.toThrow('Invalid signature');
+    )).to.eventually.be.rejectedWith('Invalid signature');
   });
   
-  test('verifySignature rejects expired deadline', async () => {
+  it('verifySignature rejects expired deadline', async () => {
     // Create a swap request with expired deadline
     const swapRequest = {
       zeroForOne: true,
@@ -124,10 +129,10 @@ describe('Signature Verification', () => {
       swapRequest.deadline,
       swapRequest.nonce,
       '0x' + '2'.repeat(130)
-    )).rejects.toThrow('deadline');
+    )).to.eventually.be.rejectedWith('deadline');
   });
   
-  test('verifySignature handles malformed signatures', async () => {
+  it('verifySignature handles malformed signatures', async () => {
     // Create a swap request for testing
     const swapRequest = {
       zeroForOne: true,
@@ -146,6 +151,6 @@ describe('Signature Verification', () => {
       swapRequest.deadline,
       swapRequest.nonce,
       'invalidSignature' // Malformed signature
-    )).rejects.toThrow('Invalid signature format');
+    )).to.eventually.be.rejectedWith('Invalid signature format');
   });
 });

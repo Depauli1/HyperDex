@@ -2,6 +2,8 @@ const request = require('supertest');
 const express = require('express');
 const routes = require('../../src/api/routes');
 const { TEST_ACCOUNTS } = require('../utils/test-utils');
+const sinon = require('sinon');
+const { expect } = require('chai');
 
 describe('Transaction History API Integration', () => {
   let app, mockServices;
@@ -20,13 +22,13 @@ describe('Transaction History API Integration', () => {
     confirmedAt: new Date().toISOString()
   }];
 
-  beforeAll(() => {
+  before(async () => {
     mockServices = {
       dbService: {
-        getTransactionsByTrader: jest.fn().mockResolvedValue(sampleTxs)
+        getTransactionsByTrader: sinon.stub().resolves(sampleTxs)
       },
-      signatureUtils: { verifySignature: jest.fn() },
-      logger: { info: jest.fn(), error: jest.fn(), warn: jest.fn(), debug: jest.fn() },
+      signatureUtils: { verifySignature: sinon.stub() },
+      logger: { info: sinon.stub(), error: sinon.stub(), warn: sinon.stub(), debug: sinon.stub() },
       mempoolManager: {},
       contractService: {},
       nonceManager: {}
@@ -36,38 +38,38 @@ describe('Transaction History API Integration', () => {
     app.use('/api', routes(mockServices));
   });
 
-  afterEach(() => jest.clearAllMocks());
+  after(async () => {
+    sinon.restore();
+  });
 
-  test('GET /api/history/trader/:address returns transactions', async () => {
+  it('GET /api/history/trader/:address returns transactions', async () => {
     const res = await request(app)
       .get(`/api/history/trader/${traderAddr}`);
 
-    expect(res.status).toBe(200);
-    expect(res.body.trader).toBe(traderAddr);
-    expect(Array.isArray(res.body.transactions)).toBe(true);
-    expect(res.body.transactions[0].id).toBe('tx1');
-    expect(mockServices.dbService.getTransactionsByTrader)
-      .toHaveBeenCalledWith(traderAddr, { limit: 50, offset: 0 });
+    expect(res.status).to.equal(200);
+    expect(res.body.trader).to.equal(traderAddr);
+    expect(res.body.transactions).to.be.an('array');
+    expect(res.body.transactions[0].id).to.equal('tx1');
+    expect(mockServices.dbService.getTransactionsByTrader.calledWith(traderAddr, { limit: 50, offset: 0 })).to.be.true;
   });
 
-  test('GET /api/history with query params', async () => {
-    mockServices.dbService.getTransactionsByTrader.mockResolvedValue([]);
+  it('GET /api/history with query params', async () => {
+    mockServices.dbService.getTransactionsByTrader.resolves([]);
     const res = await request(app)
       .get(`/api/history/trader/${traderAddr}`)
       .query({ limit: 5, offset: 10, status: 'failed' });
 
-    expect(res.status).toBe(200);
-    expect(res.body.count).toBe(0);
-    expect(mockServices.dbService.getTransactionsByTrader)
-      .toHaveBeenCalledWith(traderAddr, { limit: 5, offset: 10, status: 'failed' });
+    expect(res.status).to.equal(200);
+    expect(res.body.count).to.equal(0);
+    expect(mockServices.dbService.getTransactionsByTrader.calledWith(traderAddr, { limit: 5, offset: 10, status: 'failed' })).to.be.true;
   });
 
-  test('GET /api/history returns 500 on service error', async () => {
-    mockServices.dbService.getTransactionsByTrader.mockRejectedValueOnce(new Error('DB error'));
+  it('GET /api/history returns 500 on service error', async () => {
+    mockServices.dbService.getTransactionsByTrader.rejects(new Error('DB error'));
     const res = await request(app)
       .get(`/api/history/trader/${traderAddr}`);
 
-    expect(res.status).toBe(500);
-    expect(res.body).toHaveProperty('error', 'Failed to retrieve transaction history');
+    expect(res.status).to.equal(500);
+    expect(res.body).to.have.property('error', 'Failed to retrieve transaction history');
   });
 });

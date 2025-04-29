@@ -79,6 +79,45 @@ Request body:
 
 `GET /api/v1/status`
 
+## Bridge Adapter Architecture
+
+The relayer integrates modular bridge adapters for cross-chain operations. Currently supported adapters:
+
+- **ConnextAdapter**: Handles bridging via the Connext protocol. Implements `bridgeOut`, `fetchProof`, and `bridgeIn` methods.
+- **LayerZeroAdapter**: Handles messaging and bridging via LayerZero. Implements `bridgeOut`, `fetchProof`, `bridgeIn`, and `quoteFees` methods.
+
+Adapters are instantiated with injected configuration and contracts, and are used by the relayer for cross-chain proof and message handling. See `src/services/adapters/ConnextAdapter.js` and `src/services/adapters/LayerZeroAdapter.js` for details.
+
+### Example Adapter Usage
+
+```javascript
+const { Contract, utils } = require('ethers');
+const ConnextAdapter = require('./src/services/adapters/ConnextAdapter');
+const LayerZeroAdapter = require('./src/services/adapters/LayerZeroAdapter');
+
+const connext = new Contract(connextAddress, connextABI, wallet);
+const connextAdapter = new ConnextAdapter({
+  connext,
+  domainMapping: { '11155111': 1735353714 },
+  wallet,
+  connextAddress,
+  connextABI
+});
+
+const layerZeroAdapter = new LayerZeroAdapter({
+  endpointAddress,
+  endpointABI,
+  wallet,
+  chainIdMapping: { '11155111': 10121 },
+  adapterParams: '0x',
+  zroPaymentAddress,
+  refundAddress,
+  remoteContractAddress
+});
+```
+
+Adapters can be injected into the relayer and used by the bridge watcher service for event-driven cross-chain operations.
+
 ## Client SDK
 
 A JavaScript client SDK is included to simplify integration with frontend applications. See `client-sdk/index.js` for usage:
@@ -114,7 +153,6 @@ async function performGaslessSwap() {
   const status = await sdk.getTransactionStatus(result.txId);
   console.log('Transaction status:', status);
 }
-```
 
 ## Deployment Recommendations
 

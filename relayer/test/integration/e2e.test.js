@@ -14,6 +14,8 @@ if (fsSync.existsSync(envTestPath)) {
 require('dotenv').config({ path: envPathUsed });
 console.log(`[E2E] Loaded env file: ${envPathUsed}`);
 const { TEST_ACCOUNTS: DEFAULT_TEST_ACCOUNTS } = require('../utils/test-utils');
+const { expect } = require('chai');
+const sinon = require('sinon');
 
 const TEST_ACCOUNTS = {
   relayer: {
@@ -57,11 +59,13 @@ describeE2E('End-to-End Gasless Swap Test', () => {
   let activeIntervals = [];
 
   // Helper to start the relayer service
-  const startRelayer = async () => {
-    // Create test .env file for the relayer
-    const envPath = join(__dirname, '../../.env');
-    // Write test env file with NO PORT (let server pick ephemeral port)
-    await fs.writeFile(envPath, `
+  async function startRelayer() {
+    try {
+      console.log('Starting relayer service...');
+      // Create test .env file for the relayer
+      const envPath = join(__dirname, '../../.env');
+      // Write test env file with NO PORT (let server pick ephemeral port)
+      await fs.writeFile(envPath, `
 LOG_LEVEL=info
 NODE_ENV=test
 ETHEREUM_RPC_URL=${process.env.ETHEREUM_RPC_URL}
@@ -136,6 +140,10 @@ DEADLINE_VALIDATION_ENABLED=false
         await sleep(500); // Wait 500ms before trying again
       }
     }
+    } catch (err) {
+      console.error('Relayer failed to start:', err);
+      throw err;
+    }
   };
   
   // Helper to stop the relayer service
@@ -154,7 +162,7 @@ DEADLINE_VALIDATION_ENABLED=false
     }
   };
   
-  beforeAll(async () => {
+  before(async () => {
     wallets = getTestWallets();
     hyperDexAddress = process.env.HYPERDEX_ADDRESS;
     factoryAddress = process.env.FACTORY_ADDRESS;
@@ -190,7 +198,7 @@ DEADLINE_VALIDATION_ENABLED=false
     });
   }, 120000);
   
-  afterAll(async () => {
+  after(async () => {
     // Stop relayer service
     stopRelayer();
     
@@ -228,10 +236,11 @@ DEADLINE_VALIDATION_ENABLED=false
     
     // Give the process a moment to clean up before proceeding
     await new Promise(resolve => setTimeout(resolve, 100));
+    sinon.restore();
   });
 
   // The main E2E test
-  test('completes a full gasless swap cycle', async () => {
+  it('completes a full gasless swap cycle', async () => {
     // Skip this test in CI environments without a blockchain node
     // This is just for demonstration; real tests would use conditional skipping based on environment
     if (process.env.CI && !process.env.WITH_BLOCKCHAIN) {
@@ -241,7 +250,7 @@ DEADLINE_VALIDATION_ENABLED=false
     
     // 1. Check relayer health
     const health = await sdk.checkRelayerHealth();
-    expect(health.status).toBe('ok');
+    expect(health.status).to.be.equal('ok');
     
     // 2. Create swap parameters
     const deadline = Math.floor(Date.now() / 1000) + 86400; // 24 hours in the future - VERY long deadline
@@ -259,8 +268,8 @@ DEADLINE_VALIDATION_ENABLED=false
     // 3. Sign the swap request
     console.log('Signing swap request...');
     const signedSwap = await sdk.createSignedSwap(wallets.user, swapParams);
-    expect(signedSwap.signature).toBeDefined();
-    expect(signedSwap.nonce).toBeDefined();
+    expect(signedSwap.signature).to.be.defined;
+    expect(signedSwap.nonce).to.be.defined;
     
     // 4. Submit to relayer (mock response in CI mode)
     console.log('Submitting gasless swap to relayer...');
@@ -277,9 +286,9 @@ DEADLINE_VALIDATION_ENABLED=false
       swapResult = await sdk.submitGaslessSwap(signedSwap);
     }
     
-    expect(swapResult).toBeDefined();
-    expect(swapResult.transactionHash).toBeDefined();
-    expect(swapResult.status).toBe('submitted');
+    expect(swapResult).to.be.defined;
+    expect(swapResult.transactionHash).to.be.defined;
+    expect(swapResult.status).to.be.equal('submitted');
     
     // 5. Wait for swap confirmation
     console.log('Waiting for transaction confirmation...');
@@ -334,8 +343,8 @@ DEADLINE_VALIDATION_ENABLED=false
       }
     }
     
-    expect(confirmationResult.status).toBe('confirmed');
-    expect(confirmationResult.blockNumber).toBeDefined();
+    expect(confirmationResult.status).to.be.equal('confirmed');
+    expect(confirmationResult.blockNumber).to.be.defined;
     
     // 6. Verify swap execution on-chain
     console.log('Verifying swap execution on-chain...');
@@ -347,14 +356,14 @@ DEADLINE_VALIDATION_ENABLED=false
   }, 300000); // 5 minute timeout for this complex test
   
   // Additional test for error handling - deadline expired
-  test('handles expired deadline correctly', async () => {
+  it('handles expired deadline correctly', async () => {
     // Skip this test since we've disabled deadline validation in the relayer for testing purposes
     console.log('Skipping deadline test since deadline validation is disabled for integration tests');
-    expect(true).toBe(true);
+    expect(true).to.be.true;
   });
   
   // Additional test for security - replay protection
-  test('prevents replay attacks with used nonce', async () => {
+  it('prevents replay attacks with used nonce', async () => {
     // This simulates attempting to replay a transaction with the same nonce
     // Create valid swap 
     const deadline = Math.floor(Date.now() / 1000) + 7200; // 2 hours in the future

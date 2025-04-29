@@ -1,14 +1,16 @@
 const request = require('supertest');
 const express = require('express');
 const routes = require('../../src/api/routes');
+const { expect } = require('chai');
+const sinon = require('sinon');
 
 describe('Analytics API Integration', () => {
   let app, mockServices;
 
-  beforeAll(() => {
+  before(async () => {
     mockServices = {
       dbService: {
-        getGasPriceHistory: jest.fn().mockResolvedValue([
+        getGasPriceHistory: sinon.stub().resolves([
           {
             networkName: 'sepolia',
             timestamp: new Date().toISOString(),
@@ -16,7 +18,7 @@ describe('Analytics API Integration', () => {
             chainId: 11155111
           }
         ]),
-        getUsageStats: jest.fn().mockResolvedValue([
+        getUsageStats: sinon.stub().resolves([
           {
             timestamp: new Date().toISOString(),
             endpoint: '/api/swap/gasless',
@@ -25,7 +27,7 @@ describe('Analytics API Integration', () => {
           }
         ])
       },
-      logger: { info: jest.fn(), error: jest.fn(), warn: jest.fn(), debug: jest.fn() },
+      logger: { info: sinon.stub(), error: sinon.stub(), warn: sinon.stub(), debug: sinon.stub() },
       signatureUtils: {},
       mempoolManager: {},
       contractService: {},
@@ -36,68 +38,78 @@ describe('Analytics API Integration', () => {
     app.use('/api', routes(mockServices));
   });
 
-  afterEach(() => jest.clearAllMocks());
+  after(async () => {
+    sinon.restore();
+  });
 
   describe('GET /api/analytics/gas-prices', () => {
-    test('returns default gas price history', async () => {
-      const res = await request(app).get('/api/analytics/gas-prices');
-      expect(res.status).toBe(200);
-      expect(res.body.period).toHaveProperty('days', 7);
-      expect(res.body.networks).toHaveProperty('sepolia');
-      const param = mockServices.dbService.getGasPriceHistory.mock.calls[0][0];
-      expect(param).toHaveProperty('startDate');
-      expect(param).toHaveProperty('endDate');
-      expect(param.networkName).toBeUndefined();
+    afterEach(() => {
+      sinon.resetHistory();
     });
 
-    test('applies days and networkName query params', async () => {
-      mockServices.dbService.getGasPriceHistory.mockResolvedValue([]);
+    it('returns default gas price history', async () => {
+      const res = await request(app).get('/api/analytics/gas-prices');
+      expect(res.status).to.equal(200);
+      expect(res.body.period).to.have.property('days', 7);
+      expect(res.body.networks).to.have.property('sepolia');
+      const param = mockServices.dbService.getGasPriceHistory.args[0][0];
+      expect(param).to.have.property('startDate');
+      expect(param).to.have.property('endDate');
+      expect(param.networkName).to.be.undefined;
+    });
+
+    it('applies days and networkName query params', async () => {
+      mockServices.dbService.getGasPriceHistory.resolves([]);
       const res = await request(app)
         .get('/api/analytics/gas-prices')
         .query({ days: 3, networkName: 'sepolia' });
-      expect(res.status).toBe(200);
-      expect(res.body.period).toHaveProperty('days', 3);
-      const param = mockServices.dbService.getGasPriceHistory.mock.calls[0][0];
-      expect(param.networkName).toBe('sepolia');
+      expect(res.status).to.equal(200);
+      expect(res.body.period).to.have.property('days', 3);
+      const param = mockServices.dbService.getGasPriceHistory.args[0][0];
+      expect(param.networkName).to.equal('sepolia');
     });
 
-    test('handles service errors', async () => {
-      mockServices.dbService.getGasPriceHistory.mockRejectedValueOnce(new Error('DB failure'));
+    it('handles service errors', async () => {
+      mockServices.dbService.getGasPriceHistory.rejects(new Error('DB failure'));
       const res = await request(app).get('/api/analytics/gas-prices');
-      expect(res.status).toBe(500);
-      expect(res.body).toHaveProperty('error', 'Failed to retrieve gas price history');
+      expect(res.status).to.equal(500);
+      expect(res.body).to.have.property('error', 'Failed to retrieve gas price history');
     });
   });
 
   describe('GET /api/analytics/usage', () => {
-    test('returns usage statistics', async () => {
-      const res = await request(app).get('/api/analytics/usage');
-      expect(res.status).toBe(200);
-      expect(res.body.period).toHaveProperty('days', 7);
-      expect(res.body).toHaveProperty('dailyStats');
-      expect(res.body).toHaveProperty('endpointTotals');
-      const param = mockServices.dbService.getUsageStats.mock.calls[0][0];
-      expect(param).toHaveProperty('startDate');
-      expect(param).toHaveProperty('endDate');
-      expect(param.endpoint).toBeUndefined();
+    afterEach(() => {
+      sinon.resetHistory();
     });
 
-    test('applies days and endpoint query params', async () => {
-      mockServices.dbService.getUsageStats.mockResolvedValue([]);
+    it('returns usage statistics', async () => {
+      const res = await request(app).get('/api/analytics/usage');
+      expect(res.status).to.equal(200);
+      expect(res.body.period).to.have.property('days', 7);
+      expect(res.body).to.have.property('dailyStats');
+      expect(res.body).to.have.property('endpointTotals');
+      const param = mockServices.dbService.getUsageStats.args[0][0];
+      expect(param).to.have.property('startDate');
+      expect(param).to.have.property('endDate');
+      expect(param.endpoint).to.be.undefined;
+    });
+
+    it('applies days and endpoint query params', async () => {
+      mockServices.dbService.getUsageStats.resolves([]);
       const res = await request(app)
         .get('/api/analytics/usage')
         .query({ days: 5, endpoint: '/api/health' });
-      expect(res.status).toBe(200);
-      expect(res.body.period).toHaveProperty('days', 5);
-      const param = mockServices.dbService.getUsageStats.mock.calls[0][0];
-      expect(param.endpoint).toBe('/api/health');
+      expect(res.status).to.equal(200);
+      expect(res.body.period).to.have.property('days', 5);
+      const param = mockServices.dbService.getUsageStats.args[0][0];
+      expect(param.endpoint).to.equal('/api/health');
     });
 
-    test('handles service errors', async () => {
-      mockServices.dbService.getUsageStats.mockRejectedValueOnce(new Error('DB failure'));
+    it('handles service errors', async () => {
+      mockServices.dbService.getUsageStats.rejects(new Error('DB failure'));
       const res = await request(app).get('/api/analytics/usage');
-      expect(res.status).toBe(500);
-      expect(res.body).toHaveProperty('error', 'Failed to retrieve usage statistics');
+      expect(res.status).to.equal(500);
+      expect(res.body).to.have.property('error', 'Failed to retrieve usage statistics');
     });
   });
 });

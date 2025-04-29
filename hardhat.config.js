@@ -15,6 +15,11 @@ module.exports = {
       chainId: 998, 
       accounts: [process.env.PRIVATE_KEY],
     },
+    sepolia: {
+      url: process.env.SEPOLIA_RPC_URL || "https://rpc.sepolia.org",
+      chainId: 11155111,
+      accounts: [process.env.PRIVATE_KEY],
+    }
   },
   paths: {
     sources: "./contracts",

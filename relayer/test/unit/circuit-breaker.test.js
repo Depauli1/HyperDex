@@ -1,75 +1,78 @@
+const sinon = require('sinon');
+const { expect } = require('chai');
 const CircuitBreaker = require('../../src/utils/circuit-breaker');
 const { BigNumber } = require('ethers');
 
+let clock;
+let cb;
+
+beforeEach(() => {
+  clock = sinon.useFakeTimers();
+  cb = new CircuitBreaker({
+    maxGasPriceGwei: 50,
+    providerFailureThreshold: 2,
+    resetTimeoutMs: 100,
+    halfOpenTimeMs: 50
+  });
+});
+
+afterEach(() => {
+  clock.restore();
+});
+
 describe('CircuitBreaker', () => {
-  jest.useFakeTimers();
-  let cb;
-
-  beforeEach(() => {
-    cb = new CircuitBreaker({
-      maxGasPriceGwei: 50,
-      providerFailureThreshold: 2,
-      resetTimeoutMs: 100,
-      halfOpenTimeMs: 50
-    });
-  });
-
-  afterEach(() => {
-    jest.clearAllTimers();
-  });
-
-  test('initial state is closed', () => {
-    expect(cb.isClosed()).toBe(true);
-    expect(cb.allowsOperations()).toBe(true);
+  it('initial state is closed', () => {
+    expect(cb.isClosed()).to.be.true;
+    expect(cb.allowsOperations()).to.be.true;
     const status = cb.getStatus();
-    expect(status.state).toBe('closed');
+    expect(status.state).to.equal('closed');
   });
 
-  test('recordProviderFailure trips open after threshold', () => {
-    expect(cb.recordProviderFailure()).toBe(false);
-    expect(cb.isClosed()).toBe(true);
+  it('recordProviderFailure trips open after threshold', () => {
+    expect(cb.recordProviderFailure()).to.be.false;
+    expect(cb.isClosed()).to.be.true;
     // second failure
-    expect(cb.recordProviderFailure()).toBe(true);
-    expect(cb.isClosed()).toBe(false);
+    expect(cb.recordProviderFailure()).to.be.true;
+    expect(cb.isClosed()).to.be.false;
   });
 
-  test('resetProviderFailures resets count', () => {
+  it('resetProviderFailures resets count', () => {
     cb.recordProviderFailure();
-    expect(cb.providerFailures).toBe(1);
+    expect(cb.providerFailures).to.equal(1);
     cb.resetProviderFailures();
-    expect(cb.providerFailures).toBe(0);
+    expect(cb.providerFailures).to.equal(0);
   });
 
-  test('checkGasPrice trips open when above threshold', () => {
+  it('checkGasPrice trips open when above threshold', () => {
     const priceWei = BigNumber.from('60000000000'); // 60 gwei
-    expect(cb.checkGasPrice(priceWei)).toBe(true);
-    expect(cb.isClosed()).toBe(false);
+    expect(cb.checkGasPrice(priceWei)).to.be.true;
+    expect(cb.isClosed()).to.be.false;
     const status = cb.getStatus();
-    expect(status.lastGasPrice).toBeCloseTo(60);
+    expect(status.lastGasPrice).to.be.closeTo(60, 0.0001);
   });
 
-  test('manual open and close', () => {
+  it('manual open and close', () => {
     cb.open('manual');
-    expect(cb.getStatus().state).toBe('open');
+    expect(cb.getStatus().state).to.equal('open');
     cb.close('manual');
-    expect(cb.getStatus().state).toBe('closed');
+    expect(cb.getStatus().state).to.equal('closed');
   });
 
-  test('half-open to closed on success', () => {
+  it('half-open to closed on success', () => {
     // Trip open and auto-reset to half-open
     cb._tripOpen('test');
-    jest.advanceTimersByTime(cb.options.resetTimeoutMs);
+    clock.tick(cb.options.resetTimeoutMs);
     // half-open state
-    expect(cb.state).toBe('half-open');
+    expect(cb.state).to.equal('half-open');
     cb.recordSuccess('op');
-    expect(cb.isClosed()).toBe(true);
+    expect(cb.isClosed()).to.be.true;
   });
 
-  test('half-open re-opens on failure', () => {
+  it('half-open re-opens on failure', () => {
     cb._tripOpen('test');
-    jest.advanceTimersByTime(cb.options.resetTimeoutMs);
-    expect(cb.state).toBe('half-open');
+    clock.tick(cb.options.resetTimeoutMs);
+    expect(cb.state).to.equal('half-open');
     cb.recordFailure('op', new Error('fail'));
-    expect(cb.getStatus().state).toBe('open');
+    expect(cb.getStatus().state).to.equal('open');
   });
 });

@@ -2,30 +2,32 @@ const express = require('express');
 const request = require('supertest');
 const routes = require('../../src/api/routes');
 const { RATE_LIMITS } = require('../../src/config/constants');
+const { expect } = require('chai');
+const sinon = require('sinon');
 
 describe('Rate Limiting Integration Tests', () => {
   let app;
   let mockServices;
 
-  beforeAll(() => {
+  before(async () => {
     mockServices = {
       mempoolManager: {
-        getTransactionStatus: jest.fn().mockResolvedValue({
+        getTransactionStatus: sinon.stub().resolves({
           status: 'confirmed',
           txHash: '0x' + '1'.repeat(64),
           blockNumber: 1
         })
       },
       providerManager: {
-        getHealthStatus: jest.fn().mockResolvedValue({ hasHealthyProvider: true, providers: [] }),
-        executeWithProvider: jest.fn().mockResolvedValue(123)
+        getHealthStatus: sinon.stub().resolves({ hasHealthyProvider: true, providers: [] }),
+        executeWithProvider: sinon.stub().resolves(123)
       },
       dbService: {
-        sequelize: { authenticate: jest.fn().mockResolvedValue() },
-        getGasPriceHistory: jest.fn().mockResolvedValue([]),
-        getUsageStats: jest.fn().mockResolvedValue([])
+        sequelize: { authenticate: sinon.stub().resolves() },
+        getGasPriceHistory: sinon.stub().resolves([]),
+        getUsageStats: sinon.stub().resolves([])
       },
-      logger: { info: jest.fn(), error: jest.fn(), warn: jest.fn(), debug: jest.fn() },
+      logger: { info: sinon.stub(), error: sinon.stub(), warn: sinon.stub(), debug: sinon.stub() },
       signatureUtils: {},
       contractService: {},
       nonceManager: {},
@@ -37,22 +39,26 @@ describe('Rate Limiting Integration Tests', () => {
     app.use('/api', routes(mockServices));
   });
 
+  after(async () => {
+    sinon.restore();
+  });
+
   it('should include default rate limit headers on a default-limited endpoint', async () => {
     const txHash = '0x' + '1'.repeat(64);
     const res = await request(app).get(`/api/status/${txHash}`);
-    expect(res.status).toBe(200);
+    expect(res.status).to.equal(200);
     const limit = parseInt(res.headers['ratelimit-limit'], 10);
     const remaining = parseInt(res.headers['ratelimit-remaining'], 10);
-    expect(limit).toBe(RATE_LIMITS.DEFAULT);
-    expect(remaining).toBe(limit - 1);
+    expect(limit).to.equal(RATE_LIMITS.DEFAULT);
+    expect(remaining).to.equal(limit - 1);
   });
 
   it('should include admin rate limit headers on an admin-limited endpoint', async () => {
     const res = await request(app).get('/api/analytics/usage');
-    expect(res.status).toBe(200);
+    expect(res.status).to.equal(200);
     const limit = parseInt(res.headers['ratelimit-limit'], 10);
     const remaining = parseInt(res.headers['ratelimit-remaining'], 10);
-    expect(limit).toBe(RATE_LIMITS.ADMIN);
-    expect(remaining).toBe(limit - 1);
+    expect(limit).to.equal(RATE_LIMITS.ADMIN);
+    expect(remaining).to.equal(limit - 1);
   });
 });

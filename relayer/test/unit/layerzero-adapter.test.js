@@ -1,5 +1,6 @@
-const { ethers } = require('ethers');
+const { ethers, utils } = require('ethers');
 const LayerZeroAdapter = require('../../src/services/adapters/LayerZeroAdapter');
+const sinon = require('sinon');
 
 describe('LayerZeroAdapter', () => {
   const config = {
@@ -15,17 +16,26 @@ describe('LayerZeroAdapter', () => {
   let adapter;
 
   beforeEach(() => {
-    adapter = new LayerZeroAdapter(config);
-    adapter.endpoint = {
-      estimateFees: jest.fn().mockResolvedValue([ethers.BigNumber.from(123), ethers.BigNumber.from(0)]),
-      send: jest.fn().mockResolvedValue({ hash: '0xdead' })
-    };
+    sinon.restore();
+    adapter = Object.create(LayerZeroAdapter.prototype);
+    Object.assign(adapter, {
+      config,
+      endpoint: {
+        estimateFees: sinon.stub().resolves([ethers.BigNumber.from(123), ethers.BigNumber.from(0)]),
+        send: sinon.stub().resolves({ hash: '0xdead' })
+      },
+      chainIdMapping: config.chainIdMapping,
+      adapterParams: config.adapterParams,
+      zroPaymentAddress: config.zroPaymentAddress,
+      refundAddress: config.refundAddress,
+      remoteContractAddress: config.remoteContractAddress
+    });
   });
 
   it('quoteFees returns native fee from endpoint.estimateFees', async () => {
     const req = { dstChainId: 1 };
     const fee = await adapter.quoteFees(req);
-    expect(adapter.endpoint.estimateFees).toHaveBeenCalledWith(
+    sinon.assert.calledWith(adapter.endpoint.estimateFees,
       1001,
       config.remoteContractAddress,
       '0x',
@@ -37,20 +47,20 @@ describe('LayerZeroAdapter', () => {
 
   it('bridgeOut calls send with correct params and returns tx', async () => {
     const req = {
-      id: '0xID',
+      id: '0x0000000000000000000000000000000000000000000000000000000000000049', // bytes32 hex string
       srcChainId: 1,
       dstChainId: 1,
-      token: '0xTOK',
+      token: '0x0000000000000000000000000000000000000000',
       amount: 10,
-      user: '0xUSER',
+      user: '0x0000000000000000000000000000000000000001',
       deadline: 200,
       fee: ethers.BigNumber.from(50)
     };
     const tx = await adapter.bridgeOut(req);
-    expect(adapter.endpoint.send).toHaveBeenCalledWith(
+    sinon.assert.calledWith(adapter.endpoint.send,
       1001,
       config.remoteContractAddress,
-      expect.any(String),
+      sinon.match.any,
       config.refundAddress,
       config.zroPaymentAddress,
       config.adapterParams,
@@ -61,7 +71,7 @@ describe('LayerZeroAdapter', () => {
 
   it('fetchProof returns byte array of txHash', async () => {
     const proof = await adapter.fetchProof('0xbeef');
-    expect(proof).toEqual(ethers.utils.arrayify('0xbeef'));
+    expect(proof).toEqual(utils.arrayify('0xbeef'));
   });
 
   it('bridgeIn returns null', async () => {

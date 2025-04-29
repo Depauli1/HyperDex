@@ -35,6 +35,12 @@ contract BridgeRouter is Ownable, Pausable, ReentrancyGuard {
     /// @notice Dynamic fee controller
     FeeController public feeController;
 
+    /// @notice Configurable timeout for refunds (seconds)
+    uint256 public refundTimeout;
+
+    /// @notice Stored requests for completion or refund
+    mapping(bytes32 => BridgeRequest) public requests;
+
     event BridgeInitiated(
         bytes32 indexed id,
         bytes32 indexed adapterKey,
@@ -51,10 +57,13 @@ contract BridgeRouter is Ownable, Pausable, ReentrancyGuard {
     error InvalidStatus(Status expected, Status actual);
     error InsufficientFee(uint256 sent, uint256 required);
 
-    /// @param _feeController Address of the FeeController contract
-    constructor(address _feeController) {
+    /// @param _feeController Address of the FeeController
+    /// @param _refundTimeout Time in seconds after which pending requests can be refunded
+    constructor(address _feeController, uint256 _refundTimeout) {
         require(_feeController != address(0), "Zero address: feeController");
+        require(_refundTimeout > 0, "BridgeRouter: zero timeout");
         feeController = FeeController(_feeController);
+        refundTimeout = _refundTimeout;
     }
 
     /// @notice Register or update a bridge adapter
@@ -87,6 +96,9 @@ contract BridgeRouter is Ownable, Pausable, ReentrancyGuard {
             revert InvalidStatus(Status.None, requestStatus[req.id]);
         }
 
+        // ensure request not expired
+        require(req.deadline >= block.timestamp, "BridgeRouter: deadline expired");
+
         // Compute dynamic fee in wei
         uint256 feeBP = feeController.getCurrentFee();
         uint256 fee = (req.amount * feeBP) / 10_000;
@@ -111,6 +123,9 @@ contract BridgeRouter is Ownable, Pausable, ReentrancyGuard {
 
         requestStatus[req.id] = Status.Pending;
         initiatedAt[req.id] = block.timestamp;
+
+        // store request for later completion or refund
+        requests[req.id] = req;
 
         emit BridgeInitiated(req.id, adapterKey, req.user, req.amount, fee);
 
@@ -138,6 +153,26 @@ contract BridgeRouter is Ownable, Pausable, ReentrancyGuard {
         IBridgeAdapter(adapter).bridgeIn(req, proof);
         requestStatus[req.id] = Status.Completed;
         emit BridgeCompleted(req.id);
+    }
+
+    /// @notice Refund a timed-out bridge request
+    /// @param id Bridge request identifier
+    function refundBridge(bytes32 id) external whenNotPaused nonReentrant onlyRelayer {
+        Status s = requestStatus[id];
+        if (s != Status.Pending && s != Status.Bridged) {
+            revert InvalidStatus(Status.Pending, s);
+        }
+        require(block.timestamp >= initiatedAt[id] + refundTimeout, "BridgeRouter: not timed out");
+        BridgeRequest memory req = requests[id];
+        requestStatus[id] = Status.Refunded;
+        IERC20(req.token).safeTransfer(req.user, req.amount);
+        emit BridgeRefunded(id);
+    }
+
+    /// @notice Update refund timeout
+    function setRefundTimeout(uint256 _refundTimeout) external onlyOwner {
+        require(_refundTimeout > 0, "BridgeRouter: zero timeout");
+        refundTimeout = _refundTimeout;
     }
 
     /// @notice Withdraw accumulated native fees

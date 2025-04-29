@@ -45,6 +45,49 @@ Detailed, production-ready plan to integrate a gasless cross-chain swap bridge i
 - **Reorg Protection**: on-chain replay guards + confirmations
 - **Audits & Bug Bounty** for all new components
 
+## Bridge Adapter Details
+The HyperDex relayer uses a modular adapter pattern for cross-chain bridging. Each supported protocol (e.g., Connext, LayerZero) is implemented as a JavaScript class adapter with a common interface. This enables easy extension and robust integration.
+
+### Adapter Classes
+- **ConnextAdapter**: Handles bridging via the Connext protocol. Implements `bridgeOut`, `fetchProof`, and `bridgeIn` methods. Uses ethers.js for contract calls and proof serialization.
+- **LayerZeroAdapter**: Handles messaging and bridging via LayerZero. Implements `bridgeOut`, `fetchProof`, `bridgeIn`, and `quoteFees` methods. Uses ethers.js for contract calls and ABI encoding.
+
+Adapters are injected into the relayer and bridge watcher. They are responsible for:
+- Sending cross-chain messages or tokens (`bridgeOut`)
+- Fetching on-chain proofs (`fetchProof`)
+- Completing inbound bridge requests (`bridgeIn`)
+- (LayerZero) Quoting native fees (`quoteFees`)
+
+**Example usage:**
+```js
+const { Contract } = require('ethers');
+const ConnextAdapter = require('./src/services/adapters/ConnextAdapter');
+const LayerZeroAdapter = require('./src/services/adapters/LayerZeroAdapter');
+
+const connext = new Contract(connextAddress, connextABI, wallet);
+const connextAdapter = new ConnextAdapter({
+  connext,
+  domainMapping: { '11155111': 1735353714 },
+  wallet,
+  connextAddress,
+  connextABI
+});
+
+const layerZeroAdapter = new LayerZeroAdapter({
+  endpointAddress,
+  endpointABI,
+  wallet,
+  chainIdMapping: { '11155111': 10121 },
+  adapterParams: '0x',
+  zroPaymentAddress,
+  refundAddress,
+  remoteContractAddress
+});
+```
+Adapters can be swapped or extended to support new protocols with minimal changes to the relayer core.
+
+See `src/services/adapters/ConnextAdapter.js` and `src/services/adapters/LayerZeroAdapter.js` for implementation details.
+
 ## Next Steps
 1. Scaffold `IBridgeAdapter.sol` & `BridgeRouter.sol`
 2. Implement Connext & LayerZero adapters

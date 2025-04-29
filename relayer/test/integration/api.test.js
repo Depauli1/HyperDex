@@ -5,10 +5,8 @@ const routes = require('../../src/api/routes');
 const swapController = require('../../src/api/controllers/swap-controller');
 const statusController = require('../../src/api/controllers/status-controller');
 const { TEST_ACCOUNTS, getTestProvider, getTestWallets, createSignedSwapRequest } = require('../utils/test-utils');
-
-jest.mock('../../src/services/mempool-manager');
-jest.mock('../../src/services/contracts');
-jest.mock('../../src/services/nonce-manager');
+const sinon = require('sinon');
+const { expect } = require('chai');
 
 describe('API Integration Tests', () => {
   let app;
@@ -16,21 +14,21 @@ describe('API Integration Tests', () => {
   let wallets;
   let mockServices;
   let hyperDexAddress;
-  
-  beforeAll(() => {
+
+  before(async () => {
     provider = getTestProvider();
     wallets = getTestWallets(provider);
     hyperDexAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-    
+
     // Mock service implementations
     mockServices = {
       mempoolManager: {
-        queueTransaction: jest.fn().mockResolvedValue({
+        queueTransaction: sinon.stub().resolves({
           transactionHash: '0x' + '1'.repeat(64),
           blockNumber: 12345678,
           status: 1
         }),
-        getTransactionStatus: jest.fn().mockImplementation((txHash) => ({
+        getTransactionStatus: sinon.stub().callsFake((txHash) => ({
           status: 'confirmed',
           txHash,
           blockNumber: 12345678,
@@ -39,64 +37,75 @@ describe('API Integration Tests', () => {
         }))
       },
       contractService: {
-        executeGaslessSwap: jest.fn().mockResolvedValue({
+        executeGaslessSwap: sinon.stub().resolves({
           hash: '0x' + '1'.repeat(64),
-          wait: jest.fn().mockResolvedValue({
+          wait: sinon.stub().resolves({
             status: 1,
             transactionHash: '0x' + '1'.repeat(64),
             blockNumber: 12345678
           })
         }),
-        getPool: jest.fn().mockResolvedValue({
+        getPool: sinon.stub().resolves({
           address: '0x9A676e781A523b5d0C0e43731313A708CB607508',
-          token0: jest.fn().mockResolvedValue('0xTokenA'),
-          token1: jest.fn().mockResolvedValue('0xTokenB'),
-          fee: jest.fn().mockResolvedValue(3000)
+          token0: sinon.stub().resolves('0xTokenA'),
+          token1: sinon.stub().resolves('0xTokenB'),
+          fee: sinon.stub().resolves(3000)
         })
       },
       nonceManager: {
-        getNonce: jest.fn().mockResolvedValue(100),
-        reserveNonce: jest.fn().mockResolvedValue(100)
+        getNonce: sinon.stub().resolves(100),
+        reserveNonce: sinon.stub().resolves(100)
       },
       signatureUtils: {
-        verifySignature: jest.fn().mockResolvedValue(true)
+        verifySignature: sinon.stub().resolves(true)
       },
       logger: {
-        info: jest.fn(),
-        error: jest.fn(),
-        warn: jest.fn(),
-        debug: jest.fn()
+        info: sinon.stub(),
+        error: sinon.stub(),
+        warn: sinon.stub(),
+        debug: sinon.stub()
       },
       providerManager: {
-        getHealthStatus: jest.fn().mockResolvedValue({ hasHealthyProvider: true, providers: [] }),
-        executeWithProvider: jest.fn().mockResolvedValue(12345678)
+        getHealthStatus: sinon.stub().resolves({ hasHealthyProvider: true, providers: [] }),
+        executeWithProvider: sinon.stub().resolves(12345678)
       },
       dbService: {
-        sequelize: { authenticate: jest.fn().mockResolvedValue() }
+        sequelize: { authenticate: sinon.stub().resolves() },
+        verifyAuthToken: sinon.stub()
       }
     };
-    
+
     // Create Express app and configure routes
     app = express();
     app.use(express.json());
-    
+
     // Inject mock services into route handlers
     const routeConfig = routes(mockServices);
     app.use('/api', routeConfig);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    if (mockServices.dbService.verifyAuthToken) {
+      mockServices.dbService.verifyAuthToken.resolves('0x70997970C51812dc3A010C7d01b50e0d17dc79C8');
+    }
+  });
+
+  after(async () => {
+    sinon.restore();
   });
 
   describe('POST /api/swap/gasless', () => {
-    test('executes a valid gasless swap', async () => {
+    it('executes a valid gasless swap', async () => {
       // Create a valid signed swap request
       const swapRequest = await createSignedSwapRequest(wallets.user, hyperDexAddress);
-      
+
+      // Add a valid Authorization header for endpoints that require authentication
+      const validAuthHeader = 'Bearer testtoken';
+
       // Make the request to the API
       const response = await request(app)
         .post('/api/swap/gasless')
+        .set('Authorization', validAuthHeader)
         .send({
           trader: swapRequest.trader,
           zeroForOne: swapRequest.zeroForOne,
@@ -107,48 +116,50 @@ describe('API Integration Tests', () => {
           nonce: swapRequest.nonce,
           signature: swapRequest.signature
         });
-      
+
       // Check response
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('transactionHash');
-      expect(response.body).toHaveProperty('status', 'submitted');
-      
+      expect(response.status).to.equal(200);
+      expect(response.body).to.have.property('transactionHash');
+      expect(response.body).to.have.property('status', 'submitted');
+
       // Verify services were called correctly
-      expect(mockServices.signatureUtils.verifySignature).toHaveBeenCalled();
-      expect(mockServices.contractService.executeGaslessSwap).toHaveBeenCalled();
+      expect(mockServices.signatureUtils.verifySignature.called).to.be.true;
+      expect(mockServices.contractService.executeGaslessSwap.called).to.be.true;
     });
 
-    test('rejects invalid signature', async () => {
-      // Create request but with invalid signature
+    it('rejects invalid signature', async () => {
+      // Create a valid signed swap request
       const swapRequest = await createSignedSwapRequest(wallets.user, hyperDexAddress);
-      
-      // Mock signature verification to fail
-      mockServices.signatureUtils.verifySignature.mockResolvedValueOnce(false);
-      
+
+      // Ensure verifySignature returns false for this test
+      mockServices.signatureUtils.verifySignature.returns(false);
+      // Ensure contractService.executeGaslessSwap is not called
+      mockServices.contractService.executeGaslessSwap.resetHistory();
+      // Add a valid Authorization header for endpoints that require authentication
+      const validAuthHeader = 'Bearer testtoken';
+
       // Make the request to the API
       const response = await request(app)
         .post('/api/swap/gasless')
+        .set('Authorization', validAuthHeader)
         .send({
           trader: swapRequest.trader,
           zeroForOne: swapRequest.zeroForOne,
-          amountSpecified: swapRequest.amountSpecified.toString(),
+          amountSpecified: swapRequest.amountSpecified,
           sqrtPriceLimitX96: swapRequest.sqrtPriceLimitX96,
           poolAddress: swapRequest.poolAddress,
           deadline: swapRequest.deadline,
           nonce: swapRequest.nonce,
-          signature: swapRequest.signature
+          signature: '0xInvalidSignature'
         });
-      
+
       // Check rejection response
-      expect(response.status).toBe(401);
-      expect(response.body).toHaveProperty('error');
-      expect(response.body.error).toContain('Invalid signature');
-      
-      // Verify execution was not attempted
-      expect(mockServices.contractService.executeGaslessSwap).not.toHaveBeenCalled();
+      expect(response.status).to.equal(401);
+      expect(response.body.error).to.contain('Invalid signature');
+      expect(mockServices.contractService.executeGaslessSwap.called).to.be.false;
     });
 
-    test('handles missing parameters', async () => {
+    it('handles missing parameters', async () => {
       // Make request with missing parameters
       const response = await request(app)
         .post('/api/swap/gasless')
@@ -157,105 +168,109 @@ describe('API Integration Tests', () => {
           trader: TEST_ACCOUNTS.user.address,
           signature: '0xSampleSignature'
         });
-      
+
       // Check validation error response
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error');
+      expect(response.status).to.equal(400);
+      expect(response.body).to.have.property('error');
     });
 
-    test('handles service errors gracefully', async () => {
+    it('handles service errors gracefully', async () => {
       // Create a valid signed swap request
       const swapRequest = await createSignedSwapRequest(wallets.user, hyperDexAddress);
-      
+
+      // Mock signature verification to succeed
+      mockServices.signatureUtils.verifySignature.resolves(true);
       // Mock service to throw error
-      mockServices.contractService.executeGaslessSwap.mockRejectedValueOnce(
-        new Error('Transaction underpriced')
-      );
-      
+      mockServices.contractService.executeGaslessSwap.rejects(new Error('Transaction underpriced'));
+
+      // Add a valid Authorization header for endpoints that require authentication
+      const validAuthHeader = 'Bearer testtoken';
+
       // Make the request to the API
       const response = await request(app)
         .post('/api/swap/gasless')
+        .set('Authorization', validAuthHeader)
         .send({
           trader: swapRequest.trader,
           zeroForOne: swapRequest.zeroForOne,
-          amountSpecified: swapRequest.amountSpecified.toString(),
+          amountSpecified: swapRequest.amountSpecified,
           sqrtPriceLimitX96: swapRequest.sqrtPriceLimitX96,
           poolAddress: swapRequest.poolAddress,
           deadline: swapRequest.deadline,
           nonce: swapRequest.nonce,
           signature: swapRequest.signature
         });
-      
+
       // Check error response
-      expect(response.status).toBe(500);
-      expect(response.body).toHaveProperty('error');
-      expect(response.body.error).toContain('Transaction underpriced');
+      expect(response.status).to.equal(500);
+      expect(response.body).to.have.property('error');
+      expect(response.body.error).to.contain('Transaction underpriced');
     });
   });
 
   describe('GET /api/status/:txHash', () => {
-    test('retrieves transaction status', async () => {
+    it('retrieves transaction status', async () => {
       // Sample transaction hash
       const txHash = '0x' + '1'.repeat(64);
-      
+
       // Make the request to the API
       const response = await request(app)
         .get(`/api/status/${txHash}`);
-      
+
       // Check response
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('status', 'confirmed');
-      expect(response.body).toHaveProperty('txHash', txHash);
-      expect(response.body).toHaveProperty('blockNumber', 12345678);
-      
+      expect(response.status).to.equal(200);
+      expect(response.body).to.have.property('status', 'confirmed');
+      expect(response.body).to.have.property('txHash', txHash);
+      expect(response.body).to.have.property('blockNumber', 12345678);
+
       // Verify service was called
-      expect(mockServices.mempoolManager.getTransactionStatus).toHaveBeenCalledWith(txHash);
+      expect(mockServices.mempoolManager.getTransactionStatus.calledWith(txHash)).to.be.true;
     });
 
-    test('handles unknown transaction', async () => {
+    it('handles unknown transaction', async () => {
       // Unknown transaction hash
       const txHash = '0x' + '9'.repeat(64);
-      
+
       // Mock service to return null for unknown tx
-      mockServices.mempoolManager.getTransactionStatus.mockReturnValueOnce(null);
-      
+      mockServices.mempoolManager.getTransactionStatus.resolves(null);
+
       // Make the request to the API
       const response = await request(app)
         .get(`/api/status/${txHash}`);
-      
+
       // Check response
-      expect(response.status).toBe(404);
-      expect(response.body).toHaveProperty('error');
-      expect(response.body.error).toContain('Transaction not found');
+      expect(response.status).to.equal(404);
+      expect(response.body).to.have.property('error');
+      expect(response.body.error).to.contain('Transaction not found');
     });
 
-    test('validates transaction hash format', async () => {
+    it('validates transaction hash format', async () => {
       // Invalid transaction hash
       const invalidTxHash = 'not-a-valid-tx-hash';
-      
+
       // Make the request to the API
       const response = await request(app)
         .get(`/api/status/${invalidTxHash}`);
-      
+
       // Check validation error response
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error');
-      expect(response.body.error).toContain('Invalid transaction hash');
+      expect(response.status).to.equal(400);
+      expect(response.body).to.have.property('error');
+      expect(response.body.error).to.contain('Invalid transaction hash');
     });
   });
 
   describe('GET /api/health', () => {
-    test('returns proper health status', async () => {
+    it('returns proper health status', async () => {
       // Make the request to the API
       const response = await request(app)
         .get('/api/health');
-      
+
       // Check response
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('status', 'ok');
-      expect(response.body).toHaveProperty('timestamp');
-      expect(response.body).toHaveProperty('uptime');
-      expect(response.body).toHaveProperty('version');
+      expect(response.status).to.equal(200);
+      expect(response.body).to.have.property('status', 'ok');
+      expect(response.body).to.have.property('timestamp');
+      expect(response.body).to.have.property('uptime');
+      expect(response.body).to.have.property('version');
     });
   });
 });

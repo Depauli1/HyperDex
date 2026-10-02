@@ -49,13 +49,14 @@ if (process.env.NODE_ENV === 'test') {
   KeyManager = require('./services/key-manager');
 }
 
-// DEBUG: Print environment variables for keystore
-console.log('DEBUG ENV:', {
-  KEYSTORE_PATH: process.env.KEYSTORE_PATH,
-  KEYSTORE_PASSWORD: process.env.KEYSTORE_PASSWORD,
-  PRIVATE_KEY: process.env.PRIVATE_KEY,
-  NODE_ENV: process.env.NODE_ENV,
-  CWD: process.cwd(),
+// Report which credential sources are configured, never their values. Logging
+// PRIVATE_KEY or KEYSTORE_PASSWORD here would write a live signing key into
+// container logs on every start.
+console.log('Credentials:', {
+  keystorePath: process.env.KEYSTORE_PATH || '(unset)',
+  keystorePasswordConfigured: Boolean(process.env.KEYSTORE_PASSWORD),
+  privateKeyConfigured: Boolean(process.env.PRIVATE_KEY),
+  nodeEnv: process.env.NODE_ENV || '(unset)',
 });
 
 async function startServer() {

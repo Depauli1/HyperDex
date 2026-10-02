@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
 import "../interfaces/IBridgeAdapter.sol";
 import "../interfaces/IBridgeTypes.sol";
 
@@ -9,6 +12,8 @@ import "../interfaces/IBridgeTypes.sol";
  * @notice A mock bridge adapter for testing purposes
  */
 contract MockBridgeAdapter is IBridgeAdapter {
+    using SafeERC20 for IERC20;
+
     // --- State Variables ---
     
     // Store the fee to return from quoteFees
@@ -32,7 +37,7 @@ contract MockBridgeAdapter is IBridgeAdapter {
     
     constructor() {
         _quotedFee = 0.01 ether; // Default fee
-        _mockMessageId = abi.encode(bytes32(0x1234)); // Default message ID
+        _mockMessageId = abi.encode(bytes32(uint256(0x1234))); // Default message ID
     }
     
     // --- External Functions ---
@@ -91,7 +96,11 @@ contract MockBridgeAdapter is IBridgeAdapter {
         lastRequest = _request;
         lastRequestId = _requestId;
         lastProof = _proof;
-        
+
+        // Simulates the bridge protocol having delivered the funds to this
+        // adapter on the destination chain: the adapter releases them to the user.
+        IERC20(_request.token).safeTransfer(_request.user, _request.amount);
+
         emit BridgeInCalled(_request, _requestId, _proof);
     }
 } 

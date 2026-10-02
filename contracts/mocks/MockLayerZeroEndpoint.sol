@@ -81,12 +81,8 @@ contract MockLayerZeroEndpoint {
         bool _payInZRO,
         bytes calldata _adapterParams
     ) external view returns (uint256, uint256) {
-        // Store parameters (not actually stored since this is a view function)
-        lastDstChainId = _dstChainId;
-        lastDestination = abi.encode(_userApplication);
-        lastPayload = _payload;
-        lastAdapterParams = _adapterParams;
-        
+        // Mirrors the real LayerZero endpoint: fee estimation is a pure read and
+        // must not mutate state. `send` below records the last call parameters.
         return (nativeFee, zroFee);
     }
     

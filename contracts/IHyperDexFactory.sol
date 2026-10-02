@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.6 <0.9.0;
-pragma abicoder v2;
+pragma solidity ^0.8.20;
 
-// Interface for HyperDexFactory (based on hyperdex-factory.txt)
+/// @title IHyperDexFactory
+/// @notice Read surface of HyperDex's pool registry.
 interface IHyperDexFactory {
-    // Mirror the PoolInfo struct if needed by functions used here
-    // (Not strictly required if only using getPool and getPoolInfo signatures)
     struct PoolInfo {
         address poolAddress;
         address token0;
@@ -19,10 +17,25 @@ interface IHyperDexFactory {
         uint256 lastAnalyticsUpdate;
     }
 
+    /// @notice Resolves a pool for a token pair and fee tier.
     function getPool(address tokenA, address tokenB, uint24 fee) external view returns (address pool);
-    function getPoolInfo(address tokenA, address tokenB, uint24 fee) external view returns (PoolInfo memory);
-    // Add other function signatures from HyperDexFactory.sol if HyperDex.sol needs to call them
-     function updatePoolAnalytics(address pool, uint256 tvl, uint256 volume24h) external; // Added based on pool code
-     function getProtocolFee(address pool) external view returns (uint32); // Added based on pool code
-     function allPools(uint256 index) external view returns (address); // Add access to the allPools array
+
+    /// @notice Registry entry for a token pair and fee tier.
+    function getPoolInfo(
+        address tokenA,
+        address tokenB,
+        uint24 fee
+    ) external view returns (PoolInfo memory);
+
+    /// @notice Number of pools registered by this factory.
+    function allPoolsLength() external view returns (uint256);
+
+    /// @notice Protocol share of the trading fee for a pool, in basis points.
+    function getProtocolFee(address pool) external view returns (uint32);
+
+    /// @notice Records off-chain computed analytics for a pool.
+    function updatePoolAnalytics(address pool, uint256 tvl, uint256 volume24h) external;
+
+    /// @notice True when `pool` was deployed and registered by this factory.
+    function isPool(address pool) external view returns (bool);
 }

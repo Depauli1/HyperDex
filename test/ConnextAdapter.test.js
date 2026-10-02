@@ -112,11 +112,11 @@ describe("ConnextAdapter", function () {
       // Call quoteFees and verify
       const fee = await connextAdapter.quoteFees(request);
       expect(fee).to.equal(expectedFee);
-      
-      // Verify Connext was called with correct params
-      expect(await mockConnext.lastDestinationDomain()).to.equal(polygonDomain);
-      expect(await mockConnext.lastTokenAddress()).to.equal(mockToken.address);
-      expect(await mockConnext.lastAmount()).to.equal(ethers.utils.parseEther("10"));
+
+      // `calculateRelayerFee` is a view, so the mock cannot record the call
+      // (an SSTORE in a static context reverts). Verify the routing inputs the
+      // adapter feeds Connext instead.
+      expect(await connextAdapter.chainToDomain(polygonChainId)).to.equal(polygonDomain);
     });
   });
 
@@ -149,7 +149,7 @@ describe("ConnextAdapter", function () {
       ).to.be.revertedWith("ConnextAdapter: Invalid destination domain");
     });
     
-    it("Should transfer tokens from router to adapter", async function () {
+    it("Should pass tokens through to Connext's custody", async function () {
       const { connextAdapter, mockConnext, mockToken, user, router, ethereumChainId, polygonChainId } = await loadFixture(deployConnextAdapterFixture);
       
       const amount = ethers.utils.parseEther("10");
@@ -186,6 +186,7 @@ describe("ConnextAdapter", function () {
       // Initial token balances
       const routerBalanceBefore = await mockToken.balanceOf(router.address);
       const adapterBalanceBefore = await mockToken.balanceOf(connextAdapter.address);
+      const connextBalanceBefore = await mockToken.balanceOf(mockConnext.address);
       
       // Call bridgeOut
       await expect(
@@ -193,12 +194,15 @@ describe("ConnextAdapter", function () {
       ).to.emit(connextAdapter, "ConnextTransferInitiated")
         .withArgs(requestId, expectedTransferId);
       
-      // Check token balances after
+      // Check token balances after: the adapter is a pass-through, so the funds
+      // end up in Connext's custody rather than sitting on the adapter.
       const routerBalanceAfter = await mockToken.balanceOf(router.address);
       const adapterBalanceAfter = await mockToken.balanceOf(connextAdapter.address);
-      
+      const connextBalanceAfter = await mockToken.balanceOf(mockConnext.address);
+
       expect(routerBalanceBefore.sub(routerBalanceAfter)).to.equal(amount);
-      expect(adapterBalanceAfter.sub(adapterBalanceBefore)).to.equal(amount);
+      expect(connextBalanceAfter.sub(connextBalanceBefore)).to.equal(amount);
+      expect(adapterBalanceAfter.sub(adapterBalanceBefore)).to.equal(0);
       
       // Verify Connext xcTransfer was called with correct params
       expect(await mockConnext.lastDestinationDomain()).to.equal(await connextAdapter.chainToDomain(polygonChainId));
@@ -215,7 +219,7 @@ describe("ConnextAdapter", function () {
   
   describe("Bridge in", function () {
     it("Should call completeTransfer on Connext with correct parameters", async function () {
-      const { connextAdapter, mockConnext, mockToken, user, router, ethereumChainId, polygonChainId, ethereumDomain } = await loadFixture(deployConnextAdapterFixture);
+      const { connextAdapter, mockConnext, mockToken, user, owner, router, ethereumChainId, polygonChainId, ethereumDomain } = await loadFixture(deployConnextAdapterFixture);
       
       // Create a bridge request
       const request = {
@@ -237,6 +241,13 @@ describe("ConnextAdapter", function () {
         )
       );
       
+      // Run the outbound leg first: it funds Connext's custody and records the
+      // recipient/amount that completeTransfer later releases.
+      await mockToken.mint(router.address, request.amount);
+      await mockToken.connect(router).approve(connextAdapter.address, request.amount);
+      await connextAdapter.connect(router).bridgeOut(request, requestId, { value: request.fee });
+      const userBalanceBefore = await mockToken.balanceOf(user.address);
+
       // Set a transfer ID for this request
       const transferId = "0x" + "1".repeat(64);
       await connextAdapter.connect(owner).setRequestTransferId(requestId, transferId);
@@ -257,6 +268,9 @@ describe("ConnextAdapter", function () {
       ).to.emit(connextAdapter, "ConnextTransferCompleted")
         .withArgs(requestId, transferId);
       
+      // Connext released the bridged amount to the user
+      expect(await mockToken.balanceOf(user.address)).to.equal(userBalanceBefore.add(request.amount));
+
       // Verify Connext completeTransfer was called with correct params
       expect(await mockConnext.lastOriginDomain()).to.equal(ethereumDomain);
       expect(await mockConnext.lastNonce()).to.equal(nonce);
@@ -270,7 +284,7 @@ describe("ConnextAdapter", function () {
       const { connextAdapter, owner } = await loadFixture(deployConnextAdapterFixture);
       
       const chainId = 56; // BSC
-      const domain = 9876543210; // Example domain
+      const domain = 6648936; // Connext's BSC domain (must fit uint32)
       
       await connextAdapter.connect(owner).setDomainMapping(chainId, domain);
       expect(await connextAdapter.chainToDomain(chainId)).to.equal(domain);
@@ -280,7 +294,7 @@ describe("ConnextAdapter", function () {
       const { connextAdapter, user } = await loadFixture(deployConnextAdapterFixture);
       
       const chainId = 56; // BSC
-      const domain = 9876543210; // Example domain
+      const domain = 6648936; // Connext's BSC domain (must fit uint32)
       
       await expect(
         connextAdapter.connect(user).setDomainMapping(chainId, domain)

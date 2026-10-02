@@ -1,0 +1,101 @@
+HyperDex
+Copyright (c) the HyperDex authors
+
+This product includes software developed by third parties. The licensing
+position is summarised here because it affects how the combined work may be
+distributed.
+
+================================================================================
+1. Uniswap v3 core  (contracts/vendor/v3-core/)
+================================================================================
+
+Source:   https://github.com/Uniswap/v3-core, tag v1.0.0
+          (commit e3589b192d0be27e100cd0daaf6c97204fdb1899)
+Licensor: Uniswap Labs
+Licence:  Business Source License 1.1, converting to GPL-2.0-or-later
+
+The BUSL 1.1 text in contracts/vendor/v3-core/LICENSE specifies:
+
+    Change Date:    The earlier of 2023-04-01 or a date specified at
+                    v3-core-license-date.uniswap.eth
+    Change License: GNU General Public License v2.0 or later
+
+That date has passed, so the vendored code is now distributed under
+GPL-2.0-or-later. The "license": "BUSL-1.1" field in the @uniswap/v3-core npm
+package is stale metadata from 2021 and does not reflect the conversion.
+
+The per-file SPDX identifiers in this directory were left as upstream publishes
+them (10 files BUSL-1.1, 22 files GPL-2.0-or-later). The BUSL-1.1 headers
+describe files whose licence has since converted; they were not edited, to keep
+the vendored tree byte-comparable with upstream.
+
+Consequence for this repository: any file that imports contracts/vendor/v3-core
+is a derivative of GPL-2.0-or-later code and cannot be distributed under
+Apache-2.0 alone. See "Open decision" below.
+
+================================================================================
+2. FullMath  (contracts/vendor/v3-core/libraries/FullMath.sol)
+================================================================================
+
+Copyright (c) 2021 Remco Bloemen
+Licence: MIT
+
+Reproduced in contracts/vendor/v3-core/libraries/LICENSE_MIT. MIT is compatible
+with both Apache-2.0 and GPL, so this file imposes no additional constraint
+beyond keeping the copyright notice.
+
+================================================================================
+3. OpenZeppelin Contracts v4.9.6
+================================================================================
+
+Licence: MIT
+
+Used for Ownable, Pausable, ReentrancyGuard, SafeERC20, ECDSA and EIP712.
+MIT is compatible with both Apache-2.0 and GPL.
+
+================================================================================
+4. Uniswap v3 test harness  (contracts/test/)
+================================================================================
+
+TestUniswapV3Callee.sol, TestERC20.sol and TickMathTest.sol are taken from the
+Uniswap v3 core repository (same tag and licence as section 1) and are used only
+to drive the pool from the test suite. They are not part of any deployment.
+
+================================================================================
+Decision
+================================================================================
+
+The repository root carries an Apache-2.0 LICENSE, but sections 1 and 4 above
+are GPL-2.0-or-later. GPL-2.0-only code cannot be combined with Apache-2.0.
+GPL-2.0-**or-later** code may be distributed under GPL-3.0 instead, and
+Apache-2.0 -> GPL-3.0 is a permitted combination (GPLv3 section 10), so the tree
+can be made consistent. Three options were considered:
+
+  A. Keep HyperDex's own code Apache-2.0 and state that the combined work, and
+     any file importing contracts/vendor/v3-core, is distributed under
+     GPL-3.0-or-later.
+
+  B. Relicense the whole repository GPL-3.0-or-later, which is what Uniswap's
+     own v3-periphery does. Simplest to reason about; requires every copyright
+     holder to agree. This repository's history has more than one author
+     identity, so consent is not automatic.
+
+  C. Stay purely Apache-2.0 by not shipping v3 code at all: interact with
+     deployed Uniswap v3 pools through interfaces only, and drop the vendored
+     tree. This changes the deployment model, since HyperDex currently deploys
+     its own pools.
+
+**Option A has been chosen.** Not yet applied to the tree, so until the steps
+below land the repository must still not be described as plain Apache-2.0:
+
+  1. Add the GPL-3.0 text as LICENSE-GPL-3.0 alongside the existing LICENSE.
+  2. State in LICENSE that Apache-2.0 covers HyperDex's own code only, and that
+     the combined work is GPL-3.0-or-later.
+  3. Change the SPDX header of every file that imports contracts/vendor/v3-core
+     to `MIT OR GPL-3.0-or-later`. At the time of writing that is
+     contracts/HyperDex.sol and contracts/HyperDexFactory.sol.
+  4. Update the licensing section of README.md to match.
+
+Option A does not require consent from other copyright holders, because it does
+not relicense anyone's existing code - it only states the terms under which the
+combined derivative is distributed.

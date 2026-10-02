@@ -3,12 +3,75 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_hyperLiquidSystemContract",
+        "name": "_v3Factory",
         "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "IdenticalTokens",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotAnalyticsUpdater",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnknownPool",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnsupportedFeeTier",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddress",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tvl",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "volume24h",
+        "type": "uint256"
+      }
+    ],
+    "name": "AnalyticsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "updater",
+        "type": "address"
+      }
+    ],
+    "name": "AnalyticsUpdaterUpdated",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -27,25 +90,6 @@
       }
     ],
     "name": "FeeAmountEnabled",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "status",
-        "type": "bool"
-      }
-    ],
-    "name": "HIP1TokenRegistered",
     "type": "event"
   },
   {
@@ -73,37 +117,6 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "pool",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tvl",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "volume24h",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "timestamp",
-        "type": "uint256"
-      }
-    ],
-    "name": "PoolAnalyticsUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
         "name": "token0",
         "type": "address"
       },
@@ -121,15 +134,15 @@
       },
       {
         "indexed": false,
-        "internalType": "address",
-        "name": "pool",
-        "type": "address"
+        "internalType": "int24",
+        "name": "tickSpacing",
+        "type": "int24"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "timestamp",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
       }
     ],
     "name": "PoolCreated",
@@ -155,17 +168,23 @@
     "type": "event"
   },
   {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "allPools",
+    "outputs": [
+      {
         "internalType": "address",
-        "name": "newRelayer",
+        "name": "",
         "type": "address"
       }
     ],
-    "name": "RelayerAddressUpdated",
-    "type": "event"
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -181,14 +200,8 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "allPools",
+    "inputs": [],
+    "name": "analyticsUpdater",
     "outputs": [
       {
         "internalType": "address",
@@ -210,17 +223,22 @@
         "internalType": "address",
         "name": "tokenB",
         "type": "address"
+      },
+      {
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
       }
     ],
-    "name": "areBothHIP1Tokens",
+    "name": "createPool",
     "outputs": [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -276,44 +294,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint24",
-        "name": "",
-        "type": "uint24"
-      }
-    ],
-    "name": "feeAmountTickSpacing",
-    "outputs": [
-      {
-        "internalType": "int24",
-        "name": "",
-        "type": "int24"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "pool",
-        "type": "address"
-      }
-    ],
-    "name": "getProtocolFee",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "tokenA",
         "type": "address"
@@ -333,7 +313,7 @@
     "outputs": [
       {
         "internalType": "address",
-        "name": "pool",
+        "name": "",
         "type": "address"
       }
     ],
@@ -413,7 +393,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct HyperDexFactory.PoolInfo",
+        "internalType": "struct IHyperDexFactory.PoolInfo",
         "name": "",
         "type": "tuple"
       }
@@ -422,13 +402,19 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "hyperLiquidSystemContract",
-    "outputs": [
+    "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "pool",
         "type": "address"
+      }
+    ],
+    "name": "getProtocolFee",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
       }
     ],
     "stateMutability": "view",
@@ -442,7 +428,7 @@
         "type": "address"
       }
     ],
-    "name": "isHIP1Token",
+    "name": "isPool",
     "outputs": [
       {
         "internalType": "bool",
@@ -532,48 +518,33 @@
   },
   {
     "inputs": [],
-    "name": "relayerAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "token0",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "token1",
-        "type": "address"
-      },
-      {
-        "internalType": "uint24",
-        "name": "fee",
-        "type": "uint24"
-      },
-      {
-        "internalType": "address",
-        "name": "poolAddress",
+        "name": "updater",
         "type": "address"
       }
     ],
-    "name": "registerExistingPool",
+    "name": "setAnalyticsUpdater",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "newFee",
+        "type": "uint32"
+      }
+    ],
+    "name": "setDefaultProtocolFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -592,19 +563,6 @@
       }
     ],
     "name": "setProtocolFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_relayerAddress",
-        "type": "address"
-      }
-    ],
-    "name": "setRelayerAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -643,6 +601,19 @@
     "name": "updatePoolAnalytics",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "v3Factory",
+    "outputs": [
+      {
+        "internalType": "contract IUniswapV3Factory",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]

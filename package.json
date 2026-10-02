@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "test:unit": "hardhat test --exclude test/e2e",
+    "secrets:check": "node scripts/check-secrets.js",
+    "hooks": "node scripts/install-git-hooks.js",
+    "prepare": "node scripts/install-git-hooks.js"
   },
   "keywords": [],
   "author": "",

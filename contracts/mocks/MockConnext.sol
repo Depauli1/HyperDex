@@ -1,11 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
 /**
  * @title MockConnext
- * @notice A mock implementation of the Connext protocol interface for testing
+ * @notice A mock implementation of the Connext protocol interface for testing.
+ * @dev Models the two halves of a real Connext transfer: `xcTransfer` takes
+ *      custody of the tokens on the origin domain, `completeTransfer` releases
+ *      them to the recipient on the destination domain.
  */
 contract MockConnext {
+    using SafeERC20 for IERC20;
+
     // --- State Variables ---
     
     // Fee to return from calculateRelayerFee
@@ -92,11 +100,9 @@ contract MockConnext {
         address tokenAddress,
         uint256 amount
     ) external view returns (uint256 fee) {
-        // Store parameters
-        lastDestinationDomain = destinationDomain;
-        lastTokenAddress = tokenAddress;
-        lastAmount = amount;
-        
+        // Mirrors the real Connext: fee quoting is a pure read and cannot mutate
+        // state (the caller invokes it from a `view` context, so any SSTORE here
+        // would revert). `xcTransfer` below records the last call parameters.
         return relayerFee;
     }
     
@@ -125,7 +131,10 @@ contract MockConnext {
         lastAmount = amount;
         lastSlippage = slippage;
         lastRelayerFee = msg.value;
-        
+
+        // Take custody, as the real protocol does.
+        IERC20(tokenAddress).safeTransferFrom(msg.sender, address(this), amount);
+
         emit TransferInitiated(
             destinationDomain,
             recipient,
@@ -157,7 +166,10 @@ contract MockConnext {
         lastNonce = nonce;
         lastOriginSender = originSender;
         lastBridgeData = bridgeData;
-        
+
+        // Release the bridged amount to the recipient, as the real protocol does.
+        IERC20(lastTokenAddress).safeTransfer(lastRecipient, lastAmount);
+
         emit TransferCompleted(
             originDomain,
             nonce,

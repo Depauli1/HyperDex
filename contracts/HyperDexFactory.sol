@@ -1,346 +1,221 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.6 <0.9.0;
-pragma abicoder v2;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Create2.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
+
+import "./vendor/v3-core/interfaces/IUniswapV3Factory.sol";
+import "./IHyperDexFactory.sol";
 
 /**
  * @title HyperDexFactory
- * @author HyperDex Team
- * @notice Main factory contract for creating and managing HyperDex liquidity pools
- * @dev Enhanced version with Hyperliquid-specific features for gasless operations and HIP-1 token integration
+ * @notice HyperDex's registry and configuration layer on top of the audited
+ *         Uniswap v3 core factory.
+ * @dev Pools are `UniswapV3Pool` instances deployed by `UniswapV3Factory`.
+ *      HyperDex deliberately does not re-implement the AMM: this contract only
+ *      tracks which pools belong to the protocol, exposes fee tiers, and holds
+ *      protocol-level settings. The previous version of this file tried to
+ *      compute a pool address itself and never deployed anything.
+ *
+ *      The v3 factory is a separate contract because it is written for solc
+ *      0.7.6 and cannot be imported by 0.8 code. Deploy it first, enable the
+ *      fee tiers you want, then pass its address here and call
+ *      `IUniswapV3Factory.setOwner(hyperDexFactory)` if this contract should be
+ *      able to enable further tiers.
  */
-contract HyperDexFactory is Ownable {
-    using SafeMath for uint256;
-    
-    // Struct to store pool information with enhanced analytics data
-    struct PoolInfo {
-        address poolAddress;
-        address token0;
-        address token1;
-        uint24 fee;
-        int24 tickSpacing;
-        bool enabled;
-        uint256 creationTimestamp;
-        uint256 totalValueLocked;
-        uint256 volume24h;
-        uint256 lastAnalyticsUpdate;
-    }
-    
-    // Mapping of token pairs to pool info
-    mapping(bytes32 => PoolInfo) public pools;
-    
-    // Array of all created pool addresses for enumeration
+contract HyperDexFactory is Ownable, IHyperDexFactory {
+    /// @notice The audited Uniswap v3 factory that deploys and owns every pool.
+    IUniswapV3Factory public immutable v3Factory;
+
+    /// @dev pool address => true, for callbacks to prove a pool is genuine.
+    mapping(address => bool) public isPool;
+    mapping(bytes32 => IHyperDexFactory.PoolInfo) public pools;
     address[] public allPools;
-    
-    // Mapping of tokens to whether they are HIP-1 tokens
-    mapping(address => bool) public isHIP1Token;
-    
-    // Fee tiers with corresponding tick spacings
-    mapping(uint24 => int24) public feeAmountTickSpacing;
-    
-    // Default protocol fee: 5% of the pool fee (can be adjusted by governance)
-    uint32 public defaultProtocolFee = 500; // 5% in basis points
-    
-    // Mapping for custom protocol fees per pool
+
+    /// @dev Protocol share of the trading fee, in basis points.
+    uint32 public defaultProtocolFee;
     mapping(address => uint32) public customProtocolFees;
-    
-    // Hyperliquid System Contract address for real-time data and gasless operations
-    address public hyperLiquidSystemContract;
-    
-    // Relayer address for processing gasless transactions
-    address public relayerAddress;
-    
-    // Events
+
+    /// @dev Address authorised to push analytics updates.
+    address public analyticsUpdater;
+
     event PoolCreated(
         address indexed token0,
         address indexed token1,
         uint24 fee,
-        address pool,
-        uint256 timestamp
+        int24 tickSpacing,
+        address pool
     );
-    
-    event HIP1TokenRegistered(address indexed token, bool status);
-    event ProtocolFeeUpdated(address indexed pool, uint32 newFee);
     event FeeAmountEnabled(uint24 fee, int24 tickSpacing);
-    event RelayerAddressUpdated(address indexed newRelayer);
+    event ProtocolFeeUpdated(address indexed pool, uint32 newFee);
     event AnalyticsUpdated(address indexed pool, uint256 tvl, uint256 volume24h);
-    event PoolAnalyticsUpdated(
-        address indexed pool,
-        uint256 tvl,
-        uint256 volume24h,
-        uint256 timestamp
-    );
-    
-    /**
-     * @notice Constructor sets initial fee tiers and system contract
-     * @param _hyperLiquidSystemContract Address of the Hyperliquid System Contract
-     */
-    constructor(address _hyperLiquidSystemContract) {
-        // Ownable constructor is automatically called
-        // Allow zero address for testing
-        hyperLiquidSystemContract = _hyperLiquidSystemContract;
-        
-        // Initialize with standard fee tiers
-        feeAmountTickSpacing[100] = 1; // 0.01% fee tier for stable pairs
-        feeAmountTickSpacing[500] = 10; // 0.05% fee tier for standard pairs
-        feeAmountTickSpacing[3000] = 60; // 0.3% fee tier for volatile pairs
-        feeAmountTickSpacing[10000] = 200; // 1% fee tier for exotic pairs
+    event AnalyticsUpdaterUpdated(address indexed updater);
+
+    error IdenticalTokens();
+    error ZeroAddress();
+    error UnsupportedFeeTier();
+    error UnknownPool();
+    error NotAnalyticsUpdater();
+
+    /// @param _v3Factory An already-deployed `UniswapV3Factory`.
+    constructor(address _v3Factory) {
+        if (_v3Factory == address(0)) revert ZeroAddress();
+        v3Factory = IUniswapV3Factory(_v3Factory);
     }
-    
+
+    // --- Pool creation ---
+
     /**
-     * @notice Creates a new liquidity pool
-     * @dev Uses CREATE2 for deterministic addresses
-     * @param tokenA First token address
-     * @param tokenB Second token address
-     * @param fee The fee tier for the pool
-     * @return pool The address of the newly created pool
+     * @notice Creates a pool through the Uniswap v3 factory and registers it.
+     * @param tokenA One token of the pair, in any order.
+     * @param tokenB The other token of the pair.
+     * @param fee The fee tier.
+     * @return pool The deployed pool address.
      */
     function createPool(
         address tokenA,
         address tokenB,
         uint24 fee
     ) external returns (address pool) {
-        require(tokenA != tokenB, "Identical tokens");
-        require(tokenA != address(0) && tokenB != address(0), "Zero address");
-        require(feeAmountTickSpacing[fee] != 0, "Unsupported fee tier");
-        
-        // Sort tokens to ensure consistent ordering
-        (address token0, address token1) = tokenA < tokenB 
-            ? (tokenA, tokenB) 
+        if (tokenA == tokenB) revert IdenticalTokens();
+        if (tokenA == address(0) || tokenB == address(0)) revert ZeroAddress();
+        if (v3Factory.feeAmountTickSpacing(fee) == 0) revert UnsupportedFeeTier();
+
+        // The audited factory sorts the tokens, computes the CREATE2 address and
+        // deploys the pool.
+        pool = v3Factory.createPool(tokenA, tokenB, fee);
+        if (isPool[pool]) revert IdenticalTokens();
+
+        (address token0, address token1) = tokenA < tokenB
+            ? (tokenA, tokenB)
             : (tokenB, tokenA);
-        
-        // Generate unique salt for the pool
-        bytes32 salt = keccak256(abi.encodePacked(token0, token1, fee));
-        require(pools[salt].poolAddress == address(0), "Pool already exists");
-        
-        // Deploy pool with CREATE2 for deterministic address
-        // In Solidity 0.7.6, we'll need to pass the bytecode directly from the constructor parameter
-        // or implement a factory pattern where bytecode is stored in the contract
-        
-        // For now, we'll assume the pool is deployed through another mechanism
-        // and we're just storing its address
-        pool = Create2.computeAddress(
-            salt,
-            keccak256(abi.encodePacked(
-                // This is simplified - you would need the actual bytecode here
-                address(this),
-                token0,
-                token1,
-                fee,
-                feeAmountTickSpacing[fee]
-            ))
-        );
-        
-        // In a real implementation, you would deploy the pool here
-        // pool = Create2.deploy(0, salt, poolBytecode);
-        
-        // Store pool info
-        PoolInfo memory poolInfo = PoolInfo({
+
+        bytes32 key = _key(token0, token1, fee);
+        pools[key] = IHyperDexFactory.PoolInfo({
             poolAddress: pool,
             token0: token0,
             token1: token1,
             fee: fee,
-            tickSpacing: feeAmountTickSpacing[fee],
+            tickSpacing: v3Factory.feeAmountTickSpacing(fee),
             enabled: true,
             creationTimestamp: block.timestamp,
             totalValueLocked: 0,
             volume24h: 0,
             lastAnalyticsUpdate: block.timestamp
         });
-        
-        pools[salt] = poolInfo;
+        isPool[pool] = true;
         allPools.push(pool);
-        
-        emit PoolCreated(token0, token1, fee, pool, block.timestamp);
+
+        emit PoolCreated(token0, token1, fee, v3Factory.feeAmountTickSpacing(fee), pool);
         return pool;
     }
-    
-    /**
-     * @notice Get pool address for a given token pair and fee
-     * @param tokenA First token address
-     * @param tokenB Second token address
-     * @param fee Fee tier
-     * @return pool The pool address
-     */
+
+    /// @notice Enables an additional fee tier on the underlying v3 factory.
+    function enableFeeAmount(uint24 fee, int24 tickSpacing) external onlyOwner {
+        _enableFeeAmount(fee, tickSpacing);
+    }
+
+    function _enableFeeAmount(uint24 fee, int24 tickSpacing) private {
+        v3Factory.enableFeeAmount(fee, tickSpacing);
+        emit FeeAmountEnabled(fee, tickSpacing);
+    }
+
+    // --- Reads ---
+
+    /// @inheritdoc IHyperDexFactory
     function getPool(
         address tokenA,
         address tokenB,
         uint24 fee
-    ) public view returns (address pool) {
-        (address token0, address token1) = tokenA < tokenB 
-            ? (tokenA, tokenB) 
-            : (tokenB, tokenA);
-        bytes32 salt = keccak256(abi.encodePacked(token0, token1, fee));
-        return pools[salt].poolAddress;
+    ) external view override returns (address) {
+        return v3Factory.getPool(tokenA, tokenB, fee);
     }
-    
-    /**
-     * @notice Register a token as a HIP-1 token
-     * @param token Token address
-     * @param status Whether it is a HIP-1 token
-     */
-    function registerHIP1Token(address token, bool status) external onlyOwner {
-        require(token != address(0), "Zero address");
-        isHIP1Token[token] = status;
-        emit HIP1TokenRegistered(token, status);
-    }
-    
-    /**
-     * @notice Set custom protocol fee for a specific pool
-     * @param pool Pool address
-     * @param newFee New protocol fee in basis points
-     */
-    function setProtocolFee(address pool, uint32 newFee) external onlyOwner {
-        require(newFee <= 10000, "Fee too high"); // Max 100%
-        customProtocolFees[pool] = newFee;
-        emit ProtocolFeeUpdated(pool, newFee);
-    }
-    
-    /**
-     * @notice Enable a new fee amount with its tick spacing
-     * @param fee Fee amount
-     * @param tickSpacing The spacing between ticks
-     */
-    function enableFeeAmount(uint24 fee, int24 tickSpacing) external onlyOwner {
-        require(fee < 1000000, "Fee too high"); // < 100%
-        require(tickSpacing > 0, "Invalid tick spacing");
-        require(feeAmountTickSpacing[fee] == 0, "Fee tier already exists");
-        
-        feeAmountTickSpacing[fee] = tickSpacing;
-        emit FeeAmountEnabled(fee, tickSpacing);
-    }
-    
-    /**
-     * @notice Update the relayer address for gasless operations
-     * @param _relayerAddress New relayer address
-     */
-    function setRelayerAddress(address _relayerAddress) external onlyOwner {
-        require(_relayerAddress != address(0), "Zero address");
-        relayerAddress = _relayerAddress;
-        emit RelayerAddressUpdated(_relayerAddress);
-    }
-    
-    /**
-     * @notice Update analytics data for a pool
-     * @dev Can only be called by the pool itself
-     * @param pool Pool address
-     * @param tvl Total value locked
-     * @param volume24h 24-hour trading volume
-     */
-    function updatePoolAnalytics(
-        address pool,
-        uint256 tvl,
-        uint256 volume24h
-    ) external {
-        // Only the pool itself can update its analytics
-        require(msg.sender == pool, "Only pool can update its analytics");
-        
-        // Update pool data if needed
-        // In a full implementation, we would store this data
-        
-        emit PoolAnalyticsUpdated(pool, tvl, volume24h, block.timestamp);
-    }
-    
-    /**
-     * @notice Testing function to register a pool that was deployed outside the factory
-     * @dev This is for testing purposes only - would be removed in production
-     * @param token0 First token (sorted)
-     * @param token1 Second token (sorted)
-     * @param fee Fee tier
-     * @param poolAddress Address of the pool to register
-     */
-    function registerExistingPool(
-        address token0,
-        address token1,
-        uint24 fee,
-        address poolAddress
-    ) external onlyOwner {
-        require(token0 < token1, "Tokens not sorted");
-        require(poolAddress != address(0), "Invalid pool address");
-        
-        bytes32 salt = keccak256(abi.encodePacked(token0, token1, fee));
-        require(pools[salt].poolAddress == address(0), "Pool already exists");
-        
-        PoolInfo memory poolInfo = PoolInfo({
-            poolAddress: poolAddress,
-            token0: token0,
-            token1: token1,
-            fee: fee,
-            tickSpacing: feeAmountTickSpacing[fee],
-            enabled: true,
-            creationTimestamp: block.timestamp,
-            totalValueLocked: 0,
-            volume24h: 0,
-            lastAnalyticsUpdate: block.timestamp
-        });
-        
-        pools[salt] = poolInfo;
-        allPools.push(poolAddress);
-        
-        emit PoolCreated(token0, token1, fee, poolAddress, block.timestamp);
-    }
-    
-    /**
-     * @notice Get all pools count
-     * @return Number of created pools
-     */
-    function allPoolsLength() external view returns (uint256) {
-        return allPools.length;
-    }
-    
-    /**
-     * @notice Get the current protocol fee for a pool
-     * @param pool Pool address
-     * @return Protocol fee in basis points
-     */
-    function getProtocolFee(address pool) external view returns (uint32) {
-        uint32 customFee = customProtocolFees[pool];
-        return customFee > 0 ? customFee : defaultProtocolFee;
-    }
-    
-    /**
-     * @notice Get detailed information about a pool
-     * @param tokenA First token address
-     * @param tokenB Second token address
-     * @param fee Fee tier
-     * @return Pool information
-     */
+
+    /// @inheritdoc IHyperDexFactory
     function getPoolInfo(
         address tokenA,
         address tokenB,
         uint24 fee
-    ) external view returns (PoolInfo memory) {
-        (address token0, address token1) = tokenA < tokenB 
-            ? (tokenA, tokenB) 
+    ) external view override returns (IHyperDexFactory.PoolInfo memory) {
+        (address token0, address token1) = tokenA < tokenB
+            ? (tokenA, tokenB)
             : (tokenB, tokenA);
-        bytes32 salt = keccak256(abi.encodePacked(token0, token1, fee));
-        return pools[salt];
+        return pools[_key(token0, token1, fee)];
     }
-    
-    /**
-     * @notice Check if both tokens are HIP-1 tokens
-     * @param tokenA First token address
-     * @param tokenB Second token address
-     * @return True if both are HIP-1 tokens
-     */
-    function areBothHIP1Tokens(address tokenA, address tokenB) external view returns (bool) {
-        return isHIP1Token[tokenA] && isHIP1Token[tokenB];
+
+    /// @inheritdoc IHyperDexFactory
+    function allPoolsLength() external view override returns (uint256) {
+        return allPools.length;
+    }
+
+    /// @inheritdoc IHyperDexFactory
+    function getProtocolFee(address pool) external view override returns (uint32) {
+        uint32 custom = customProtocolFees[pool];
+        return custom != 0 ? custom : defaultProtocolFee;
+    }
+
+    // --- Admin ---
+
+    function setProtocolFee(address pool, uint32 newFee) external onlyOwner {
+        if (newFee > 10000) revert UnsupportedFeeTier();
+        customProtocolFees[pool] = newFee;
+        emit ProtocolFeeUpdated(pool, newFee);
+    }
+
+    function setDefaultProtocolFee(uint32 newFee) external onlyOwner {
+        if (newFee > 10000) revert UnsupportedFeeTier();
+        defaultProtocolFee = newFee;
+        emit ProtocolFeeUpdated(address(0), newFee);
+    }
+
+    function setAnalyticsUpdater(address updater) external onlyOwner {
+        if (updater == address(0)) revert ZeroAddress();
+        analyticsUpdater = updater;
+        emit AnalyticsUpdaterUpdated(updater);
+    }
+
+    /// @inheritdoc IHyperDexFactory
+    function updatePoolAnalytics(
+        address pool,
+        uint256 tvl,
+        uint256 volume24h
+    ) external override {
+        if (msg.sender != analyticsUpdater) revert NotAnalyticsUpdater();
+        if (!isPool[pool]) revert UnknownPool();
+
+        bytes32 key = _poolKey(pool);
+        pools[key].totalValueLocked = tvl;
+        pools[key].volume24h = volume24h;
+        pools[key].lastAnalyticsUpdate = block.timestamp;
+
+        emit AnalyticsUpdated(pool, tvl, volume24h);
+    }
+
+    // --- Internals ---
+
+    function _key(address token0, address token1, uint24 fee) private pure returns (bytes32) {
+        return keccak256(abi.encodePacked(token0, token1, fee));
+    }
+
+    /// @dev Finds the registry key a pool was stored under.
+    function _poolKey(address pool) private view returns (bytes32) {
+        for (uint256 i = 0; i < allPools.length; i++) {
+            if (allPools[i] == pool) {
+                return _key(
+                    UniswapV3PoolLike(pool).token0(),
+                    UniswapV3PoolLike(pool).token1(),
+                    UniswapV3PoolLike(pool).fee()
+                );
+            }
+        }
+        revert UnknownPool();
     }
 }
 
-/**
- * @title HyperDexPool
- * @author HyperDex Team
- * @notice Interface for the pool contract (actual implementation would be more complex)
- * @dev This is just a placeholder to make the factory compile
- */
-interface HyperDexPool {
+/// @dev Minimal read surface of a Uniswap v3 pool.
+interface UniswapV3PoolLike {
     function token0() external view returns (address);
+
     function token1() external view returns (address);
+
     function fee() external view returns (uint24);
 }

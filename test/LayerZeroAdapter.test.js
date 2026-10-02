@@ -228,10 +228,9 @@ describe("LayerZeroAdapter", function () {
   });
   
   describe("Bridge in", function () {
-    it("Should allow bridgeIn to be called by anyone", async function () {
+    it("Should reject bridgeIn from a caller that is not the bridge router", async function () {
       const { layerZeroAdapter, mockToken, user, ethereumChainId, polygonChainId } = await loadFixture(deployLayerZeroAdapterFixture);
-      
-      // Create a bridge request
+
       const request = {
         id: 1,
         srcChainId: ethereumChainId,
@@ -242,17 +241,92 @@ describe("LayerZeroAdapter", function () {
         deadline: Math.floor(Date.now() / 1000) + 3600,
         fee: ethers.utils.parseEther("0.01")
       };
-      
-      // Generate a request ID
       const requestId = ethers.utils.keccak256(
         ethers.utils.defaultAbiCoder.encode(
           ['uint256', 'address', 'uint256', 'uint256'],
           [1, user.address, request.srcChainId, request.dstChainId]
         )
       );
-      
-      // bridgeIn is a no-op in the LayerZero adapter so it should succeed
-      await layerZeroAdapter.connect(user).bridgeIn(request, requestId, "0x");
+
+      await expect(
+        layerZeroAdapter.connect(user).bridgeIn(request, requestId, "0x")
+      ).to.be.revertedWith("LayerZeroAdapter: Only bridge router");
+    });
+
+    it("Should reject bridgeIn before the LayerZero message is verified", async function () {
+      const { layerZeroAdapter, mockToken, user, router, ethereumChainId, polygonChainId } = await loadFixture(deployLayerZeroAdapterFixture);
+
+      const request = {
+        id: 1,
+        srcChainId: ethereumChainId,
+        dstChainId: polygonChainId,
+        token: mockToken.address,
+        amount: ethers.utils.parseEther("10"),
+        user: user.address,
+        deadline: Math.floor(Date.now() / 1000) + 3600,
+        fee: ethers.utils.parseEther("0.01")
+      };
+      const requestId = ethers.utils.keccak256(
+        ethers.utils.defaultAbiCoder.encode(
+          ['uint256', 'address', 'uint256', 'uint256'],
+          [1, user.address, request.srcChainId, request.dstChainId]
+        )
+      );
+
+      // Even the bridge router cannot pay out before the message lands.
+      await mockToken.mint(layerZeroAdapter.address, request.amount);
+      await expect(
+        layerZeroAdapter.connect(router).bridgeIn(request, requestId, "0x")
+      ).to.be.revertedWith("LayerZeroAdapter: Message not verified");
+      expect(await layerZeroAdapter.verifiedMessages(requestId)).to.equal(false);
+    });
+
+    it("Should release the bridged amount once the message is verified", async function () {
+      const { layerZeroAdapter, mockEndpoint, mockToken, user, router, ethereumChainId, polygonChainId, ethereumLzId } =
+        await loadFixture(deployLayerZeroAdapterFixture);
+
+      const request = {
+        id: 1,
+        srcChainId: ethereumChainId,
+        dstChainId: polygonChainId,
+        token: mockToken.address,
+        amount: ethers.utils.parseEther("10"),
+        user: user.address,
+        deadline: Math.floor(Date.now() / 1000) + 3600,
+        fee: ethers.utils.parseEther("0.01")
+      };
+      const requestId = ethers.utils.keccak256(
+        ethers.utils.defaultAbiCoder.encode(
+          ['uint256', 'address', 'uint256', 'uint256'],
+          [1, user.address, request.srcChainId, request.dstChainId]
+        )
+      );
+
+      await mockToken.mint(layerZeroAdapter.address, request.amount);
+
+      // Deliver the authenticated cross-chain message through the endpoint.
+      const srcAddress = ethers.utils.defaultAbiCoder.encode(['address'], [layerZeroAdapter.address]);
+      const payload = ethers.utils.defaultAbiCoder.encode(
+        [
+          'tuple(uint256 id,uint256 srcChainId,uint256 dstChainId,address token,uint256 amount,address user,uint256 deadline,uint256 fee)',
+          'bytes32'
+        ],
+        [request, requestId]
+      );
+      await mockEndpoint.receiveMessage(ethereumLzId, srcAddress, layerZeroAdapter.address, 1, payload);
+      expect(await layerZeroAdapter.verifiedMessages(requestId)).to.equal(true);
+
+      const balanceBefore = await mockToken.balanceOf(user.address);
+      await layerZeroAdapter.connect(router).bridgeIn(request, requestId, "0x");
+
+      expect(await mockToken.balanceOf(user.address)).to.equal(balanceBefore.add(request.amount));
+      expect(await layerZeroAdapter.completedMessages(requestId)).to.equal(true);
+
+      // Cannot be replayed.
+      await expect(
+        layerZeroAdapter.connect(router).bridgeIn(request, requestId, "0x")
+      ).to.be.revertedWith("LayerZeroAdapter: Already completed");
+      expect(await mockToken.balanceOf(user.address)).to.equal(balanceBefore.add(request.amount));
     });
   });
   

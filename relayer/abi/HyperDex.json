@@ -12,7 +12,27 @@
   },
   {
     "inputs": [],
+    "name": "DeadlineExpired",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidNonce",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidRelayer",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidSignature",
     "type": "error"
   },
   {
@@ -27,6 +47,21 @@
     "type": "error"
   },
   {
+    "inputs": [],
+    "name": "UnauthorizedCallback",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UnknownPool",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAmount",
+    "type": "error"
+  },
+  {
     "anonymous": false,
     "inputs": [],
     "name": "EIP712DomainChanged",
@@ -37,14 +72,8 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "bytes32",
-        "name": "metaTxId",
-        "type": "bytes32"
-      },
-      {
-        "indexed": true,
         "internalType": "address",
-        "name": "user",
+        "name": "trader",
         "type": "address"
       },
       {
@@ -54,22 +83,16 @@
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "pool",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "address",
-        "name": "tokenIn",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "tokenOut",
-        "type": "address"
+        "internalType": "bool",
+        "name": "zeroForOne",
+        "type": "bool"
       },
       {
         "indexed": false,
@@ -125,13 +148,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "oldRelayer",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newRelayer",
+        "name": "relayer",
         "type": "address"
       }
     ],
@@ -232,14 +249,9 @@
             "internalType": "uint256",
             "name": "nonce",
             "type": "uint256"
-          },
-          {
-            "internalType": "bytes",
-            "name": "signature",
-            "type": "bytes"
           }
         ],
-        "internalType": "struct IHyperDexPool.GaslessSwapParams",
+        "internalType": "struct HyperDex.GaslessSwapParams",
         "name": "params",
         "type": "tuple"
       },
@@ -266,25 +278,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "executedMetaTxs",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "factory",
     "outputs": [
@@ -301,7 +294,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "user",
+        "name": "trader",
         "type": "address"
       }
     ],
@@ -314,35 +307,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "getPoolAnalyticsData",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "tvl",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "volume24h",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "lastUpdate",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -402,7 +366,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_newRelayer",
+        "name": "_relayer",
         "type": "address"
       }
     ],
@@ -420,6 +384,29 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int256",
+        "name": "amount0Delta",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "amount1Delta",
+        "type": "int256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "uniswapV3SwapCallback",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -1,106 +1,8 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_factory",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_token0",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_token1",
-        "type": "address"
-      },
-      {
-        "internalType": "uint24",
-        "name": "_fee",
-        "type": "uint24"
-      },
-      {
-        "internalType": "int24",
-        "name": "_tickSpacing",
-        "type": "int24"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidShortString",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "str",
-        "type": "string"
-      }
-    ],
-    "name": "StringTooLong",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tvl",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "volume24h",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "swapCount24h",
-        "type": "uint32"
-      }
-    ],
-    "name": "AnalyticsUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "oldTick",
-        "type": "int24"
-      },
-      {
-        "indexed": false,
-        "internalType": "int24",
-        "name": "newTick",
-        "type": "int24"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint160",
-        "name": "oldSqrtPriceX96",
-        "type": "uint160"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint160",
-        "name": "newSqrtPriceX96",
-        "type": "uint160"
-      }
-    ],
-    "name": "AutoRebalance",
-    "type": "event"
   },
   {
     "anonymous": false,
@@ -118,7 +20,7 @@
         "type": "int24"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "int24",
         "name": "tickUpper",
         "type": "int24"
@@ -151,6 +53,86 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "int24",
+        "name": "tickLower",
+        "type": "int24"
+      },
+      {
+        "indexed": true,
+        "internalType": "int24",
+        "name": "tickUpper",
+        "type": "int24"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount0",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount1",
+        "type": "uint128"
+      }
+    ],
+    "name": "Collect",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount0",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount1",
+        "type": "uint128"
+      }
+    ],
+    "name": "CollectProtocol",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "recipient",
         "type": "address"
       },
@@ -165,52 +147,40 @@
         "internalType": "uint256",
         "name": "amount1",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paid0",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paid1",
+        "type": "uint256"
       }
     ],
-    "name": "CollectProtocol",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [],
-    "name": "EIP712DomainChanged",
+    "name": "Flash",
     "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "trader",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "relayer",
-        "type": "address"
+        "indexed": false,
+        "internalType": "uint16",
+        "name": "observationCardinalityNextOld",
+        "type": "uint16"
       },
       {
         "indexed": false,
-        "internalType": "int256",
-        "name": "amount0",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256",
-        "name": "amount1",
-        "type": "int256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint160",
-        "name": "sqrtPriceX96",
-        "type": "uint160"
+        "internalType": "uint16",
+        "name": "observationCardinalityNextNew",
+        "type": "uint16"
       }
     ],
-    "name": "GaslessSwap",
+    "name": "IncreaseObservationCardinalityNext",
     "type": "event"
   },
   {
@@ -221,6 +191,12 @@
         "internalType": "uint160",
         "name": "sqrtPriceX96",
         "type": "uint160"
+      },
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "tick",
+        "type": "int24"
       }
     ],
     "name": "Initialize",
@@ -230,7 +206,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "sender",
         "type": "address"
@@ -248,7 +224,7 @@
         "type": "int24"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "int24",
         "name": "tickUpper",
         "type": "int24"
@@ -273,6 +249,37 @@
       }
     ],
     "name": "Mint",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "feeProtocol0Old",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "feeProtocol1Old",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "feeProtocol0New",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "feeProtocol1New",
+        "type": "uint8"
+      }
+    ],
+    "name": "SetFeeProtocol",
     "type": "event"
   },
   {
@@ -323,51 +330,6 @@
     ],
     "name": "Swap",
     "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "authorizedRelayers",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "autoRebalancingEnabled",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "blockTimestampLast",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   },
   {
     "inputs": [
@@ -448,78 +410,37 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "currentTick",
-    "outputs": [
-      {
-        "internalType": "int24",
-        "name": "",
-        "type": "int24"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "eip712Domain",
-    "outputs": [
-      {
-        "internalType": "bytes1",
-        "name": "fields",
-        "type": "bytes1"
-      },
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "version",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "chainId",
-        "type": "uint256"
-      },
+    "inputs": [
       {
         "internalType": "address",
-        "name": "verifyingContract",
+        "name": "recipient",
         "type": "address"
       },
       {
-        "internalType": "bytes32",
-        "name": "salt",
-        "type": "bytes32"
+        "internalType": "uint128",
+        "name": "amount0Requested",
+        "type": "uint128"
       },
       {
-        "internalType": "uint256[]",
-        "name": "extensions",
-        "type": "uint256[]"
+        "internalType": "uint128",
+        "name": "amount1Requested",
+        "type": "uint128"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "executedMetaTxs",
+    "name": "collectProtocol",
     "outputs": [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
+        "internalType": "uint128",
+        "name": "amount0",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amount1",
+        "type": "uint128"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -577,66 +498,41 @@
   {
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "pool",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "trader",
-            "type": "address"
-          },
-          {
-            "internalType": "bool",
-            "name": "zeroForOne",
-            "type": "bool"
-          },
-          {
-            "internalType": "int256",
-            "name": "amountSpecified",
-            "type": "int256"
-          },
-          {
-            "internalType": "uint160",
-            "name": "sqrtPriceLimitX96",
-            "type": "uint160"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "nonce",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes",
-            "name": "signature",
-            "type": "bytes"
-          }
-        ],
-        "internalType": "struct HyperDexPool.GaslessSwapParams",
-        "name": "params",
-        "type": "tuple"
-      }
-    ],
-    "name": "gaslessSwap",
-    "outputs": [
-      {
-        "internalType": "int256",
-        "name": "amount0",
-        "type": "int256"
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
       },
       {
-        "internalType": "int256",
+        "internalType": "uint256",
+        "name": "amount0",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
         "name": "amount1",
-        "type": "int256"
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
       }
     ],
+    "name": "flash",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "observationCardinalityNext",
+        "type": "uint16"
+      }
+    ],
+    "name": "increaseObservationCardinalityNext",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -644,39 +540,13 @@
     "inputs": [
       {
         "internalType": "uint160",
-        "name": "priceX96",
+        "name": "sqrtPriceX96",
         "type": "uint160"
       }
     ],
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "lastAnalyticsUpdate",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "lastRebalanceTimestamp",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -694,12 +564,12 @@
   },
   {
     "inputs": [],
-    "name": "metaTxNonce",
+    "name": "maxLiquidityPerTick",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "",
-        "type": "uint256"
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
@@ -724,12 +594,12 @@
       },
       {
         "internalType": "uint128",
-        "name": "liquidityAmount",
+        "name": "amount",
         "type": "uint128"
       },
       {
         "internalType": "bytes",
-        "name": "",
+        "name": "data",
         "type": "bytes"
       }
     ],
@@ -752,17 +622,56 @@
   {
     "inputs": [
       {
-        "internalType": "int24",
+        "internalType": "uint256",
         "name": "",
-        "type": "int24"
+        "type": "uint256"
       }
     ],
-    "name": "nextInitializedTick",
+    "name": "observations",
     "outputs": [
       {
-        "internalType": "int24",
-        "name": "",
-        "type": "int24"
+        "internalType": "uint32",
+        "name": "blockTimestamp",
+        "type": "uint32"
+      },
+      {
+        "internalType": "int56",
+        "name": "tickCumulative",
+        "type": "int56"
+      },
+      {
+        "internalType": "uint160",
+        "name": "secondsPerLiquidityCumulativeX128",
+        "type": "uint160"
+      },
+      {
+        "internalType": "bool",
+        "name": "initialized",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32[]",
+        "name": "secondsAgos",
+        "type": "uint32[]"
+      }
+    ],
+    "name": "observe",
+    "outputs": [
+      {
+        "internalType": "int56[]",
+        "name": "tickCumulatives",
+        "type": "int56[]"
+      },
+      {
+        "internalType": "uint160[]",
+        "name": "secondsPerLiquidityCumulativeX128s",
+        "type": "uint160[]"
       }
     ],
     "stateMutability": "view",
@@ -802,7 +711,92 @@
         "internalType": "uint128",
         "name": "tokensOwed1",
         "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "protocolFees",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "token0",
+        "type": "uint128"
       },
+      {
+        "internalType": "uint128",
+        "name": "token1",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "feeProtocol0",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "feeProtocol1",
+        "type": "uint8"
+      }
+    ],
+    "name": "setFeeProtocol",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "slot0",
+    "outputs": [
+      {
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
+      },
+      {
+        "internalType": "int24",
+        "name": "tick",
+        "type": "int24"
+      },
+      {
+        "internalType": "uint16",
+        "name": "observationIndex",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "observationCardinality",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "observationCardinalityNext",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint8",
+        "name": "feeProtocol",
+        "type": "uint8"
+      },
+      {
+        "internalType": "bool",
+        "name": "unlocked",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
         "internalType": "int24",
         "name": "tickLower",
@@ -812,158 +806,55 @@
         "internalType": "int24",
         "name": "tickUpper",
         "type": "int24"
+      }
+    ],
+    "name": "snapshotCumulativesInside",
+    "outputs": [
+      {
+        "internalType": "int56",
+        "name": "tickCumulativeInside",
+        "type": "int56"
+      },
+      {
+        "internalType": "uint160",
+        "name": "secondsPerLiquidityInsideX128",
+        "type": "uint160"
       },
       {
         "internalType": "uint32",
-        "name": "lastUpdateTimestamp",
+        "name": "secondsInside",
         "type": "uint32"
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "price0CumulativeLast",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "price1CumulativeLast",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "protocolFeesCollected0",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "protocolFeesCollected1",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "rebalanceThresholdBps",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bool",
-        "name": "enabled",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint32",
-        "name": "thresholdBps",
-        "type": "uint32"
-      }
-    ],
-    "name": "setAutoRebalancing",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "relayer",
+        "name": "recipient",
         "type": "address"
       },
       {
         "internalType": "bool",
-        "name": "authorized",
+        "name": "zeroForOne",
         "type": "bool"
-      }
-    ],
-    "name": "setRelayerAuthorization",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "sqrtPriceX96",
-    "outputs": [
+      },
+      {
+        "internalType": "int256",
+        "name": "amountSpecified",
+        "type": "int256"
+      },
       {
         "internalType": "uint160",
-        "name": "",
+        "name": "sqrtPriceLimitX96",
         "type": "uint160"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
+      },
       {
-        "components": [
-          {
-            "internalType": "bool",
-            "name": "zeroForOne",
-            "type": "bool"
-          },
-          {
-            "internalType": "int256",
-            "name": "amountSpecified",
-            "type": "int256"
-          },
-          {
-            "internalType": "uint160",
-            "name": "sqrtPriceLimitX96",
-            "type": "uint160"
-          },
-          {
-            "internalType": "bytes",
-            "name": "data",
-            "type": "bytes"
-          }
-        ],
-        "internalType": "struct HyperDexPool.SwapParams",
-        "name": "params",
-        "type": "tuple"
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
       }
     ],
     "name": "swap",
@@ -983,13 +874,19 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "swapCount24h",
+    "inputs": [
+      {
+        "internalType": "int16",
+        "name": "",
+        "type": "int16"
+      }
+    ],
+    "name": "tickBitmap",
     "outputs": [
       {
-        "internalType": "uint32",
+        "internalType": "uint256",
         "name": "",
-        "type": "uint32"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1018,11 +915,6 @@
     ],
     "name": "ticks",
     "outputs": [
-      {
-        "internalType": "bool",
-        "name": "initialized",
-        "type": "bool"
-      },
       {
         "internalType": "uint128",
         "name": "liquidityGross",
@@ -1057,6 +949,11 @@
         "internalType": "uint32",
         "name": "secondsOutside",
         "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "initialized",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -1083,64 +980,6 @@
         "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalValueLocked",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "traderNonces",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "volume24h",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "volumeAllTime",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",

@@ -4,7 +4,7 @@
  * compiled Hardhat artifacts into relayer/abi/.
  *
  * These files were previously committed by hand and drifted from the contracts
- * (the relayer's HyperDexPool ABI was still missing the `pool` field of
+ * (the relayer's ABI was still missing the `pool` field of
  * GaslessSwapParams). Run this after any change to a contract the relayer calls:
  *
  *   npx hardhat compile && node scripts/export-relayer-abis.js
@@ -18,7 +18,8 @@ const OUT_DIR = path.join(ROOT, "relayer", "abi");
 const CONTRACTS = [
   { name: "HyperDex", source: "contracts/HyperDex.sol" },
   { name: "HyperDexFactory", source: "contracts/HyperDexFactory.sol" },
-  { name: "HyperDexPool", source: "contracts/HyperDexPool.sol" }
+  { name: "UniswapV3Pool", source: "contracts/vendor/v3-core/UniswapV3Pool.sol" },
+  { name: "UniswapV3Factory", source: "contracts/vendor/v3-core/UniswapV3Factory.sol" }
 ];
 
 fs.mkdirSync(OUT_DIR, { recursive: true });

@@ -9,8 +9,6 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { Pausable } from "@openzeppelin/contracts/security/Pausable.sol";
 import { IBridgeAdapter } from "./interfaces/IBridgeAdapter.sol";
 import { IBridgeTypes } from "./interfaces/IBridgeTypes.sol";
-// TODO: Import EIP-712 related contracts if needed
-// TODO: Import Pausable, Ownable, etc. if needed
 
 /**
  * @title BridgeRouter
@@ -84,7 +82,6 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
     error InvalidSignature();
     error SignatureReused();
     error Unauthorized();
-    // TODO: Add more specific errors
 
     // --- Constructor ---
 

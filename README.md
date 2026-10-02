@@ -5,6 +5,11 @@ trader signs an EIP-712 message and an off-chain relayer submits it, so the trad
 needs gas tokens. On top of the AMM sit a dynamic fee module, a cross-chain bridge with
 pluggable protocol adapters, and an analytics stack.
 
+The AMM itself is the **audited Uniswap v3 core**, vendored under
+`contracts/vendor/v3-core/` and compiled at its own solc version (0.7.6). HyperDex adds the
+gasless-swap gateway, the registry and the bridge on top of it; it does not re-implement the
+swap, tick or liquidity math.
+
 Target networks are configured in [`hardhat.config.js`](hardhat.config.js): the HyperEVM
 testnet (`https://rpc.hyperliquid-testnet.xyz/evm`, chain id 998) and Sepolia.
 
@@ -12,15 +17,15 @@ testnet (`https://rpc.hyperliquid-testnet.xyz/evm`, chain id 998) and Sepolia.
 
 | Path | What it is |
 |---|---|
-| `contracts/` | Solidity sources (Hardhat, solc 0.8.20) |
-| `contracts/HyperDexPool.sol` | Concentrated-liquidity pool |
-| `contracts/HyperDexFactory.sol` | Pool registry, fee tiers, protocol fees, analytics |
-| `contracts/HyperDexPoolDeployer.sol` | Holds the pool creation code and performs CREATE2 deployment |
-| `contracts/HyperDex.sol` | Relayer gateway for gasless swaps |
+| `contracts/` | Solidity sources (Hardhat; solc 0.8.20, plus 0.7.6 for the vendored v3 core) |
+| `contracts/vendor/v3-core/` | Authentic Uniswap v3 core v1.0.0 — pool, factory, deployer, libraries |
+| `contracts/HyperDexFactory.sol` | Registry over `UniswapV3Factory`: pool tracking, fee tiers, protocol fees, analytics |
+| `contracts/HyperDex.sol` | Relayer gateway for gasless swaps; implements the v3 swap callback |
 | `contracts/BridgeRouter.sol` | Escrows and routes cross-chain requests |
 | `contracts/adapters/` | Bridge protocol adapters (Connext, LayerZero, Hop) |
 | `contracts/FeeController.sol` | Chainlink-driven dynamic fee |
-| `contracts/vendor/` | Fixed-point and tick math |
+| `contracts/mocks/` | Test doubles only (mock ERC20s, mock Chainlink feed, mock bridge protocols) |
+| `contracts/test/` | Uniswap's own test callee/token harness, used to drive the pool in tests |
 | `relayer/` | Node service that submits signed swaps and watches bridges |
 | `analytics-service/` | Express + ethers + socket.io metrics API (port 4000) |
 | `dashboard/` | React analytics UI (port 3000) |
@@ -31,36 +36,44 @@ testnet (`https://rpc.hyperliquid-testnet.xyz/evm`, chain id 998) and Sepolia.
 
 ```bash
 npm install
-npx hardhat compile
-npx hardhat test
+npm run compile   # hardhat compile
+npm test          # hardhat test
 ```
+
+The project uses two solc versions: 0.8.20 for HyperDex's own contracts and 0.7.6 for the
+vendored v3 core. `hardhat.config.js` pins the vendored files via `solidity.overrides`.
+Because Hardhat silently drops `overrides` when the solidity config carries a top-level
+`version`, the config uses the multi-compiler `compilers: [...]` form — do not "simplify" it
+back to `version:`.
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) compiles and tests the contracts
 and runs the analytics, dashboard and e2e suites.
 
 ## Gasless swaps
 
-The trader signs once, against the **pool's** EIP-712 domain:
+The trader signs once, against the **gateway's** EIP-712 domain (`HyperDex`, version `1`):
 
 ```
 GaslessSwap(
   address pool,             // binds the signature to one specific pool
   address trader,
   bool    zeroForOne,
-  int256  amountSpecified,
+  int256  amountSpecified,  // positive = exact input
   uint160 sqrtPriceLimitX96,
   uint256 deadline,
   uint256 nonce
 )
 ```
 
-`HyperDex.sol` verifies that signature, routes to `params.pool`, and forwards it. The pool
-verifies the identical digest again before moving funds and enforces a strict per-trader
-nonce. Neither the relayer nor the gateway is trusted with the swap contents.
+`HyperDex.sol` verifies the signature against a strict per-trader nonce, confirms the pool is
+one this protocol deployed, then calls `IUniswapV3Pool.swap` with the trader as the recipient.
+Mid-swap the pool calls back into `uniswapV3SwapCallback`, which pulls the input token from
+the trader and pays the pool. The callback first checks `factory.isPool(msg.sender)`, so an
+arbitrary contract cannot fake a callback and drain a trader's approval.
 
-Relayers are authorised per pool through `HyperDexFactory.setPoolRelayer`, which is the only
-sanctioned path — `HyperDexPool.setRelayerAuthorization` accepts the factory as its sole
-caller.
+The relayer is a single address set by the owner via `HyperDex.setRelayer`. It pays gas but
+never controls the swap contents — direction, amount, price bound, deadline and pool are all
+inside the signed payload.
 
 ## Cross-chain bridge
 
@@ -87,36 +100,34 @@ does not remove them from history.
 
 ## Licensing
 
-`LICENSE` is Apache-2.0, but two things in the tree are not compatible with that and need a
-decision before any mainnet use:
+`LICENSE` is Apache-2.0. The vendored Uniswap v3 core is licensed under BUSL-1.1 with a
+Change Date of **2023-04-01** and a Change License of **GPL-2.0-or-later**. That date has
+passed, so the vendored code is now GPL-2.0-or-later; the `"license": "BUSL-1.1"` field in
+the `@uniswap/v3-core` npm package is stale 2021 metadata.
 
-- `contracts/vendor/TickMath.sol`, `BitMath.sol` and `FixedPoint96.sol` declare
-  `GPL-2.0-or-later`. GPL-2.0-only code cannot be combined with Apache-2.0.
-- `@uniswap/v3-core` is `BUSL-1.1`, and the npm package ships **only** `contracts/interfaces`
-  and `contracts/libraries` as Solidity source — the Pool and Factory are published solely as
-  precompiled artifacts. There is therefore no audited `UniswapV3Pool.sol` in this dependency
-  to build on, and BUSL-1.1 restricts production use.
+GPL-2.0-**or-later** permits electing GPL-3.0, which is compatible with Apache-2.0 — so the
+tree can be made consistent, but it needs an explicit decision from the maintainers and a
+`LICENSE` update. Shipping this as pure Apache-2.0 is not correct.
 
-## Known issues
+## Audit status
 
-The AMM's concentrated-liquidity accounting is still a partial reimplementation of Uniswap v3
-and remains incorrect. Open, in the accounting core:
+All ten findings from the earlier audit are now resolved. The AMM-level ones (inverted swap
+direction, no fee charged, caller-set resulting price, tick accounting that only grew, no tick
+crossing, mis-scaled mint amounts, and the overflowing `_updateTVL`) were fixed by **deleting
+the hand-written `HyperDexPool.sol`** and building on the audited `UniswapV3Pool` instead.
+TVL is no longer computed on-chain; `HyperDexFactory.updatePoolAnalytics` is the only writer
+and it is restricted to a configured updater.
 
-- **Swap direction is inverted** — `zeroForOne: true` currently credits the trader with
-  token0 instead of debiting it.
-- **No swap fee is applied** — `fee` is stored but never used in any arithmetic, so LPs earn
-  nothing.
-- **`sqrtPriceLimitX96` is written straight into `sqrtPriceX96`** instead of acting as a
-  slippage bound, so the caller sets the resulting price.
-- **Tick accounting only grows** — `liquidityGross` is incremented on burn instead of
-  decremented, and `_getNextInitializedTick` has no call sites, so there is no tick crossing
-  and effectively one constant-liquidity band.
-- **`mint` amounts are wrong** — `_calculateTokenAmounts` omits the `Q96` scaling on
-  `amount0`, which is materially wrong away from a price of 1.
-- **`_updateTVL` overflows** — it computes `uint256(sqrtPriceX96) ** 2`, which exceeds
-  `uint256` for large prices, and calls `decimals()` so it reverts on non-standard tokens.
+Regressions are pinned by reference values in `test/UniswapV3Pool.test.js`, computed
+independently in `test/helpers/v3.js`. That reference TickMath is itself checked against the
+on-chain implementation in `test/TickMathReference.test.js`.
 
-Fixed and covered by regression tests in `test/HyperDexPool.test.js` and
-`test/HyperDex.test.js`: signature verification on `gaslessSwap`, the duplicated swap
-execution, real CREATE2 pool deployment, per-pool routing, relayer authorisation on
-`completeBridge`, and the bridge adapter interfaces.
+### Still open
+
+- **Committed private keys must be rotated.** Removing `.env` files from tracking does not
+  remove them from git history.
+- **The licence decision above** has not been made.
+- **No position manager is vendored.** Tests provision liquidity through Uniswap's own
+  `TestUniswapV3Callee`; production minting needs `@uniswap/v3-periphery`'s
+  `NonfungiblePositionManager`, whose Solidity source is not shipped in its npm package.
+- `relayer/`, `analytics-service/` and `dashboard/` are outside the contract test suite.

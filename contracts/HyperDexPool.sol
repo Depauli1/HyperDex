@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import "./vendor/TickMath.sol";
 import "./vendor/FullMath.sol";
 import "./vendor/FixedPoint96.sol";
@@ -22,8 +24,15 @@ interface IERC20Metadata is IERC20 {
  * @notice Implementation of concentrated liquidity pool with Hyperliquid-specific optimizations
  * @dev Enhanced version with gasless operations, auto-rebalancing, and real-time analytics
  */
-contract HyperDexPool is ReentrancyGuard {
+contract HyperDexPool is ReentrancyGuard, EIP712 {
     using SafeERC20 for IERC20;
+    using ECDSA for bytes32;
+
+    /// @dev EIP-712 typehash for a gasless swap. `pool` is included so a signature
+    ///      is bound to one specific pool and cannot be replayed against another.
+    bytes32 private constant _GASLESS_SWAP_TYPEHASH = keccak256(
+        "GaslessSwap(address pool,address trader,bool zeroForOne,int256 amountSpecified,uint160 sqrtPriceLimitX96,uint256 deadline,uint256 nonce)"
+    );
     
     // Pool constants
     address public immutable factory;
@@ -70,6 +79,7 @@ contract HyperDexPool is ReentrancyGuard {
     // Hyperliquid-specific: Gasless operations
     mapping(address => bool) public authorizedRelayers;
     mapping(bytes32 => bool) public executedMetaTxs;
+    mapping(address => uint256) public traderNonces;
     uint256 public metaTxNonce;
     
     // Structs
@@ -103,6 +113,7 @@ contract HyperDexPool is ReentrancyGuard {
     }
     
     struct GaslessSwapParams {
+        address pool;
         address trader;
         bool zeroForOne;
         int256 amountSpecified;
@@ -178,15 +189,12 @@ contract HyperDexPool is ReentrancyGuard {
         address _token1,
         uint24 _fee,
         int24 _tickSpacing
-    ) {
+    ) EIP712("HyperDexPool", "1") {
         factory = _factory;
         token0 = _token0;
         token1 = _token1;
         fee = _fee;
         tickSpacing = _tickSpacing;
-        
-        // Authorize factory as relayer by default
-        authorizedRelayers[_factory] = true;
     }
     
     /**
@@ -393,69 +401,13 @@ contract HyperDexPool is ReentrancyGuard {
         require(params.amountSpecified != 0, "Amount = 0");
         require(params.sqrtPriceLimitX96 > 0, "Invalid price limit");
         
-        // Compute swap result based on current state
+        // `_internalSwap` performs *all* of the state updates and token transfers.
+        // This function used to repeat the price write, TWAP, protocol-fee,
+        // fee-growth, analytics and transfer blocks a second time, which executed
+        // every swap twice (2x the reported Swap event amounts). It now only
+        // delegates and emits.
         (amount0, amount1) = _internalSwap(params, msg.sender);
-        
-        // Update pool state with new price and tick
-        if (params.zeroForOne) {
-            sqrtPriceX96 = params.sqrtPriceLimitX96 < sqrtPriceX96 ? params.sqrtPriceLimitX96 : sqrtPriceX96;
-        } else {
-            sqrtPriceX96 = params.sqrtPriceLimitX96 > sqrtPriceX96 ? params.sqrtPriceLimitX96 : sqrtPriceX96;
-        }
-        currentTick = TickMath.getTickAtSqrtRatio(sqrtPriceX96);
-        
-        // Update TWAP accumulators
-        uint32 blockTimestamp = uint32(block.timestamp);
-        uint32 timeElapsed = blockTimestamp - blockTimestampLast;
-        if (timeElapsed > 0) {
-            price0CumulativeLast += uint256(sqrtPriceX96) * uint256(sqrtPriceX96) * timeElapsed / 2**192;
-            price1CumulativeLast += 2**192 * timeElapsed / (uint256(sqrtPriceX96) * uint256(sqrtPriceX96));
-            blockTimestampLast = blockTimestamp;
-        }
-        
-        // Protocol fee calculation
-        uint32 protocolFeeBps = IHyperDexFactory(factory).getProtocolFee(address(this));
-        
-        // Calculate and collect protocol fees
-        if (protocolFeeBps > 0) {
-            uint256 protocolFee0 = amount0 > 0 ? FullMath.mulDiv(uint256(amount0), protocolFeeBps, 10000) : 0;
-            uint256 protocolFee1 = amount1 > 0 ? FullMath.mulDiv(uint256(amount1), protocolFeeBps, 10000) : 0;
-            
-            protocolFeesCollected0 += protocolFee0;
-            protocolFeesCollected1 += protocolFee1;
-        }
-        
-        // Update fee growth accumulators
-        if (liquidity > 0) {
-            require(liquidity != 0, "Liquidity is zero during fee growth");
-            uint256 absAmount0 = amount0 > 0 ? uint256(amount0) : uint256(-amount0);
-            uint256 absAmount1 = amount1 > 0 ? uint256(amount1) : uint256(-amount1);
-            feeGrowthGlobal0X128 += FullMath.mulDiv(absAmount0, FixedPoint96.Q96, liquidity);
-            feeGrowthGlobal1X128 += FullMath.mulDiv(absAmount1, FixedPoint96.Q96, liquidity);
-        }
-        
-        // Update analytics
-        _updateSwapAnalytics(amount0);
-        
-        // Check for auto rebalancing
-        if (autoRebalancingEnabled) {
-            _checkAndTriggerRebalance();
-        }
-        
-        // Transfer tokens (would use callbacks in production)
-        if (amount0 < 0) {
-            IERC20(token0).safeTransferFrom(msg.sender, address(this), uint256(-amount0));
-        }
-        if (amount1 < 0) {
-            IERC20(token1).safeTransferFrom(msg.sender, address(this), uint256(-amount1));
-        }
-        if (amount0 > 0) {
-            IERC20(token0).safeTransfer(msg.sender, uint256(amount0));
-        }
-        if (amount1 > 0) {
-            IERC20(token1).safeTransfer(msg.sender, uint256(amount1));
-        }
-        
+
         emit Swap(msg.sender, msg.sender, amount0, amount1, sqrtPriceX96, liquidity, currentTick);
         return (amount0, amount1);
     }
@@ -470,12 +422,34 @@ contract HyperDexPool is ReentrancyGuard {
         GaslessSwapParams calldata params
     ) external nonReentrant returns (int256 amount0, int256 amount1) {
         require(authorizedRelayers[msg.sender], "Not authorized relayer");
+        require(params.pool == address(this), "Wrong pool");
         require(block.timestamp <= params.deadline, "Swap expired");
-        
-        // Verify the swap hasn't been executed already
+
+        // Verify the trader actually authorised *these* parameters. Without this
+        // any whitelisted relayer could trade an approved balance on arbitrary
+        // terms; the relayer must never be trusted with the swap contents.
+        bytes32 digest = _hashTypedDataV4(
+            keccak256(
+                abi.encode(
+                    _GASLESS_SWAP_TYPEHASH,
+                    params.pool,
+                    params.trader,
+                    params.zeroForOne,
+                    params.amountSpecified,
+                    params.sqrtPriceLimitX96,
+                    params.deadline,
+                    params.nonce
+                )
+            )
+        );
+        require(digest.recover(params.signature) == params.trader, "Invalid signature");
+
+        // Replay protection: strict per-trader nonce ordering plus a meta-tx id.
+        require(params.nonce == traderNonces[params.trader], "Invalid nonce");
         bytes32 metaTxId = keccak256(abi.encode(params.trader, params.nonce));
         require(!executedMetaTxs[metaTxId], "Swap already executed");
         executedMetaTxs[metaTxId] = true;
+        traderNonces[params.trader] = params.nonce + 1;
         
         // Execute the swap using the same logic as regular swap
         SwapParams memory swapParams = SwapParams({
@@ -593,69 +567,6 @@ contract HyperDexPool is ReentrancyGuard {
         }
         
         return (amount0, amount1);
-    }
-    
-    /**
-     * @notice Hash gasless swap parameters for verification
-     * @param params Gasless swap parameters
-     * @return digest EIP-712 compatible message hash
-     */
-    function _hashGaslessSwap(GaslessSwapParams calldata params) private view returns (bytes32) {
-        bytes32 structHash = keccak256(
-            abi.encode(
-                keccak256("GaslessSwap(address trader,bool zeroForOne,int256 amountSpecified,uint160 sqrtPriceLimitX96,uint256 deadline,uint256 nonce)"),
-                params.trader,
-                params.zeroForOne,
-                params.amountSpecified,
-                params.sqrtPriceLimitX96,
-                params.deadline,
-                params.nonce
-            )
-        );
-        
-        bytes32 DOMAIN_SEPARATOR = keccak256(
-            abi.encode(
-                keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
-                keccak256("HyperDexPool"),
-                keccak256("1"),
-                uint256(31337),
-                address(this)
-            )
-        );
-        
-        return keccak256(abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, structHash));
-    }
-    
-    /**
-     * @notice Verify signature for gasless operations
-     * @param signer Address that supposedly signed the message
-     * @param digest Message hash
-     * @param signature Signature bytes
-     * @return True if signature is valid
-     */
-    function _isValidSignature(
-        address signer,
-        bytes32 digest,
-        bytes memory signature
-    ) private pure returns (bool) {
-        require(signature.length == 65, "Invalid signature length");
-        
-        bytes32 r;
-        bytes32 s;
-        uint8 v;
-        
-        assembly {
-            r := mload(add(signature, 32))
-            s := mload(add(signature, 64))
-            v := byte(0, mload(add(signature, 96)))
-        }
-        
-        if (v < 27) {
-            v += 27;
-        }
-        
-        address recoveredAddress = ecrecover(digest, v, r, s);
-        return recoveredAddress != address(0) && recoveredAddress == signer;
     }
     
     /**

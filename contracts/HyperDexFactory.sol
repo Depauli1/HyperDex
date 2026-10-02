@@ -3,10 +3,9 @@ pragma solidity >=0.7.6 <0.9.0;
 pragma abicoder v2;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Create2.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
+import "./HyperDexPoolDeployer.sol";
 
 /**
  * @title HyperDexFactory
@@ -16,6 +15,10 @@ import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
  */
 contract HyperDexFactory is Ownable {
     using SafeMath for uint256;
+
+    /// @notice Deploys pools; holds the pool creation code so this contract
+    ///         stays within the EIP-170 deployed-size limit.
+    HyperDexPoolDeployer public immutable poolDeployer;
     
     // Struct to store pool information with enhanced analytics data
     struct PoolInfo {
@@ -84,6 +87,8 @@ contract HyperDexFactory is Ownable {
         // Ownable constructor is automatically called
         // Allow zero address for testing
         hyperLiquidSystemContract = _hyperLiquidSystemContract;
+
+        poolDeployer = new HyperDexPoolDeployer(address(this));
         
         // Initialize with standard fee tiers
         feeAmountTickSpacing[100] = 1; // 0.01% fee tier for stable pairs
@@ -118,26 +123,11 @@ contract HyperDexFactory is Ownable {
         bytes32 salt = keccak256(abi.encodePacked(token0, token1, fee));
         require(pools[salt].poolAddress == address(0), "Pool already exists");
         
-        // Deploy pool with CREATE2 for deterministic address
-        // In Solidity 0.7.6, we'll need to pass the bytecode directly from the constructor parameter
-        // or implement a factory pattern where bytecode is stored in the contract
-        
-        // For now, we'll assume the pool is deployed through another mechanism
-        // and we're just storing its address
-        pool = Create2.computeAddress(
-            salt,
-            keccak256(abi.encodePacked(
-                // This is simplified - you would need the actual bytecode here
-                address(this),
-                token0,
-                token1,
-                fee,
-                feeAmountTickSpacing[fee]
-            ))
-        );
-        
-        // In a real implementation, you would deploy the pool here
-        // pool = Create2.deploy(0, salt, poolBytecode);
+        // Deploy the pool with CREATE2 for a deterministic address. The previous
+        // implementation only *computed* an address from a hash of the
+        // constructor arguments (not a bytecode hash) and stored it, so every
+        // registered "pool" was an address with no code behind it.
+        pool = poolDeployer.deploy(token0, token1, fee, feeAmountTickSpacing[fee]);
         
         // Store pool info
         PoolInfo memory poolInfo = PoolInfo({
@@ -331,16 +321,16 @@ contract HyperDexFactory is Ownable {
     function areBothHIP1Tokens(address tokenA, address tokenB) external view returns (bool) {
         return isHIP1Token[tokenA] && isHIP1Token[tokenB];
     }
-}
 
-/**
- * @title HyperDexPool
- * @author HyperDex Team
- * @notice Interface for the pool contract (actual implementation would be more complex)
- * @dev This is just a placeholder to make the factory compile
- */
-interface HyperDexPool {
-    function token0() external view returns (address);
-    function token1() external view returns (address);
-    function fee() external view returns (uint24);
+    /**
+     * @notice Grants or revokes a relayer's right to submit gasless swaps on a pool.
+     * @dev `HyperDexPool.setRelayerAuthorization` only accepts the factory as the
+     *      caller, so this is the sole sanctioned path to manage pool relayers.
+     * @param pool The pool to configure.
+     * @param relayer The relayer address.
+     * @param authorized Whether the relayer may submit gasless swaps.
+     */
+    function setPoolRelayer(address pool, address relayer, bool authorized) external onlyOwner {
+        HyperDexPool(pool).setRelayerAuthorization(relayer, authorized);
+    }
 }

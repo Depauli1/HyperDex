@@ -9,6 +9,25 @@ on:
       - main
 
 jobs:
+  contracts:
+    name: Contracts Compile & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: npm
+      - name: Install
+        run: npm ci
+      # A build gate: every defect in the C1-C10 audit survived because nothing
+      # compiled or ran the contract tests in CI.
+      - name: Compile
+        run: npx hardhat compile
+      - name: Test
+        run: npx hardhat test
+
   analytics-service:
     name: Analytics Service Tests
     runs-on: ubuntu-latest

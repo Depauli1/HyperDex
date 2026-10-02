@@ -31,6 +31,78 @@
     "type": "constructor"
   },
   {
+    "inputs": [],
+    "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "str",
+        "type": "string"
+      }
+    ],
+    "name": "StringTooLong",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tvl",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "volume24h",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "swapCount24h",
+        "type": "uint32"
+      }
+    ],
+    "name": "AnalyticsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "oldTick",
+        "type": "int24"
+      },
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "newTick",
+        "type": "int24"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint160",
+        "name": "oldSqrtPriceX96",
+        "type": "uint160"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint160",
+        "name": "newSqrtPriceX96",
+        "type": "uint160"
+      }
+    ],
+    "name": "AutoRebalance",
+    "type": "event"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -46,7 +118,7 @@
         "type": "int24"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "int24",
         "name": "tickUpper",
         "type": "int24"
@@ -79,41 +151,29 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
         "name": "recipient",
         "type": "address"
       },
       {
-        "indexed": true,
-        "internalType": "int24",
-        "name": "tickLower",
-        "type": "int24"
-      },
-      {
-        "indexed": true,
-        "internalType": "int24",
-        "name": "tickUpper",
-        "type": "int24"
-      },
-      {
         "indexed": false,
-        "internalType": "uint128",
+        "internalType": "uint256",
         "name": "amount0",
-        "type": "uint128"
+        "type": "uint256"
       },
       {
         "indexed": false,
-        "internalType": "uint128",
+        "internalType": "uint256",
         "name": "amount1",
-        "type": "uint128"
+        "type": "uint256"
       }
     ],
-    "name": "Collect",
+    "name": "CollectProtocol",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "EIP712DomainChanged",
     "type": "event"
   },
   {
@@ -122,23 +182,35 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "relayer",
+        "name": "trader",
         "type": "address"
       },
       {
         "indexed": true,
         "internalType": "address",
-        "name": "trader",
+        "name": "relayer",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "nonce",
-        "type": "uint256"
+        "internalType": "int256",
+        "name": "amount0",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "amount1",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
       }
     ],
-    "name": "GaslessSwapExecuted",
+    "name": "GaslessSwap",
     "type": "event"
   },
   {
@@ -209,31 +281,6 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "oldRelayer",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newRelayer",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "isAuthorized",
-        "type": "bool"
-      }
-    ],
-    "name": "RelayerAuthorizationChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
         "name": "sender",
         "type": "address"
       },
@@ -278,8 +325,14 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "autoRebalancingEnabled",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "authorizedRelayers",
     "outputs": [
       {
         "internalType": "bool",
@@ -291,14 +344,8 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "authorizedRelayers",
+    "inputs": [],
+    "name": "autoRebalancingEnabled",
     "outputs": [
       {
         "internalType": "bool",
@@ -414,6 +461,49 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "eip712Domain",
+    "outputs": [
+      {
+        "internalType": "bytes1",
+        "name": "fields",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "salt",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "extensions",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -490,6 +580,11 @@
         "components": [
           {
             "internalType": "address",
+            "name": "pool",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
             "name": "trader",
             "type": "address"
           },
@@ -524,7 +619,7 @@
             "type": "bytes"
           }
         ],
-        "internalType": "struct IHyperDexPool.GaslessSwapParams",
+        "internalType": "struct HyperDexPool.GaslessSwapParams",
         "name": "params",
         "type": "tuple"
       }
@@ -795,13 +890,31 @@
   {
     "inputs": [
       {
+        "internalType": "bool",
+        "name": "enabled",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint32",
+        "name": "thresholdBps",
+        "type": "uint32"
+      }
+    ],
+    "name": "setAutoRebalancing",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "relayer",
         "type": "address"
       },
       {
         "internalType": "bool",
-        "name": "isAuthorized",
+        "name": "authorized",
         "type": "bool"
       }
     ],
@@ -826,24 +939,31 @@
   {
     "inputs": [
       {
-        "internalType": "bool",
-        "name": "zeroForOne",
-        "type": "bool"
-      },
-      {
-        "internalType": "int256",
-        "name": "amountSpecified",
-        "type": "int256"
-      },
-      {
-        "internalType": "uint160",
-        "name": "sqrtPriceLimitX96",
-        "type": "uint160"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "zeroForOne",
+            "type": "bool"
+          },
+          {
+            "internalType": "int256",
+            "name": "amountSpecified",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint160",
+            "name": "sqrtPriceLimitX96",
+            "type": "uint160"
+          },
+          {
+            "internalType": "bytes",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "internalType": "struct HyperDexPool.SwapParams",
+        "name": "params",
+        "type": "tuple"
       }
     ],
     "name": "swap",
@@ -870,6 +990,19 @@
         "internalType": "uint32",
         "name": "",
         "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tickSpacing",
+    "outputs": [
+      {
+        "internalType": "int24",
+        "name": "",
+        "type": "int24"
       }
     ],
     "stateMutability": "view",
@@ -931,19 +1064,6 @@
   },
   {
     "inputs": [],
-    "name": "tickSpacing",
-    "outputs": [
-      {
-        "internalType": "int24",
-        "name": "",
-        "type": "int24"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "token0",
     "outputs": [
       {
@@ -971,6 +1091,25 @@
   {
     "inputs": [],
     "name": "totalValueLocked",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "traderNonces",
     "outputs": [
       {
         "internalType": "uint256",

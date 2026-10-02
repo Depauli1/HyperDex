@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import { EIP712 } from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
@@ -16,6 +17,8 @@ import { IBridgeTypes } from "./interfaces/IBridgeTypes.sol";
  * @notice Central contract for managing cross-chain bridge requests.
  */
 contract BridgeRouter is EIP712, Ownable, Pausable {
+    using SafeERC20 for IERC20;
+
     // --- Structs ---
 
     // Using IBridgeTypes.BridgeRequest instead of defining it here
@@ -41,13 +44,10 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
     mapping(bytes32 => RequestStatus) public requestStatus;  // request ID => status
     mapping(uint256 => IBridgeAdapter) public bridgeAdapters; // chain ID => adapter contract
     mapping(bytes32 => bool) public usedSignatures; // Prevent signature reuse
+    mapping(address => bool) public authorizedRelayers; // relayer => allowed to finalise inbound requests
 
     uint256 public nextRequestId; // Simple counter for request IDs
     uint256 public bridgeTimeout; // Timeout for bridge requests in seconds (default 1 hour)
-
-    // TODO: Add variables for EIP-712 domain separator
-    // TODO: Add variables for owner, pauser, fee controller
-    // TODO: Add variables for tracking escrowed funds
 
     // --- Events ---
 
@@ -72,6 +72,7 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
     event BridgeRefunded(bytes32 indexed requestId, address indexed user, uint256 amount);
     event AdapterRegistered(uint256 indexed chainId, address adapter);
     event BridgeTimeoutUpdated(uint256 newTimeout);
+    event RelayerUpdated(address indexed relayer, bool allowed);
 
     // --- Errors ---
     error InvalidAdapter();
@@ -87,7 +88,7 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
 
     // --- Constructor ---
 
-    constructor() EIP712("HyperDex Bridge", "1") Ownable(msg.sender) {
+    constructor() EIP712("HyperDex Bridge", "1") Ownable() {
         bridgeTimeout = 1 hours;
     }
 
@@ -103,7 +104,20 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
         IBridgeTypes.BridgeRequest calldata _request,
         bytes calldata _signature
     ) external payable whenNotPaused {
-        // 1. Validate signature (EIP-712)
+        // 1. Validate the cheap, caller-independent invariants first. These are
+        //    pure reads, so running them before ECDSA recovery saves gas on the
+        //    reject path and surfaces a precise error instead of a signature one.
+        if (block.timestamp > _request.deadline) revert DeadlineExceeded();
+
+        // Adapters are keyed by the chain they know how to reach. Selecting on the
+        // destination (rather than the source) is what makes several protocols
+        // usable side by side -- Connext for one destination, LayerZero for
+        // another -- and it matches `completeBridge`, which also resolves the
+        // adapter for `_request.dstChainId` on the far side.
+        IBridgeAdapter adapter = bridgeAdapters[_request.dstChainId];
+        if (address(adapter) == address(0)) revert InvalidAdapter();
+
+        // 2. Validate signature (EIP-712)
         bytes32 structHash = keccak256(
             abi.encode(
                 BRIDGE_REQUEST_TYPEHASH,
@@ -118,19 +132,14 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
             )
         );
         bytes32 hash = _hashTypedDataV4(structHash);
-        
+
         // Verify signature
         address signer = ECDSA.recover(hash, _signature);
         if (signer != _request.user) revert InvalidSignature();
-        
+
         // Prevent signature reuse
         if (usedSignatures[hash]) revert SignatureReused();
         usedSignatures[hash] = true;
-
-        // 2. Validate request parameters (deadline, chain IDs, etc.)
-        if (block.timestamp > _request.deadline) revert DeadlineExceeded();
-        IBridgeAdapter adapter = bridgeAdapters[_request.srcChainId];
-        if (address(adapter) == address(0)) revert InvalidAdapter();
 
         // 3. Calculate unique request ID
         bytes32 requestId = keccak256(abi.encodePacked(nextRequestId++, _request.user, _request.srcChainId, _request.dstChainId, _request.token, _request.amount));
@@ -138,21 +147,18 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
         // 4. Check provided fee
         uint256 requiredFee = adapter.quoteFees(_request);
         if (msg.value < requiredFee) revert InsufficientFee();
-        // TODO: Handle excess fee (refund or keep?)
+        // Any excess msg.value is refunded to the caller at the end.
 
-        // 5. Escrow tokens from user
-        // Requires user to have approved BridgeRouter beforehand
-        // Use safeTransferFrom
-        if (!IERC20(_request.token).transferFrom(_request.user, address(this), _request.amount)) {
-            revert TransferFailed();
-        }
+        // 5. Escrow tokens from the user (who must have approved this router).
+        IERC20(_request.token).safeTransferFrom(_request.user, address(this), _request.amount);
 
         // 6. Store request details and status
         bridgeRequests[requestId] = _request;
         requestStatus[requestId] = RequestStatus.Initiated;
 
-        // 7. Call the adapter's bridgeOut function, forwarding the fee
-        // Adapter needs to handle the msg.value correctly
+        // 7. Let the adapter pull exactly what it needs to send, then forward the
+        //    fee. Without this allowance the adapter's own `transferFrom` reverts.
+        IERC20(_request.token).safeIncreaseAllowance(address(adapter), _request.amount);
         adapter.bridgeOut{value: requiredFee}(_request, requestId);
 
         // 8. Emit event
@@ -184,28 +190,30 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
         bytes32 _requestId,
         bytes calldata _proof
     ) external whenNotPaused {
+        // 0. Only the relayer/watcher may finalise an inbound request.
+        if (!authorizedRelayers[msg.sender]) revert Unauthorized();
+
         // 1. Validate request status
         if (requestStatus[_requestId] != RequestStatus.Initiated) revert InvalidStatus();
-        
+
         // 2. Validate request exists
         if (bridgeRequests[_requestId].user == address(0)) revert RequestNotFound();
-        
+
         // 3. Get the adapter for the destination chain
         IBridgeAdapter adapter = bridgeAdapters[_request.dstChainId];
         if (address(adapter) == address(0)) revert InvalidAdapter();
-        
-        // 4. Call the adapter's bridgeIn function to complete the bridge
-        adapter.bridgeIn(_request, _requestId, _proof);
-        
-        // 5. Update request status
+
+        // 4. Mark complete *before* the external call (checks-effects-interactions),
+        //    so a re-entrant or repeated call cannot pay out twice.
         requestStatus[_requestId] = RequestStatus.Completed;
-        
-        // 6. Transfer tokens to the user (adapter might handle this instead)
-        if (!IERC20(_request.token).transfer(_request.user, _request.amount)) {
-            revert TransferFailed();
-        }
-        
-        // 7. Emit event
+
+        // 5. Release the funds to the user. The adapter owns the payout: on the
+        //    destination chain this router instance never escrowed anything, the
+        //    tokens arrive from the bridge protocol into the adapter. Doing the
+        //    transfer here as well would pay the user twice.
+        adapter.bridgeIn(_request, _requestId, _proof);
+
+        // 6. Emit event
         emit BridgeCompleted(
             _requestId,
             _request.user,
@@ -216,13 +224,27 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
 
     /**
      * @notice Registers a bridge adapter for a specific chain.
-     * @dev Only callable by owner.
+     * @dev `_chainId` is the chain the adapter knows how to reach: `initiateBridge`
+     *      resolves `bridgeAdapters[dstChainId]` on the source chain, and
+     *      `completeBridge` resolves the same key on the destination chain.
      * @param _chainId The chain ID.
      * @param _adapter The adapter contract address.
      */
     function registerAdapter(uint256 _chainId, address _adapter) external onlyOwner {
+        if (_adapter == address(0)) revert InvalidAdapter();
         bridgeAdapters[_chainId] = IBridgeAdapter(_adapter);
         emit AdapterRegistered(_chainId, _adapter);
+    }
+
+    /**
+     * @notice Grants or revokes an off-chain relayer's right to call `completeBridge`.
+     * @param _relayer The relayer address.
+     * @param _allowed Whether the relayer is authorised.
+     */
+    function setRelayer(address _relayer, bool _allowed) external onlyOwner {
+        if (_relayer == address(0)) revert Unauthorized();
+        authorizedRelayers[_relayer] = _allowed;
+        emit RelayerUpdated(_relayer, _allowed);
     }
 
     /**
@@ -267,9 +289,7 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
         requestStatus[_requestId] = RequestStatus.Refunding;
         
         // 4. Transfer tokens back to the user
-        if (!IERC20(request.token).transfer(request.user, request.amount)) {
-            revert TransferFailed();
-        }
+        IERC20(request.token).safeTransfer(request.user, request.amount);
         
         // 5. Update status to completed and emit event
         requestStatus[_requestId] = RequestStatus.Failed;
@@ -288,10 +308,4 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
     function getBridgeRequest(bytes32 _requestId) external view returns (IBridgeTypes.BridgeRequest memory request, RequestStatus status) {
         return (bridgeRequests[_requestId], requestStatus[_requestId]);
     }
-
-    // TODO: Implement receive function for bridgeIn callback from adapter/relayer
-    // TODO: Implement functions for pausing/unpausing
-    // TODO: Implement functions for fee management
-    // TODO: Implement functions for handling timeouts and refunds
-    // TODO: Implement EIP-712 domain separator logic
 } 

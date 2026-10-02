@@ -6,6 +6,7 @@ pragma abicoder v2;
 interface IHyperDexPool {
     // Mirror the GaslessSwapParams struct from the pool contract
     struct GaslessSwapParams {
+        address pool;
         address trader;
         bool zeroForOne;
         int256 amountSpecified;

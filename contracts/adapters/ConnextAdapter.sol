@@ -87,7 +87,7 @@ contract ConnextAdapter is IBridgeAdapter, Ownable {
 
     // --- Constructor ---
     
-    constructor(address _connext) Ownable(msg.sender) {
+    constructor(address _connext) Ownable() {
         connext = IConnext(_connext);
     }
 

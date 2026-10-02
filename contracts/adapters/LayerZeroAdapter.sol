@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { IBridgeAdapter } from "../interfaces/IBridgeAdapter.sol";
 import { IBridgeTypes } from "../interfaces/IBridgeTypes.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
@@ -73,6 +74,8 @@ interface ILayerZeroReceiver {
  * @notice Adapter for LayerZero messaging protocol
  */
 contract LayerZeroAdapter is IBridgeAdapter, Ownable, ILayerZeroReceiver {
+    using SafeERC20 for IERC20;
+
     // --- State Variables ---
     
     ILayerZeroEndpoint public endpoint;
@@ -85,15 +88,21 @@ contract LayerZeroAdapter is IBridgeAdapter, Ownable, ILayerZeroReceiver {
     address public zroPaymentAddress;
     mapping(uint16 => bytes) public trustedRemoteLookup; // LayerZero chain ID to trusted remote address
 
+    // requestId => the LayerZero message for it was delivered and authenticated
+    mapping(bytes32 => bool) public verifiedMessages;
+    // requestId => funds already released to the user
+    mapping(bytes32 => bool) public completedMessages;
+
     // --- Events ---
     
     event LayerZeroMessageSent(bytes32 requestId, uint16 dstChainId);
     event LayerZeroMessageReceived(uint16 srcChainId, bytes srcAddress, uint64 nonce);
     event TrustedRemoteSet(uint16 _remoteChainId, bytes _path);
+    event BridgeInCompleted(bytes32 requestId, address user, uint256 amount);
 
     // --- Constructor ---
     
-    constructor(address _endpoint, address _bridgeRouter) Ownable(msg.sender) {
+    constructor(address _endpoint, address _bridgeRouter) Ownable() {
         endpoint = ILayerZeroEndpoint(_endpoint);
         bridgeRouter = _bridgeRouter;
         
@@ -228,21 +237,26 @@ contract LayerZeroAdapter is IBridgeAdapter, Ownable, ILayerZeroReceiver {
      * @dev This is called by the bridge router or relayer.
      * @param _request The bridge request details.
      * @param _requestId The unique ID of the bridge request.
-     * @param _proof Not used for LayerZero, as verification happens within LZ protocol.
      */
     function bridgeIn(
         IBridgeTypes.BridgeRequest calldata _request,
         bytes32 _requestId,
-        bytes calldata _proof
+        bytes calldata /* _proof */
     ) external {
-        // For LayerZero, the main verification happens within the LayerZero protocol
-        // This function is more of a placeholder for compatibility with the IBridgeAdapter interface
-        // The actual message handling is done in lzReceive
-        
-        // In a real implementation, this might check that we've received the corresponding
-        // LayerZero message before proceeding with the bridge completion
-        
-        // Note: Actual bridging logic would be handled by BridgeRouter, which would call this
+        // Only the BridgeRouter finalises an inbound request.
+        require(msg.sender == bridgeRouter, "LayerZeroAdapter: Only bridge router");
+
+        // The LayerZero endpoint must have delivered (and we must have verified)
+        // the matching message before any funds move.
+        require(verifiedMessages[_requestId], "LayerZeroAdapter: Message not verified");
+        require(!completedMessages[_requestId], "LayerZeroAdapter: Already completed");
+        completedMessages[_requestId] = true;
+
+        // Release the bridged amount to the user. Verification itself happened in
+        // `lzReceive` against the trusted remote, so no extra proof is needed here.
+        IERC20(_request.token).safeTransfer(_request.user, _request.amount);
+
+        emit BridgeInCompleted(_requestId, _request.user, _request.amount);
     }
 
     /**
@@ -272,9 +286,10 @@ contract LayerZeroAdapter is IBridgeAdapter, Ownable, ILayerZeroReceiver {
         // Emit event
         emit LayerZeroMessageReceived(_srcChainId, _srcAddress, _nonce);
 
-        // Forward to the bridge router to complete the bridge
-        // In a real scenario, we'd need to properly interface with the BridgeRouter contract here
-        // This might be a call to BridgeRouter.completeBridge with the request and requestId
+        // Record that this request's message has been delivered and authenticated.
+        // The BridgeRouter later calls `bridgeIn`, which refuses to pay out unless
+        // this flag is set.
+        verifiedMessages[requestId] = true;
     }
 
     /**
@@ -286,7 +301,7 @@ contract LayerZeroAdapter is IBridgeAdapter, Ownable, ILayerZeroReceiver {
         if (_token == address(0)) {
             payable(owner()).transfer(_amount);
         } else {
-            IERC20(_token).transfer(owner(), _amount);
+            IERC20(_token).safeTransfer(owner(), _amount);
         }
     }
 

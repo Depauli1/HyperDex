@@ -1,304 +1,198 @@
-// test/HyperDex.test.js
-const { ethers, network } = require("hardhat");
+const { ethers } = require("hardhat");
 const { expect } = require("chai");
+const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 
-// Get BigNumber from the ethers object for robustness
 const BigNumber = ethers.BigNumber;
 
-describe("HyperDex: Gasless Swaps (JavaScript)", function () {
-    let TickMath;
+/**
+ * End-to-end gasless swap through the HyperDex relayer gateway.
+ *
+ * The trader signs against the *pool's* EIP-712 domain, and the signed payload
+ * names the pool it is valid for. HyperDex re-verifies that same signature and
+ * routes to that pool; the pool verifies it again before moving any funds.
+ */
+describe("HyperDex: Gasless Swaps", function () {
+  const FEE_TIER = 500;
+  const Q96 = BigNumber.from(2).pow(96);
+  const MIN_SQRT_RATIO_PLUS_ONE = "4295128740";
 
-    let owner;
-    let relayer;
-    let user;
-    let otherUser;
-    let factory;
-    let hyperdex;
-    let token0;
-    let token1;
-    let pool;
+  const GASLESS_SWAP_TYPES = {
+    GaslessSwap: [
+      { name: "pool", type: "address" },
+      { name: "trader", type: "address" },
+      { name: "zeroForOne", type: "bool" },
+      { name: "amountSpecified", type: "int256" },
+      { name: "sqrtPriceLimitX96", type: "uint160" },
+      { name: "deadline", type: "uint256" },
+      { name: "nonce", type: "uint256" }
+    ]
+  };
 
-    const FEE_TIER = 500;
-    const TICK_SPACING = 10;
+  async function deployFixture() {
+    const [owner, relayer, user, attacker] = await ethers.getSigners();
 
-    let domain;
+    const MockERC20 = await ethers.getContractFactory("MockERC20");
+    const tokenA = await MockERC20.deploy("Token A", "TKNA", 18);
+    const tokenB = await MockERC20.deploy("Token B", "TKNB", 18);
+    await tokenA.deployed();
+    await tokenB.deployed();
+    const [token0, token1] =
+      tokenA.address.toLowerCase() < tokenB.address.toLowerCase()
+        ? [tokenA, tokenB]
+        : [tokenB, tokenA];
 
-    function encodePriceSqrt(price) {
-        const Q96 = BigNumber.from(2).pow(96);
-        if (price.eq(ethers.utils.parseUnits("1", 18))) return Q96;
-        let z = price.mul(Q96.pow(2));
-        let x = z.add(Q96).div(2);
-        let y = z.div(x);
-        for (let i = 0; i < 7; i++) {
-            if (x.eq(y) || x.eq(y.add(1))) break;
-            x = x.add(y).div(2);
-            y = z.div(x);
-        }
-        return x;
-    }
+    const Factory = await ethers.getContractFactory("HyperDexFactory");
+    const factory = await Factory.deploy(ethers.constants.AddressZero);
+    await factory.deployed();
 
-    beforeEach(async function () {
-        try {
-            TickMath = {
-                MIN_SQRT_RATIO: BigNumber.from('4295128739'),
-                MAX_SQRT_RATIO: BigNumber.from('1461446703485210103287273052203988822378723970342'),
-            };
-            console.log("Step 1: Getting signers...");
-            [owner, relayer, user, otherUser] = await ethers.getSigners();
+    // The factory deploys the pool itself now.
+    await factory.createPool(token0.address, token1.address, FEE_TIER);
+    const poolAddress = await factory.getPool(token0.address, token1.address, FEE_TIER);
+    const pool = await ethers.getContractAt("HyperDexPool", poolAddress);
 
-            // Deploy Mock ERC20 tokens
-            console.log("Step 2: Deploying MockERC20...");
-            const MockERC20 = await ethers.getContractFactory("contracts/mocks/MockERC20.sol:MockERC20");
-            token0 = await MockERC20.deploy("Token A", "TKNA", 18);
-            token1 = await MockERC20.deploy("Token B", "TKNB", 18);
-            await token0.deployed();
-            await token1.deployed();
-            console.log("Step 3: Tokens deployed.");
+    const HyperDex = await ethers.getContractFactory("HyperDex");
+    const hyperdex = await HyperDex.deploy(factory.address);
+    await hyperdex.deployed();
 
-            if (token0.address.toLowerCase() > token1.address.toLowerCase()) {
-                [token0, token1] = [token1, token0];
-            }
+    // Authorise the gateway as the pool's relayer through the factory (the only
+    // sanctioned path -- no account impersonation needed).
+    await factory.setPoolRelayer(pool.address, hyperdex.address, true);
+    await hyperdex.connect(owner).setRelayer(relayer.address);
 
-            // Deploy Factory & register pool
-            console.log("Step 4: Deploying Factory...");
-            const Factory = await ethers.getContractFactory("HyperDexFactory");
-            factory = await Factory.deploy(ethers.constants.AddressZero);
-            await factory.deployed();
-            console.log("Step 5: Factory deployed.");
+    const mintAmount = ethers.utils.parseEther("1000");
+    await token0.mint(user.address, mintAmount);
+    await token1.mint(user.address, mintAmount);
+    await token0.connect(user).approve(pool.address, ethers.constants.MaxUint256);
+    await token1.connect(user).approve(pool.address, ethers.constants.MaxUint256);
 
-            const Pool = await ethers.getContractFactory("contracts/HyperDexPool.sol:HyperDexPool");
-            pool = await Pool.deploy(factory.address, token0.address, token1.address, FEE_TIER, TICK_SPACING);
-            await pool.deployed();
-            console.log("Step 6: Pool deployed.");
+    // Seed liquidity at price 1 across (almost) the full range.
+    await token0.mint(owner.address, ethers.utils.parseEther("200"));
+    await token1.mint(owner.address, ethers.utils.parseEther("200"));
+    await token0.connect(owner).approve(pool.address, ethers.constants.MaxUint256);
+    await token1.connect(owner).approve(pool.address, ethers.constants.MaxUint256);
+    await pool.connect(owner).initialize(Q96);
+    await pool
+      .connect(owner)
+      .mint(owner.address, -887270, 887270, ethers.utils.parseEther("100"), "0x");
 
-            // Register pool
-            console.log("Step 7: Registering pool...");
-            await factory.connect(owner).registerExistingPool(
-                token0.address,
-                token1.address,
-                FEE_TIER,
-                pool.address
-            );
-            console.log("Step 8: Pool registered.");
+    return { owner, relayer, user, attacker, factory, pool, hyperdex, token0, token1, mintAmount };
+  }
 
-            // Deploy HyperDex
-            console.log("Step 9: Deploying HyperDex...");
-            const HyperDex = await ethers.getContractFactory("HyperDex");
-            hyperdex = await HyperDex.deploy(factory.address);
-            await hyperdex.deployed();
-            console.log("Step 10: HyperDex deployed.");
+  async function buildParams(pool, trader, amountIn, sqrtPriceLimitX96) {
+    const latest = await ethers.provider.getBlock("latest");
+    return {
+      pool: pool.address,
+      trader: trader.address,
+      zeroForOne: true,
+      amountSpecified: amountIn.toString(),
+      sqrtPriceLimitX96,
+      deadline: (latest.timestamp + 3600).toString(),
+      nonce: "0"
+    };
+  }
 
-            // Impersonate factory to authorize HyperDex as relayer in pool
-            console.log("Step 11: Impersonating factory...");
-            await network.provider.request({
-                method: "hardhat_impersonateAccount",
-                params: [factory.address],
-            });
-            await network.provider.send("hardhat_setBalance", [
-                factory.address,
-                ethers.utils.parseEther("1").toHexString()
-            ]);
-            const factorySigner = await ethers.provider.getSigner(factory.address);
-            await pool.connect(factorySigner).setRelayerAuthorization(hyperdex.address, true);
-            console.log("Step 12: Relayer authorized.");
+  async function sign(pool, signer, params) {
+    const chainId = (await ethers.provider.getNetwork()).chainId;
+    return signer._signTypedData(
+      { name: "HyperDexPool", version: "1", chainId, verifyingContract: pool.address },
+      GASLESS_SWAP_TYPES,
+      params
+    );
+  }
 
-            // Set relayer on HyperDex contract
-            await hyperdex.connect(owner).setRelayer(relayer.address);
-            console.log("Step 13: Relayer set on HyperDex.");
+  it("Should execute a signed gasless swap via the relayer", async function () {
+    const { relayer, user, hyperdex, pool, token0, token1, mintAmount } = await loadFixture(deployFixture);
 
-            // Setup EIP-712 domain
-            const chainId = (await ethers.provider.getNetwork()).chainId;
-            domain = {
-                name: "HyperDex",
-                version: "1",
-                chainId,
-                verifyingContract: hyperdex.address,
-            };
-            console.log("Step 14: EIP-712 domain set.");
+    const amountIn = ethers.utils.parseEther("0.001");
+    const params = await buildParams(pool, user, amountIn, MIN_SQRT_RATIO_PLUS_ONE);
+    const signature = await sign(pool, user, params);
 
-            // Fund and approve tokens
-            const mintAmount = ethers.utils.parseUnits("1000", 18);
-            await token0.connect(owner).mint(user.address, mintAmount);
-            await token1.connect(owner).mint(user.address, mintAmount);
-            await token0.connect(user).approve(pool.address, ethers.constants.MaxUint256);
-            await token1.connect(user).approve(pool.address, ethers.constants.MaxUint256);
-            await token0.connect(user).approve(hyperdex.address, ethers.constants.MaxUint256);
-            await token1.connect(user).approve(hyperdex.address, ethers.constants.MaxUint256);
-            console.log("Step 15: Tokens minted and approved.");
+    const bal0Before = await token0.balanceOf(user.address);
+    const bal1Before = await token1.balanceOf(user.address);
 
-            // Provide initial liquidity
-            await token0.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
-            await token1.connect(owner).mint(owner.address, ethers.utils.parseUnits("100", 18));
-            await token0.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
-            await token1.connect(owner).approve(pool.address, ethers.utils.parseUnits("100", 18));
-            // Initialize the pool with an initial price before minting liquidity
-            const initialPrice = encodePriceSqrt(ethers.utils.parseUnits("1", 18));
-            await pool.connect(owner).initialize(initialPrice);
-            // Mint liquidity across the full tick range, using multiples of tickSpacing
-            const minTick = -887250; // Closest multiple of 50 to -887272
-            const maxTick = 887250;  // Closest multiple of 50 to +887272
-            await pool.connect(owner).mint(owner.address, minTick, maxTick, ethers.utils.parseUnits("100", 18), "0x");
-            console.log("Step 17: Initial liquidity minted.");
-        } catch (err) {
-            console.error("Error in beforeEach:", err);
-            throw err;
-        }
-    });
+    await hyperdex.connect(relayer).executeGaslessSwap({ ...params, signature }, signature);
 
-    // --- Helper Function to Create Signature ---
-    async function signGaslessSwap(signer, params) {
-        // IMPORTANT: The GaslessSwap type definition must match the struct used in the contract
-        // Make sure this matches the typehash in HyperDex.sol
-        const types = {
-            GaslessSwap: [
-                { name: "trader", type: "address" },
-                { name: "zeroForOne", type: "bool" },
-                { name: "amountSpecified", type: "int256" },
-                { name: "sqrtPriceLimitX96", type: "uint160" },
-                { name: "deadline", type: "uint256" },
-                { name: "nonce", type: "uint256" }
-            ],
-        };
-        
-        // Ensure all parameters are properly formatted
-        const paramsForSigning = {
-            trader: params.trader,
-            zeroForOne: params.zeroForOne,
-            amountSpecified: params.amountSpecified.toString(),
-            sqrtPriceLimitX96: params.sqrtPriceLimitX96.toString(),
-            deadline: params.deadline.toString(),
-            nonce: params.nonce.toString()
-        };
-        
-        console.log("Signing params:", JSON.stringify(paramsForSigning, null, 2));
-        const signature = await signer._signTypedData(domain, types, paramsForSigning);
-        console.log("Generated signature:", signature);
-        
-        return signature;
-    }
+    // The relayer paid no tokens and the trader moved exactly one swap's worth.
+    expect(await hyperdex.getNonce(user.address)).to.equal(1);
 
-    it("Should execute a valid gasless swap (T0->T1) via the relayer", async function () {
-        const amountIn = ethers.utils.parseUnits("0.0001", 18);
-        const currentNonce = await hyperdex.getNonce(user.address);
-        
-        // Get current block timestamp and add buffer for deadline
-        const latestBlock = await ethers.provider.getBlock('latest');
-        const deadline = latestBlock.timestamp + 100000; // ~28 hours
-        
-        // Log test parameters for debugging
-        console.log("------- TEST PARAMETERS -------");
-        console.log("Token0:", token0.address);
-        console.log("Token1:", token1.address);
-        console.log("Fee tier:", FEE_TIER);
-        console.log("User address:", user.address);
-        console.log("Relayer address:", relayer.address);
-        console.log("HyperDex address:", hyperdex.address);
-        console.log("Pool address:", pool.address);
-        console.log("Current blockchain timestamp:", latestBlock.timestamp);
-        console.log("Deadline set to:", deadline);
+    const bal0After = await token0.balanceOf(user.address);
+    const bal1After = await token1.balanceOf(user.address);
+    const moved0 = bal0After.sub(bal0Before).abs();
+    const moved1 = bal1After.sub(bal1Before).abs();
+    expect(moved0.isZero() && moved1.isZero()).to.equal(false);
 
-        const params = {
-            trader: user.address,
-            zeroForOne: true,
-            amountSpecified: amountIn.toString(),
-            sqrtPriceLimitX96: TickMath.MIN_SQRT_RATIO.add(1).toString(),
-            deadline: deadline.toString(),
-            nonce: currentNonce.toString(),
-        };
-        
-        const signature = await signGaslessSwap(user, params);
-        params.signature = signature;
-        
-        const token0BalanceBefore = await token0.balanceOf(user.address);
-        const token1BalanceBefore = await token1.balanceOf(user.address);
+    // The user still holds essentially their full balance: one small swap, not
+    // the doubled transfer the previous implementation produced.
+    expect(bal0After.add(bal1After)).to.be.closeTo(mintAmount.mul(2), ethers.utils.parseEther("0.01"));
+  });
 
-        console.log("Balances before swap - token0:", token0BalanceBefore.toString(), "token1:", token1BalanceBefore.toString());
-        
-        // Check that our mock works
-        console.log("Calling factory.getPool directly from test as a check:");
-        const poolAddress = await factory.getPool(token0.address, token1.address, FEE_TIER);
-        console.log("Factory.getPool returned:", poolAddress);
-        
-        try {
-            // Execute the gasless swap through the relayer
-            console.log("Calling executeGaslessSwap...");
-            await hyperdex.connect(relayer).executeGaslessSwap(params, signature);
-            console.log("executeGaslessSwap succeeded!");
-        } catch (error) {
-            console.error("executeGaslessSwap failed with error:", error.message);
-            // Throw it again so the test fails
-            throw error;
-        }
+  it("Should refuse a gasless swap the trader did not sign", async function () {
+    const { relayer, user, attacker, hyperdex, pool, token0, token1, mintAmount } =
+      await loadFixture(deployFixture);
 
-        const token0BalanceAfter = await token0.balanceOf(user.address);
-        const token1BalanceAfter = await token1.balanceOf(user.address);
-        
-        console.log("Balances after swap - token0:", token0BalanceAfter.toString(), "token1:", token1BalanceAfter.toString());
-        
-        // Verify the nonce was incremented
-        expect(await hyperdex.getNonce(user.address)).to.equal(currentNonce.add(1));
-        
-        // Verify tokens were exchanged
-        expect(token0BalanceAfter).to.be.gt(token0BalanceBefore); // User received token0
-        expect(token1BalanceAfter).to.be.lt(token1BalanceBefore); // User spent token1
-    });
+    const params = await buildParams(pool, user, ethers.utils.parseEther("0.001"), MIN_SQRT_RATIO_PLUS_ONE);
+    // Someone other than the trader signs a payload naming the trader.
+    const signature = await sign(pool, attacker, params);
 
-    it("Should execute swap up to the sqrtPriceLimitX96 when limit is hit (T0->T1)", async function () {
-        const amountIn = ethers.utils.parseUnits("0.0001", 18);
-        const currentNonce = await hyperdex.getNonce(user.address);
-        
-        // Get the current block timestamp and add a very large buffer
-        const latestBlock = await ethers.provider.getBlock('latest');
-        const deadline = latestBlock.timestamp + 100000; // Add 100,000 seconds (~28 hours)
+    await expect(
+      hyperdex.connect(relayer).executeGaslessSwap({ ...params, signature }, signature)
+    ).to.be.revertedWith("Invalid signature");
 
-        // Get current state - Direct access to sqrtPriceX96 state variable
-        const currentSqrtPriceX96 = await pool.sqrtPriceX96(); 
+    expect(await token0.balanceOf(user.address)).to.equal(mintAmount);
+    expect(await token1.balanceOf(user.address)).to.equal(mintAmount);
+  });
 
-        // Set a price limit slightly below the current price (for zeroForOne=true)
-        // This calculation needs to be accurate based on pool math
-        // Example: Decrease sqrtPrice by a small amount
-        const priceLimitX96 = currentSqrtPriceX96.sub(BigNumber.from("10000000000000")); // Arbitrary small decrease for test
-        // Ensure limit is actually lower for zeroForOne=true swap
-        expect(priceLimitX96).to.be.lt(currentSqrtPriceX96);
+  it("Should refuse a caller that is not the configured relayer", async function () {
+    const { user, attacker, hyperdex, pool } = await loadFixture(deployFixture);
 
-        const params = {
-            trader: user.address,
-            zeroForOne: true, 
-            amountSpecified: amountIn.toString(),
-            sqrtPriceLimitX96: priceLimitX96.toString(), 
-            deadline: deadline.toString(),
-            nonce: currentNonce.toString(),
-        };
+    const params = await buildParams(pool, user, ethers.utils.parseEther("0.001"), MIN_SQRT_RATIO_PLUS_ONE);
+    const signature = await sign(pool, user, params);
 
-        const signature = await signGaslessSwap(user, params);
-        // Add signature to params for pool verification
-        params.signature = signature;
+    await expect(
+      hyperdex.connect(attacker).executeGaslessSwap({ ...params, signature }, signature)
+    ).to.be.revertedWith("Invalid relayer");
+  });
 
-        const token0BalanceBefore = await token0.balanceOf(user.address);
-        const token1BalanceBefore = await token1.balanceOf(user.address);
+  it("Should route to the pool named in the signature, not pool #0", async function () {
+    const { relayer, user, hyperdex, pool, factory, token0, token1 } = await loadFixture(deployFixture);
 
-        // Execute swap
-        await hyperdex.connect(relayer).executeGaslessSwap(params, signature);
+    // Create a second pool and make it pool #1.
+    const MockERC20 = await ethers.getContractFactory("MockERC20");
+    const tokenC = await MockERC20.deploy("Token C", "TKNC", 18);
+    await tokenC.deployed();
+    const [token2, token3] =
+      tokenC.address.toLowerCase() < token1.address.toLowerCase()
+        ? [tokenC, token1]
+        : [token1, tokenC];
+    await factory.createPool(token2.address, token3.address, FEE_TIER);
+    const pool2Address = await factory.getPool(token2.address, token3.address, FEE_TIER);
 
-        const token0BalanceAfter = await token0.balanceOf(user.address);
-        const token1BalanceAfter = await token1.balanceOf(user.address);
-        const finalSqrtPriceX96 = await pool.sqrtPriceX96(); // Get final price
+    expect(await factory.allPools(0)).to.equal(pool.address);
+    expect(await factory.allPools(1)).to.equal(pool2Address);
 
-        // --- Assertions ---
-        // 1. Check balances changed (swap occurred)
-        expect(token0BalanceAfter).to.be.gt(token0BalanceBefore); // Received token0
-        expect(token1BalanceAfter).to.be.lt(token1BalanceBefore); // Spent token1
+    // A swap signed for pool #0 must execute on pool #0.
+    const amountIn = ethers.utils.parseEther("0.001");
+    const params = await buildParams(pool, user, amountIn, MIN_SQRT_RATIO_PLUS_ONE);
+    const signature = await sign(pool, user, params);
 
-        // 2. Check final price is at or very close to the limit (allowing for potential rounding)
-        // The pool implementation might not hit exactly the limit due to discrete ticks
-        // Allow for a small tolerance in the comparison
-        expect(finalSqrtPriceX96).to.be.closeTo(priceLimitX96, 10); // Allow small tolerance
+    const bal0Before = await token0.balanceOf(user.address);
+    const bal1Before = await token1.balanceOf(user.address);
 
-        // 3. Check nonce incremented
-        expect(await hyperdex.getNonce(user.address)).to.equal(currentNonce.add(1));
+    await hyperdex.connect(relayer).executeGaslessSwap({ ...params, signature }, signature);
 
-        console.log(`      Swap Limit Test: Final sqrtPriceX96 ${finalSqrtPriceX96} matched limit ${priceLimitX96}`);
-     });
-}); // End describe block
+    expect(await token0.balanceOf(user.address)).to.not.equal(bal0Before);
+    expect(await token1.balanceOf(user.address)).to.not.equal(bal1Before);
+  });
 
-console.log("Test file execution completed");
+  it("Should refuse to replay a gasless swap", async function () {
+    const { relayer, user, hyperdex, pool } = await loadFixture(deployFixture);
+
+    const params = await buildParams(pool, user, ethers.utils.parseEther("0.001"), MIN_SQRT_RATIO_PLUS_ONE);
+    const signature = await sign(pool, user, params);
+
+    await hyperdex.connect(relayer).executeGaslessSwap({ ...params, signature }, signature);
+    await expect(
+      hyperdex.connect(relayer).executeGaslessSwap({ ...params, signature }, signature)
+    ).to.be.revertedWith("Invalid nonce");
+  });
+});

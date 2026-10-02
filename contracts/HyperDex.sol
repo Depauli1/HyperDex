@@ -31,7 +31,11 @@ contract HyperDex is Ownable, Pausable, ReentrancyGuard, EIP712 {
     // EIP-712 Domain Separator details
     // solhint-disable-next-line var-name-mixedcase
     bytes32 private constant _GASLESS_SWAP_TYPEHASH = keccak256(
-        "GaslessSwap(address trader,bool zeroForOne,int256 amountSpecified,uint160 sqrtPriceLimitX96,uint256 deadline,uint256 nonce)"
+        "GaslessSwap(address pool,address trader,bool zeroForOne,int256 amountSpecified,uint160 sqrtPriceLimitX96,uint256 deadline,uint256 nonce)"
+    );
+
+    bytes32 private constant _EIP712_DOMAIN_TYPEHASH = keccak256(
+        "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
     );
 
     // --- State Variables ---
@@ -142,9 +146,26 @@ contract HyperDex is Ownable, Pausable, ReentrancyGuard, EIP712 {
         IHyperDexPool.GaslessSwapParams calldata params,
         bytes calldata signature
     ) internal view {
-        // Hash the swap parameters according to EIP-712 standard
-        bytes32 structHash = _hashGaslessSwap(params);
-        bytes32 digest = _hashTypedDataV4(structHash);
+        if (params.pool == address(0)) {
+            revert(ERROR_POOL_NOT_FOUND);
+        }
+
+        // The user signs against the *pool's* EIP-712 domain, so this router
+        // reconstructs that domain separator rather than using its own. The pool
+        // re-verifies the identical digest, so a single signature authorises both
+        // hops and is bound to exactly one pool.
+        bytes32 domainSeparator = keccak256(
+            abi.encode(
+                _EIP712_DOMAIN_TYPEHASH,
+                keccak256("HyperDexPool"),
+                keccak256("1"),
+                block.chainid,
+                params.pool
+            )
+        );
+        bytes32 digest = keccak256(
+            abi.encodePacked("\x19\x01", domainSeparator, _hashGaslessSwap(params))
+        );
 
         // Recover the signer address from the digest and signature
         address signer = digest.recover(signature);
@@ -152,8 +173,8 @@ contract HyperDex is Ownable, Pausable, ReentrancyGuard, EIP712 {
             revert(ERROR_INVALID_SIGNATURE);
         }
 
-        // Check for replay attack
-        bytes32 metaTxId = keccak256(abi.encodePacked(params.trader, params.nonce));
+        // Check for replay attack (same encoding as the pool's registry)
+        bytes32 metaTxId = keccak256(abi.encode(params.trader, params.nonce));
         if (executedMetaTxs[metaTxId]) {
             revert(ERROR_META_TX_ALREADY_EXECUTED);
         }
@@ -171,20 +192,18 @@ contract HyperDex is Ownable, Pausable, ReentrancyGuard, EIP712 {
         bytes calldata signature
     ) internal returns (int256 amount0Delta, int256 amount1Delta) {
         // Mark as executed and increment nonce (Checks-Effects-Interactions pattern)
-        bytes32 metaTxId = keccak256(abi.encodePacked(params.trader, params.nonce));
+        bytes32 metaTxId = keccak256(abi.encode(params.trader, params.nonce));
         executedMetaTxs[metaTxId] = true;
         userNonces[params.trader]++;
 
-        // Determine Pool Address - this needs to be derived from trader address
-        // Since we no longer have tokenIn/tokenOut in the struct, we need to rely on transaction context
-        // For this implementation, we'll use factory's first pool as demo
-        address poolAddress = factory.allPools(0); // Gets the first registered pool
-        if (poolAddress == address(0)) {
-            revert(ERROR_POOL_NOT_FOUND);
-        }
+        // Route to the pool the trader signed for. This used to hardcode
+        // `factory.allPools(0)`, so every gasless swap hit pool #0 regardless of
+        // the requested market.
+        address poolAddress = params.pool;
 
         // Create a new params struct for the pool
         IHyperDexPool.GaslessSwapParams memory poolParams = IHyperDexPool.GaslessSwapParams({
+            pool: poolAddress,
             trader: params.trader,
             zeroForOne: params.zeroForOne,
             amountSpecified: params.amountSpecified,
@@ -226,6 +245,7 @@ contract HyperDex is Ownable, Pausable, ReentrancyGuard, EIP712 {
         return keccak256(
             abi.encode(
                 _GASLESS_SWAP_TYPEHASH,
+                params.pool,
                 params.trader,
                 params.zeroForOne,
                 params.amountSpecified,

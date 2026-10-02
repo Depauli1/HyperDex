@@ -45,11 +45,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     # The fork suites assert against the deployed Connext, LayerZero, Chainlink
-    # and Uniswap v3 contracts. Without an RPC endpoint they self-skip, but the
-    # job is only worth running when the secret is configured.
+    # and Uniswap v3 contracts. Without an RPC endpoint they self-skip, so the
+    # job is green either way; the secret cannot be used in a job-level `if`
+    # (the env and secrets contexts are not available there), hence the
+    # step-level condition below.
     env:
       SEPOLIA_RPC_URL: ${{ secrets.SEPOLIA_RPC_URL }}
-    if: ${{ env.SEPOLIA_RPC_URL != '' }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -62,7 +63,11 @@ jobs:
       - name: Compile
         run: npx hardhat compile
       - name: Fork tests
+        if: env.SEPOLIA_RPC_URL != ''
         run: npm run test:fork
+      - name: Fork tests skipped (no SEPOLIA_RPC_URL secret)
+        if: env.SEPOLIA_RPC_URL == ''
+        run: echo "SEPOLIA_RPC_URL is not configured; the fork suite self-skip check ran above." 
 
   analytics-service:
     name: Analytics Service Tests
@@ -148,21 +153,20 @@ jobs:
       - name: Install Playwright browser
         working-directory: e2e
         run: npx playwright install --with-deps chromium
-      - name: Start services
-        run: |
-          # The analytics service starts without RPC configuration (the chain
-          # watcher reports itself disabled) and the dashboard is served by the
-          # production build, so neither can hang on a dev-server prompt.
-          (cd analytics-service && PORT=4000 npm start > /tmp/analytics.log 2>&1 &)
-          (cd dashboard && npm run build > /tmp/dashboard-build.log 2>&1)
-          npx --yes serve -s dashboard/build -l 3000 > /tmp/dashboard.log 2>&1 &
-      # wait-on with an explicit timeout: a service that never comes up now
-      # fails the job in two minutes instead of hanging until the runner dies.
-      - name: Wait for services
-        run: npx --yes wait-on -t 120000 http-get://127.0.0.1:4000/health http-get://127.0.0.1:3000
+      # Services are started, waited for and exercised in one step: background
+      # processes do not reliably outlive the step that spawned them.
       - name: Run E2E tests
-        working-directory: e2e
-        run: npm test
+        run: |
+          # The analytics service starts without RPC configuration (its chain
+          # watcher reports itself disabled) and the dashboard is served from a
+          # production build, so nothing can hang on a dev-server prompt.
+          (cd analytics-service && PORT=4000 npm start > /tmp/analytics.log 2>&1 &)
+          npm run --prefix dashboard build > /tmp/dashboard-build.log 2>&1
+          nohup npx --yes serve -s dashboard/build -l 3000 > /tmp/dashboard.log 2>&1 &
+          # wait-on with an explicit timeout: a service that never comes up
+          # fails the job in two minutes instead of hanging until the runner dies.
+          npx --yes wait-on -t 120000 http-get://127.0.0.1:4000/health http-get://127.0.0.1:3000
+          npm test --prefix e2e
       - name: Service logs
         if: always()
         run: |

@@ -1,7 +1,10 @@
 const { ethers } = require('ethers');
 const HyperDexABI = require('../abi/HyperDex.json');
-const { randomBytes } = require('crypto');
-const axios = require('axios');
+const {
+  GASLESS_SWAP_TYPES,
+  gaslessSwapDomain,
+  toStruct
+} = require('../src/config/eip712');
 
 /**
  * HyperDex Relayer SDK for client applications
@@ -50,12 +53,8 @@ class HyperDexRelayerSDK {
     try {
       const chainId = (await this.provider.getNetwork()).chainId;
       
-      this.domain = {
-        name: "HyperDex Protocol",
-        version: "1",
-        chainId,
-        verifyingContract: this.hyperDexAddress
-      };
+      // Must match contracts/HyperDex.sol exactly; see src/config/eip712.js.
+      this.domain = gaslessSwapDomain(chainId, this.hyperDexAddress);
       
       this.initialized = true;
     } catch (error) {
@@ -79,12 +78,15 @@ class HyperDexRelayerSDK {
   }
 
   /**
-   * Generate a unique nonce for a transaction
-   * 
-   * @returns {string} - A unique nonce
+   * The nonce is a strict, sequential counter held by the gateway - it is not
+   * random. Use `getNonce(userAddress)`.
+   *
+   * @returns {never}
    */
   generateNonce() {
-    return ethers.BigNumber.from(randomBytes(32)).toString();
+    throw new Error(
+      'Gasless swap nonces are sequential and issued by the contract; call getNonce(userAddress) instead'
+    );
   }
 
   /**
@@ -103,7 +105,7 @@ class HyperDexRelayerSDK {
     zeroForOne,
     amountSpecified,
     sqrtPriceLimitX96,
-    poolAddress = ethers.constants.AddressZero,
+    pool = ethers.constants.AddressZero,
     deadlineMinutes = 60
   }) {
     if (!this.initialized) await this.initialize();
@@ -116,11 +118,11 @@ class HyperDexRelayerSDK {
     
     // Format parameters
     return {
+      pool,
       trader: userAddress,
       zeroForOne,
       amountSpecified: amountSpecified.toString(),
       sqrtPriceLimitX96: sqrtPriceLimitX96.toString(),
-      poolAddress,
       deadline: deadlineSeconds.toString(),
       nonce
     };
@@ -135,22 +137,9 @@ class HyperDexRelayerSDK {
    */
   async signSwap(params, signer) {
     if (!this.initialized) await this.initialize();
-    
-    // EIP-712 type definitions
-    const types = {
-      GaslessSwap: [
-        { name: "trader", type: "address" },
-        { name: "zeroForOne", type: "bool" },
-        { name: "amountSpecified", type: "int256" },
-        { name: "sqrtPriceLimitX96", type: "uint160" },
-        { name: "poolAddress", type: "address" },
-        { name: "deadline", type: "uint256" },
-        { name: "nonce", type: "uint256" }
-      ]
-    };
-    
-    // Sign the swap parameters
-    return await signer._signTypedData(this.domain, types, params);
+
+    // Field order and names are part of the wire format; toStruct enforces them.
+    return await signer._signTypedData(this.domain, GASLESS_SWAP_TYPES, toStruct(params));
   }
 
   /**
@@ -242,9 +231,9 @@ class HyperDexRelayerSDK {
   async createSignedSwap(signer, params) {
     if (!this.initialized) await this.initialize();
     
-    // Add nonce if not provided
-    if (!params.nonce) {
-      params.nonce = this.generateNonce();
+    // The nonce is the contract's own counter; fetch it when the caller did not.
+    if (params.nonce === undefined) {
+      params.nonce = await this.getNonce(await signer.getAddress());
     }
     
     // Sign the parameters
@@ -275,7 +264,7 @@ class HyperDexRelayerSDK {
     zeroForOne,
     amountSpecified,
     sqrtPriceLimitX96,
-    poolAddress,
+    pool,
     priority = 'medium'
   }) {
     const userAddress = await signer.getAddress();
@@ -286,7 +275,7 @@ class HyperDexRelayerSDK {
       zeroForOne,
       amountSpecified,
       sqrtPriceLimitX96,
-      poolAddress
+      pool
     });
     
     // Sign parameters

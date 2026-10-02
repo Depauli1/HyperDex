@@ -1,0 +1,9 @@
+{
+  "$comment": "Copy to ignition/parameters.<network>.json and fill in. Never commit real keys: parameters only carry public addresses and numbers.",
+  "HyperDexModule": {
+    "v3Factory": "0x0227628f3F023bb0B980b67D528571c95c6DaC1c",
+    "chainlinkFeed": "0x694AA1769357215DE4FAC081bf1f309aDC325306",
+    "baseDenominator": 10,
+    "minDenominator": 4
+  }
+}

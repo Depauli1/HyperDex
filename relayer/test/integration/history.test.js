@@ -22,7 +22,7 @@ describe('Transaction History API Integration', () => {
     confirmedAt: new Date().toISOString()
   }];
 
-  before(async () => {
+  beforeAll(async () => {
     mockServices = {
       dbService: {
         getTransactionsByTrader: sinon.stub().resolves(sampleTxs)
@@ -38,7 +38,7 @@ describe('Transaction History API Integration', () => {
     app.use('/api', routes(mockServices));
   });
 
-  after(async () => {
+  afterAll(async () => {
     sinon.restore();
   });
 

@@ -21,3 +21,9 @@ ignition/deployments/chain-31337
 !.env.sample
 !.env.example
 relayer/keystore/*.json
+
+# Runtime artifacts — logs and files written while the services run
+*.log
+relayer/test/.relayer-port
+relayer/test/coverage/
+e2e/test-results/

@@ -30,8 +30,10 @@ interface IHyperDexFactory {
     /// @notice Number of pools registered by this factory.
     function allPoolsLength() external view returns (uint256);
 
-    /// @notice Protocol share of the trading fee for a pool, in basis points.
-    function getProtocolFee(address pool) external view returns (uint32);
+    /// @notice Divisor for the protocol's share of the LP fee for a pool.
+    /// @dev Matches Uniswap v3's own encoding: 0 disables the protocol fee,
+    ///      4..10 means the protocol keeps 1/4 .. 1/10 of the swap fee.
+    function getProtocolFee(address pool) external view returns (uint8);
 
     /// @notice Records off-chain computed analytics for a pool.
     function updatePoolAnalytics(address pool, uint256 tvl, uint256 volume24h) external;

@@ -104,45 +104,31 @@ function sleep(ms) {
  * @param {Object} params - Optional swap request params to override defaults
  * @returns {Object} - Signed gasless swap request
  */
-function createSignedSwapRequest(signer, hyperDexAddress, params) {
-  const domain = {
-    name: 'HyperDex Protocol',
-    version: '1',
-    chainId: 1, // Mock chain ID for tests
-    verifyingContract: hyperDexAddress
-  };
+async function createSignedSwapRequest(signer, hyperDexAddress, params = {}) {
+  // Real EIP-712 signature over the canonical struct (see
+  // relayer/src/config/eip712.js). The previous version returned
+  // `'0x' + '2'.repeat(130)` - a fake that let a broken domain pass every test.
+  const { gaslessSwapDomain, GASLESS_SWAP_TYPES, toStruct } = require('../../src/config/eip712');
 
-  const types = {
-    GaslessSwap: [
-      { name: 'trader', type: 'address' },
-      { name: 'zeroForOne', type: 'bool' },
-      { name: 'amountSpecified', type: 'int256' },
-      { name: 'sqrtPriceLimitX96', type: 'uint160' },
-      { name: 'poolAddress', type: 'address' },
-      { name: 'deadline', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' }
-    ]
-  };
-  
-  // Default values merged with provided params
   const swapParams = {
+    pool: params.pool || ethers.constants.AddressZero,
     trader: signer.address,
     zeroForOne: true,
     amountSpecified: ethers.utils.parseEther('1').toString(),
-    sqrtPriceLimitX96: '0',
-    poolAddress: ethers.constants.AddressZero,
-    deadline: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
-    nonce: ethers.BigNumber.from(randomBytes(32)).toString(),
+    sqrtPriceLimitX96: '4295128740',
+    deadline: Math.floor(Date.now() / 1000) + 3600,
+    nonce: '1',
     ...params
   };
 
-  // For tests, we'll mock the signature
-  const signature = '0x' + '2'.repeat(130);
-  
-  return {
-    ...swapParams,
-    signature
-  };
+  const wallet = new ethers.Wallet(signer.privateKey);
+  const signature = await wallet._signTypedData(
+    gaslessSwapDomain(params.chainId || 31337, hyperDexAddress),
+    GASLESS_SWAP_TYPES,
+    toStruct(swapParams)
+  );
+
+  return { ...swapParams, signature };
 }
 
 module.exports = {

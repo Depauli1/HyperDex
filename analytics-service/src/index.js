@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
   res.json({ status: 'Analytics service running', metricsBase: '/metrics' });
 });
 
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
+});
+
 const PORT = process.env.PORT || 4000;
 // start socket listener, chain events & server only when run directly (not required by tests)
 if (require.main === module) {
@@ -31,7 +35,14 @@ if (require.main === module) {
   io.on('connection', (socket) => {
     console.log('Client connected:', socket.id);
   });
-  chainEvents.start(io);
+  // The HTTP API must come up even when the chain watcher cannot: a missing or
+  // wrong PROVIDER_URL/POOL_ADDRESS is a configuration problem, not a reason to
+  // crash the service (and the metrics endpoints answer with nulls until the
+  // first swap is seen).
+  chainEvents
+    .start(io)
+    .catch((error) => console.error(`Chain event watcher disabled: ${error.message}`));
+
   server.listen(PORT, () => console.log(`Analytics service listening on ${PORT}`));
 }
 

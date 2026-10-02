@@ -29,17 +29,9 @@ const RATE_LIMITS = {
   ENTERPRISE: process.env.NODE_ENV === 'test' ? 10000 : 100
 };
 
-// Domain and type definitions for EIP-712 signatures
-const EIP712_TYPES = {
-  GaslessSwap: [
-    { name: "trader", type: "address" },
-    { name: "zeroForOne", type: "bool" },
-    { name: "amountSpecified", type: "int256" },
-    { name: "sqrtPriceLimitX96", type: "uint160" },
-    { name: "deadline", type: "uint256" },
-    { name: "nonce", type: "uint256" }
-  ]
-};
+// EIP-712 definitions live in one place; this re-export keeps existing importers
+// working while guaranteeing they cannot drift from `contracts/HyperDex.sol`.
+const { GASLESS_SWAP_TYPES, DOMAIN_NAME, DOMAIN_VERSION } = require('./eip712');
 
 module.exports = {
   MAX_RETRIES,
@@ -51,5 +43,7 @@ module.exports = {
   MAX_GAS_PRICE,
   PRIORITY_LEVELS,
   RATE_LIMITS,
-  EIP712_TYPES
+  EIP712_TYPES: GASLESS_SWAP_TYPES,
+  EIP712_DOMAIN_NAME: DOMAIN_NAME,
+  EIP712_DOMAIN_VERSION: DOMAIN_VERSION
 };

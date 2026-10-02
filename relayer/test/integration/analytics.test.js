@@ -7,7 +7,7 @@ const sinon = require('sinon');
 describe('Analytics API Integration', () => {
   let app, mockServices;
 
-  before(async () => {
+  beforeAll(async () => {
     mockServices = {
       dbService: {
         getGasPriceHistory: sinon.stub().resolves([
@@ -38,7 +38,7 @@ describe('Analytics API Integration', () => {
     app.use('/api', routes(mockServices));
   });
 
-  after(async () => {
+  afterAll(async () => {
     sinon.restore();
   });
 

@@ -11,11 +11,11 @@ const logger = require('../../utils/logger');
 function validateSwapParams(req, res, next) {
   try {
     const {
+      pool,
       trader,
       zeroForOne,
       amountSpecified,
       sqrtPriceLimitX96,
-      poolAddress,
       deadline,
       nonce,
       signature
@@ -26,7 +26,10 @@ function validateSwapParams(req, res, next) {
       return res.status(400).json({ error: 'Missing required field: signature' });
     }
     
+    // `pool` is part of the signed EIP-712 struct, so it is required: a request
+    // without it cannot be verified or executed.
     const requiredParams = [
+      'pool',
       'trader',
       'zeroForOne',
       'amountSpecified',
@@ -47,8 +50,8 @@ function validateSwapParams(req, res, next) {
       return res.status(400).json({ error: 'Invalid trader address format' });
     }
     
-    // Validate poolAddress if provided
-    if (poolAddress && !ethers.utils.isAddress(poolAddress)) {
+    // Validate the pool address format.
+    if (!ethers.utils.isAddress(pool)) {
       return res.status(400).json({ error: 'Invalid pool address format' });
     }
     

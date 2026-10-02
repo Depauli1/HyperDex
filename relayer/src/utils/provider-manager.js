@@ -17,17 +17,26 @@ class ProviderManager extends EventEmitter {
    */
   constructor(rpcUrls, options = {}) {
     super();
-    if (!rpcUrls || !Array.isArray(rpcUrls) || rpcUrls.length === 0) {
-      throw new Error('At least one RPC URL must be provided');
+    // Filter before validating: `[process.env.SOMETHING]` produces a one-element
+    // array containing undefined, which used to sail past the length check and
+    // crash later with "Cannot read properties of undefined (reading 'replace')"
+    // on the very first health check.
+    const urls = (Array.isArray(rpcUrls) ? rpcUrls : [rpcUrls]).filter(
+      (url) => typeof url === 'string' && url.trim().length > 0
+    );
+    if (urls.length === 0) {
+      throw new Error(
+        'At least one RPC URL must be provided (set ETHEREUM_RPC_URL or ETHEREUM_RPC_URLS)'
+      );
     }
 
-    this.rpcUrls = rpcUrls;
-    this.providers = rpcUrls.map(url => new ethers.providers.JsonRpcProvider(url));
+    this.rpcUrls = urls;
+    this.providers = urls.map(url => new ethers.providers.JsonRpcProvider(url));
     this.activeProviderIndex = 0;
     this.healthCheckIntervalMs = options.healthCheckIntervalMs || 30000; // 30 seconds
     this.maxRetries = options.maxRetries || 3;
     this.retryDelayMs = options.retryDelayMs || 1000;
-    this.providerHealth = rpcUrls.map(() => ({
+    this.providerHealth = urls.map(() => ({
       healthy: true,
       lastChecked: Date.now(),
       errorCount: 0,
@@ -176,7 +185,7 @@ class ProviderManager extends EventEmitter {
    */
   getProvidersHealth() {
     return this.providerHealth.map((health, i) => ({
-      url: this.rpcUrls[i].replace(/^(https?:\/\/[^:@\/]+):[^@\/]+@/, '$1:****@'), // Mask API keys
+      url: (this.rpcUrls[i] || '').replace(/^(https?:\/\/[^:@\/]+):[^@\/]+@/, '$1:****@'), // Mask API keys
       active: i === this.activeProviderIndex,
       ...health
     }));

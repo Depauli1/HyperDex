@@ -1,81 +1,91 @@
-const { ethers, utils } = require('ethers');
+/**
+ * The LayerZero route on the JavaScript side.
+ *
+ * As with Connext, the protocol call (`endpoint.send`) is made by the on-chain
+ * adapter; this class observes the destination-chain flag that the endpoint sets
+ * through `lzReceive`. See connext-adapter.test.js for the design note.
+ */
+const { ethers } = require('ethers');
 const LayerZeroAdapter = require('../../src/services/adapters/LayerZeroAdapter');
-const sinon = require('sinon');
+const LayerZeroAdapterABI = require('../../abi/LayerZeroAdapter.json');
 
-describe('LayerZeroAdapter', () => {
-  const config = {
-    endpointAddress: '0xE',
-    endpointABI: [],
-    wallet: {},
-    chainIdMapping: { 1: 1001 },
-    adapterParams: '0x0102',
-    zroPaymentAddress: '0xZRO',
-    refundAddress: '0xREF',
-    remoteContractAddress: '0xRC'
-  };
-  let adapter;
+describe('LayerZeroAdapter observer', () => {
+  const adapterAddress = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
+  const chainIdMapping = { 2: 10102, 11155111: 40161 };
 
-  beforeEach(() => {
-    sinon.restore();
-    adapter = Object.create(LayerZeroAdapter.prototype);
-    Object.assign(adapter, {
-      config,
-      endpoint: {
-        estimateFees: sinon.stub().resolves([ethers.BigNumber.from(123), ethers.BigNumber.from(0)]),
-        send: sinon.stub().resolves({ hash: '0xdead' })
-      },
-      chainIdMapping: config.chainIdMapping,
-      adapterParams: config.adapterParams,
-      zroPaymentAddress: config.zroPaymentAddress,
-      refundAddress: config.refundAddress,
-      remoteContractAddress: config.remoteContractAddress
+  function makeAdapter(overrides = {}) {
+    return new LayerZeroAdapter({
+      destinationProvider: new ethers.providers.JsonRpcProvider('http://127.0.0.1:1'),
+      adapterAddress,
+      chainIdMapping,
+      nativeFee: '2000',
+      ...overrides
     });
-  });
+  }
 
-  it('quoteFees returns native fee from endpoint.estimateFees', async () => {
-    const req = { dstChainId: 1 };
-    const fee = await adapter.quoteFees(req);
-    sinon.assert.calledWith(adapter.endpoint.estimateFees,
-      1001,
-      config.remoteContractAddress,
-      '0x',
-      false,
-      config.adapterParams
+  it('requires the destination adapter address', () => {
+    expect(() => makeAdapter({ adapterAddress: undefined })).toThrow(
+      /requires the destination adapter address/
     );
-    expect(fee).toEqual(ethers.BigNumber.from(123));
   });
 
-  it('bridgeOut calls send with correct params and returns tx', async () => {
-    const req = {
-      id: '0x0000000000000000000000000000000000000000000000000000000000000049', // bytes32 hex string
-      srcChainId: 1,
-      dstChainId: 1,
-      token: '0x0000000000000000000000000000000000000000',
-      amount: 10,
-      user: '0x0000000000000000000000000000000000000001',
-      deadline: 200,
-      fee: ethers.BigNumber.from(50)
+  it('binds to the real adapter ABI', () => {
+    const functions = LayerZeroAdapterABI.filter((e) => e.type === 'function').map((e) => e.name);
+    expect(functions).toContain('bridgeOut');
+    expect(functions).toContain('bridgeIn');
+    expect(functions).toContain('verifiedMessages');
+    expect(functions).toContain('lzReceive');
+  });
+
+  it('maps a chain id to a LayerZero endpoint id', () => {
+    expect(makeAdapter().getLzChainId(11155111)).toBe(40161);
+  });
+
+  it('refuses to quote for a chain with no endpoint mapping', async () => {
+    await expect(makeAdapter().quoteFees({ dstChainId: 3 })).rejects.toThrow(
+      'LayerZeroAdapter: missing chain mapping for chain 3'
+    );
+  });
+
+  it('quotes the configured native fee', async () => {
+    const fee = await makeAdapter().quoteFees({ dstChainId: 2 });
+    expect(fee.toString()).toBe('2000');
+  });
+
+  it('refuses to quote when no native fee is configured', async () => {
+    await expect(
+      makeAdapter({ nativeFee: undefined }).quoteFees({ dstChainId: 2 })
+    ).rejects.toThrow(/nativeFee is not configured/);
+  });
+
+  it('carries no extra proof: the endpoint proves delivery on-chain', async () => {
+    expect(await makeAdapter().fetchProof()).toBe('0x');
+  });
+
+  it('reads the on-chain verification flag', async () => {
+    const adapter = makeAdapter();
+    adapter.adapter = { verifiedMessages: jest.fn().mockResolvedValue(true) };
+    expect(await adapter.isVerified('0x' + '44'.repeat(32))).toBe(true);
+  });
+
+  it('polls until the message is verified', async () => {
+    const adapter = makeAdapter();
+    let calls = 0;
+    adapter.adapter = {
+      verifiedMessages: jest.fn(async () => {
+        calls += 1;
+        return calls >= 2;
+      })
     };
-    const tx = await adapter.bridgeOut(req);
-    sinon.assert.calledWith(adapter.endpoint.send,
-      1001,
-      config.remoteContractAddress,
-      sinon.match.any,
-      config.refundAddress,
-      config.zroPaymentAddress,
-      config.adapterParams,
-      { value: req.fee }
-    );
-    expect(tx).toEqual({ hash: '0xdead' });
+
+    expect(await adapter.waitForDelivery('0x' + '55'.repeat(32), { pollMs: 1 })).toBe(true);
+    expect(calls).toBe(2);
   });
 
-  it('fetchProof returns byte array of txHash', async () => {
-    const proof = await adapter.fetchProof('0xbeef');
-    expect(proof).toEqual(utils.arrayify('0xbeef'));
-  });
+  it('gives up after the timeout', async () => {
+    const adapter = makeAdapter({ timeoutMs: 20 });
+    adapter.adapter = { verifiedMessages: jest.fn().mockResolvedValue(false) };
 
-  it('bridgeIn returns null', async () => {
-    const res = await adapter.bridgeIn({}, []);
-    expect(res).toBeNull();
+    expect(await adapter.waitForDelivery('0x' + '66'.repeat(32), { pollMs: 5 })).toBe(false);
   });
 });

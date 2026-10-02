@@ -4,8 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "hardhat test",
+    "test:unit": "hardhat test --exclude test/fork/**",
+    "test:fork": "hardhat test test/fork",
+    "test:fork:mainnet": "hardhat test test/fork/Mainnet.hop.fork.test.js",
     "compile": "hardhat compile",
-    "test:unit": "hardhat test --exclude test/e2e",
     "secrets:check": "node scripts/check-secrets.js",
     "hooks": "node scripts/install-git-hooks.js",
     "prepare": "node scripts/install-git-hooks.js"
@@ -16,6 +18,9 @@
   "description": "",
   "devDependencies": {
     "@chainlink/contracts": "^0.4.2",
+    "@connext/interfaces": "^2.0.5",
+    "@hop-protocol/core": "0.0.1-beta.236",
+    "@layerzerolabs/lz-evm-sdk-v1": "^3.1.15",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.12",
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
     "@nomiclabs/hardhat-ethers": "^2.2.3",

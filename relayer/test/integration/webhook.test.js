@@ -9,7 +9,7 @@ describe('Webhook API Integration', () => {
   let app, mockServices;
   const traderAddr = TEST_ACCOUNTS.trader.address;
 
-  before(async () => {
+  beforeAll(async () => {
     mockServices = {
       dbService: {
         registerWebhook: sinon.stub().resolves({ 
@@ -69,7 +69,7 @@ describe('Webhook API Integration', () => {
     mockServices.signatureUtils.verifySignature.resolves(true);
   });
 
-  after(async () => {
+  afterAll(async () => {
     sinon.restore();
   });
 

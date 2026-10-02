@@ -1,21 +1,21 @@
 const express = require('express');
-const express = require('express');
+
 const router = express.Router();
 const { getMetrics } = require('../services/chainEvents');
 
-// GET price impact (placeholder)
+// GET realised price impact of the most recent swap, in percent
 router.get('/price-impact', (req, res) => {
   const { priceImpact } = getMetrics();
   res.json({ priceImpact });
 });
 
-// GET slippage predictions
+// GET realised slippage of the most recent swap, in basis points
 router.get('/slippage', (req, res) => {
   const { slippage } = getMetrics();
   res.json({ slippage });
 });
 
-// GET capital efficiency metrics
+// GET liquidity utilisation of the most recent swap
 router.get('/efficiency', (req, res) => {
   const { efficiency } = getMetrics();
   res.json({ efficiency });

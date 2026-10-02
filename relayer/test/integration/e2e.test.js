@@ -162,7 +162,7 @@ DEADLINE_VALIDATION_ENABLED=false
     }
   };
   
-  before(async () => {
+  beforeAll(async () => {
     wallets = getTestWallets();
     hyperDexAddress = process.env.HYPERDEX_ADDRESS;
     factoryAddress = process.env.FACTORY_ADDRESS;
@@ -198,7 +198,7 @@ DEADLINE_VALIDATION_ENABLED=false
     });
   }, 120000);
   
-  after(async () => {
+  afterAll(async () => {
     // Stop relayer service
     stopRelayer();
     

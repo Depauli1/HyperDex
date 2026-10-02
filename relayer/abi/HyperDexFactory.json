@@ -17,6 +17,11 @@
   },
   {
     "inputs": [],
+    "name": "InvalidProtocolFee",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "NotAnalyticsUpdater",
     "type": "error"
   },
@@ -98,6 +103,19 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "controller",
+        "type": "address"
+      }
+    ],
+    "name": "FeeControllerUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "previousOwner",
         "type": "address"
       },
@@ -159,12 +177,43 @@
       },
       {
         "indexed": false,
-        "internalType": "uint32",
-        "name": "newFee",
-        "type": "uint32"
+        "internalType": "uint8",
+        "name": "denominator",
+        "type": "uint8"
       }
     ],
     "name": "ProtocolFeeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount0",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount1",
+        "type": "uint128"
+      }
+    ],
+    "name": "ProtocolFeesCollected",
     "type": "event"
   },
   {
@@ -216,6 +265,58 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "name": "applyProtocolFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amount0Requested",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amount1Requested",
+        "type": "uint128"
+      }
+    ],
+    "name": "collectProtocolFees",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "amount0",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amount1",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "tokenA",
         "type": "address"
       },
@@ -252,9 +353,9 @@
     "name": "customProtocolFees",
     "outputs": [
       {
-        "internalType": "uint32",
+        "internalType": "uint8",
         "name": "",
-        "type": "uint32"
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -265,9 +366,9 @@
     "name": "defaultProtocolFee",
     "outputs": [
       {
-        "internalType": "uint32",
+        "internalType": "uint8",
         "name": "",
-        "type": "uint32"
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -289,6 +390,19 @@
     "name": "enableFeeAmount",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "feeController",
+    "outputs": [
+      {
+        "internalType": "contract IFeeController",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -412,9 +526,9 @@
     "name": "getProtocolFee",
     "outputs": [
       {
-        "internalType": "uint32",
+        "internalType": "uint8",
         "name": "",
-        "type": "uint32"
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -447,6 +561,25 @@
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "name": "pendingProtocolFee",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",
@@ -539,12 +672,25 @@
   {
     "inputs": [
       {
-        "internalType": "uint32",
-        "name": "newFee",
-        "type": "uint32"
+        "internalType": "uint8",
+        "name": "denominator",
+        "type": "uint8"
       }
     ],
     "name": "setDefaultProtocolFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "controller",
+        "type": "address"
+      }
+    ],
+    "name": "setFeeController",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -557,9 +703,9 @@
         "type": "address"
       },
       {
-        "internalType": "uint32",
-        "name": "newFee",
-        "type": "uint32"
+        "internalType": "uint8",
+        "name": "denominator",
+        "type": "uint8"
       }
     ],
     "name": "setProtocolFee",

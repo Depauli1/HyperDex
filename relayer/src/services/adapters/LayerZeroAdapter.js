@@ -1,217 +1,103 @@
 const { ethers } = require('ethers');
 const logger = require('../../utils/logger');
+const IBridgeAdapter = require('./IBridgeAdapter');
+
+const LayerZeroAdapterABI = require('../../../abi/LayerZeroAdapter.json');
 
 /**
- * LayerZero adapter for the bridge relayer
- * Handles cross-chain operations via LayerZero protocol
+ * Off-chain observer for the LayerZero route.
+ *
+ * The origin-side `endpoint.send` is issued by the on-chain adapter. Here the
+ * watcher only needs the delivery signal: `LayerZeroAdapter.verifiedMessages`
+ * is set by `lzReceive`, which the deployed endpoint alone can call, so polling
+ * it is a real check that the message arrived and passed the trusted-remote
+ * check on the destination chain.
  */
-class LayerZeroAdapter {
+class LayerZeroAdapter extends IBridgeAdapter {
   /**
-   * Initialize the LayerZero adapter
-   * @param {Object} options - Configuration options
-   * @param {string} options.endpointAddress - LayerZero endpoint address
-   * @param {Object} options.endpointABI - LayerZero endpoint ABI
-   * @param {Object} options.wallet - Ethers.js wallet
-   * @param {Object} options.chainIdMapping - Mapping of Ethereum chain IDs to LayerZero chain IDs
-   * @param {string} options.adapterParams - Adapter parameters for LayerZero (gas limit, etc.)
-   * @param {string} options.zroPaymentAddress - Address for ZRO token payment (usually zero address)
-   * @param {string} options.remoteContractAddress - Address of the contract on the remote chain
+   * @param {Object} config
+   * @param {ethers.providers.Provider} config.destinationProvider provider for the destination chain
+   * @param {string} config.adapterAddress LayerZeroAdapter deployed on the destination chain
+   * @param {Object} [config.chainIdMapping] chain id -> LayerZero endpoint id
+   * @param {Number|string} [config.nativeFee] fee (wei) quoted by `endpoint.estimateFees`
    */
-  constructor(options) {
-    this.endpointAddress = options.endpointAddress;
-    this.endpointABI = options.endpointABI;
-    this.wallet = options.wallet;
-    this.chainIdMapping = options.chainIdMapping || {};
-    this.adapterParams = options.adapterParams || '0x';
-    this.zroPaymentAddress = options.zroPaymentAddress || ethers.constants.AddressZero;
-    this.remoteContractAddress = options.remoteContractAddress;
-    
-    // Create contract instance if provider is available
-    if (this.wallet && this.wallet.provider) {
-      this.endpoint = new ethers.Contract(
-        this.endpointAddress,
-        this.endpointABI,
-        this.wallet
-      );
+  constructor(config = {}) {
+    super(config);
+    this.destinationProvider = config.destinationProvider || config.sourceProvider;
+    this.adapterAddress = config.adapterAddress;
+    this.chainIdMapping = config.chainIdMapping || {};
+    this.nativeFee = config.nativeFee !== undefined ? config.nativeFee : config.relayerFee;
+    this.pollMs = config.pollMs || 15_000;
+    this.timeoutMs = config.timeoutMs || 30 * 60 * 1000;
+
+    if (!ethers.utils.isAddress(this.adapterAddress || '')) {
+      throw new Error('LayerZeroAdapter requires the destination adapter address');
     }
-    
-    logger.info(`LayerZeroAdapter initialized with endpoint ${this.endpointAddress}`);
+    if (!this.destinationProvider) {
+      throw new Error('LayerZeroAdapter requires a destination provider');
+    }
+
+    this.adapter = new ethers.Contract(
+      this.adapterAddress,
+      LayerZeroAdapterABI,
+      this.destinationProvider
+    );
+
+    logger.info(`LayerZeroAdapter observer initialised for adapter ${this.adapterAddress}`);
   }
 
-  /**
-   * Gets the LayerZero chain ID for a given Ethereum chain ID
-   * @param {number} chainId - Ethereum chain ID
-   * @returns {number} - LayerZero chain ID
-   */
+  /** LayerZero endpoint id for a chain id, from configuration. */
   getLzChainId(chainId) {
     const lzChainId = this.chainIdMapping[chainId];
-    if (!lzChainId) {
-      throw new Error(`No LayerZero mapping found for chain ID: ${chainId}`);
+    if (lzChainId === undefined) {
+      throw new Error(`LayerZeroAdapter: missing chain mapping for chain ${chainId}`);
     }
     return lzChainId;
   }
 
-  /**
-   * Estimates the fees for a LayerZero transaction
-   * @param {Object} request - The bridge request
-   * @returns {Promise<string>} - The estimated fee as a hex string
-   */
+  /** Fee the router must forward; the on-chain adapter calls `estimateFees`. */
   async quoteFees(request) {
-    const dstChainId = this.getLzChainId(request.dstChainId);
-    
-    // Create payload similar to what would be sent
-    const payload = ethers.utils.defaultAbiCoder.encode(
-      ['address', 'uint256', 'uint256', 'address', 'uint256', 'uint256'],
-      [
-        request.user, 
-        request.srcChainId,
-        request.dstChainId,
-        request.token,
-        request.amount,
-        request.deadline
-      ]
-    );
-    
-    // Estimate the fee
-    const [nativeFee, zroFee] = await this.endpoint.estimateFees(
-      dstChainId,
-      this.remoteContractAddress,
-      payload,
-      false, // Don't pay in ZRO
-      this.adapterParams
-    );
-    
-    return nativeFee;
+    this.getLzChainId(request.dstChainId);
+    if (this.nativeFee === undefined) {
+      throw new Error(
+        'LayerZeroAdapter: nativeFee is not configured (read it from LayerZeroAdapter.quoteFees on-chain)'
+      );
+    }
+    return ethers.BigNumber.from(this.nativeFee);
+  }
+
+  /** True once the endpoint has delivered and authenticated the message. */
+  async isVerified(requestId) {
+    return this.adapter.verifiedMessages(requestId);
   }
 
   /**
-   * Handles an outbound bridge request
-   * @param {Object} request - The bridge request
-   * @param {string} requestId - The unique ID of the request
-   * @returns {Promise<string>} - The LayerZero message ID (or transaction hash)
+   * Polls the on-chain flag set by `lzReceive`.
+   *
+   * @param {string} requestId BridgeRouter request id
+   * @param {Object} [options] { timeoutMs, pollMs }
+   * @returns {Promise<boolean>} true when verified, false on timeout
    */
-  async bridgeOut(request, requestId) {
-    const dstChainId = this.getLzChainId(request.dstChainId);
-    
-    logger.info(`Initiating LayerZero message for request ${requestId} to chain ${dstChainId}`);
-    
-    // Note: In a real implementation, the contract would handle this
-    // This is just a reference for how the contract interaction would work
-    
-    // Create a unique message identifier
-    const messageId = ethers.utils.keccak256(
-      ethers.utils.defaultAbiCoder.encode(
-        ['bytes32', 'uint16', 'address', 'uint256'],
-        [requestId, dstChainId, request.user, request.amount]
-      )
-    );
-    
-    // Encode the payload with request data and ID
-    const payload = ethers.utils.defaultAbiCoder.encode(
-      ['tuple(uint256,uint256,uint256,address,uint256,address,uint256,uint256)', 'bytes32'],
-      [
-        [
-          request.id,
-          request.srcChainId,
-          request.dstChainId,
-          request.token,
-          request.amount,
-          request.user,
-          request.deadline,
-          request.fee
-        ],
-        requestId
-      ]
-    );
-    
-    // Destination address as bytes (in a real scenario this would be the adapter on the other chain)
-    const dstAddress = ethers.utils.defaultAbiCoder.encode(
-      ['address'],
-      [this.remoteContractAddress]
-    );
-    
-    // Send the message via LayerZero
-    const tx = await this.endpoint.send(
-      dstChainId,
-      dstAddress,
-      payload,
-      this.wallet.address, // refund address
-      this.zroPaymentAddress,
-      this.adapterParams,
-      { value: request.fee }
-    );
-    
-    const receipt = await tx.wait();
-    
-    logger.info(`LayerZero message sent with tx hash: ${receipt.transactionHash}`);
-    
-    // Return the message ID
-    return messageId;
+  async waitForDelivery(requestId, options = {}) {
+    const timeoutMs = options.timeoutMs || this.timeoutMs;
+    const pollMs = options.pollMs || this.pollMs;
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+      if (await this.isVerified(requestId)) {
+        logger.info(`LayerZero verified ${requestId}`);
+        return true;
+      }
+      await new Promise((resolve) => setTimeout(resolve, pollMs));
+    }
+
+    logger.warn(`Timed out waiting for LayerZero to verify ${requestId}`);
+    return false;
   }
 
-  /**
-   * Waits for a LayerZero message to be delivered
-   * @param {string} messageId - The message ID to monitor
-   * @param {number} dstChainId - The destination chain ID
-   * @returns {Promise<boolean>} - True if delivered successfully
-   */
-  async waitForMessageDelivery(messageId, dstChainId) {
-    logger.info(`Waiting for LayerZero message ${messageId} delivery to chain ${dstChainId}`);
-    
-    // In a real implementation, this would:
-    // 1. Check the destination chain for the delivered message
-    // 2. Wait for a sufficient number of confirmations
-    // 3. Return success/failure status
-    
-    // For this scaffold, we'll simulate delivery
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    
-    logger.info(`Message ${messageId} delivered to chain ${dstChainId}`);
-    
-    return true;
-  }
-
-  /**
-   * Fetches the proof for a LayerZero message
-   * @param {Object} request - The bridge request
-   * @param {string} requestId - The unique request ID
-   * @param {string} messageId - The LayerZero message ID
-   * @returns {Promise<string>} - The proof data (empty for LayerZero as proof is handled internally)
-   */
-  async fetchProof(request, requestId, messageId) {
-    // LayerZero handles proof verification internally,
-    // so we don't need to provide additional proof data
-    // However, our BridgeRouter interface expects a proof, so we return an empty one
+  /** LayerZero proves delivery on-chain via `lzReceive`; no extra proof bytes. */
+  async fetchProof() {
     return '0x';
-  }
-
-  /**
-   * Completes the bridge on the destination chain
-   * @param {Object} request - The bridge request
-   * @param {string} requestId - The unique request ID
-   * @param {string} proof - The proof data (unused for LayerZero)
-   * @param {Object} bridgeRouter - The BridgeRouter contract instance
-   * @returns {Promise<Object>} - The transaction receipt
-   */
-  async bridgeIn(request, requestId, proof, bridgeRouter) {
-    logger.info(`Completing bridge on destination chain for request ${requestId}`);
-    
-    // For LayerZero, the message is delivered automatically to the receiver contract
-    // But our architecture requires explicit completion via BridgeRouter
-    
-    // Call the BridgeRouter's completeBridge function
-    const tx = await bridgeRouter.completeBridge(
-      request,
-      requestId,
-      proof || '0x',
-      { gasLimit: 500000 }
-    );
-    
-    const receipt = await tx.wait();
-    
-    logger.info(`Bridge completed with tx hash: ${receipt.transactionHash}`);
-    
-    return receipt;
   }
 }
 

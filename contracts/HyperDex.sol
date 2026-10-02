@@ -92,6 +92,23 @@ contract HyperDex is IUniswapV3SwapCallback, Ownable, Pausable, ReentrancyGuard,
         return userNonces[trader];
     }
 
+    /// @notice The EIP-712 type hash traders must sign over.
+    function gaslessSwapTypehash() external pure returns (bytes32) {
+        return _GASLESS_SWAP_TYPEHASH;
+    }
+
+    /// @notice The EIP-712 domain separator currently in force (chain-id aware).
+    function domainSeparator() external view returns (bytes32) {
+        return _domainSeparatorV4();
+    }
+
+    /// @notice The EIP-712 digest for `params`, i.e. what the trader signs.
+    /// @dev Exposed so off-chain signers (relayer, SDK, dashboard) can assert
+    ///      that their domain and struct definition match this contract's.
+    function hashGaslessSwap(GaslessSwapParams calldata params) external view returns (bytes32) {
+        return _hashTypedDataV4(_structHash(params));
+    }
+
     // --- Gasless swaps ---
 
     /**
@@ -171,7 +188,15 @@ contract HyperDex is IUniswapV3SwapCallback, Ownable, Pausable, ReentrancyGuard,
         internal
         view
     {
-        address signer = _hashTypedDataV4(
+        address signer = _hashTypedDataV4(_structHash(params)).recover(signature);
+
+        if (signer != params.trader || signer == address(0)) revert InvalidSignature();
+    }
+
+    /// @dev The EIP-712 struct hash. Field order is part of the wire format and
+    ///      must match `_GASLESS_SWAP_TYPEHASH`, the relayer and the SDK.
+    function _structHash(GaslessSwapParams calldata params) private pure returns (bytes32) {
+        return
             keccak256(
                 abi.encode(
                     _GASLESS_SWAP_TYPEHASH,
@@ -183,9 +208,6 @@ contract HyperDex is IUniswapV3SwapCallback, Ownable, Pausable, ReentrancyGuard,
                     params.deadline,
                     params.nonce
                 )
-            )
-        ).recover(signature);
-
-        if (signer != params.trader || signer == address(0)) revert InvalidSignature();
+            );
     }
 }

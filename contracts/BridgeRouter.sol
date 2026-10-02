@@ -66,6 +66,15 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
         uint256 amount
     );
 
+    event BridgeInboundRecorded(
+        bytes32 indexed requestId,
+        address indexed user,
+        uint256 srcChainId,
+        uint256 dstChainId,
+        address token,
+        uint256 amount
+    );
+
     event BridgeFailed(bytes32 indexed requestId, string reason);
     event BridgeRefunded(bytes32 indexed requestId, address indexed user, uint256 amount);
     event AdapterRegistered(uint256 indexed chainId, address adapter);
@@ -82,6 +91,8 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
     error InvalidSignature();
     error SignatureReused();
     error Unauthorized();
+    error AlreadyRecorded();
+    error WrongDestination();
 
     // --- Constructor ---
 
@@ -173,6 +184,49 @@ contract BridgeRouter is EIP712, Ownable, Pausable {
         if (msg.value > requiredFee) {
             payable(msg.sender).transfer(msg.value - requiredFee);
         }
+    }
+
+    /**
+     * @notice Records a request that was initiated on another chain, so it can
+     *         be completed here.
+     * @dev This is the missing half of the inbound leg. `initiateBridge` runs on
+     *      the source chain and its effects (the `bridgeRequests` entry and the
+     *      `Initiated` status) only exist there; a destination-chain router has
+     *      no way to learn about the request, so `completeBridge` used to revert
+     *      with `InvalidStatus()` for every inbound transfer. The off-chain
+     *      watcher calls this once the source-chain event is final, then calls
+     *      `completeBridge`, which releases the funds through the adapter.
+     *
+     *      Guards: only an authorised relayer, only once per request id, only if
+     *      the request names *this* chain as its destination, and only before
+     *      the user's deadline — after that the source-chain refund path is the
+     *      correct outcome and paying out here as well would double-spend.
+     * @param _request The full request, as emitted by the source chain.
+     * @param _requestId The id assigned by `initiateBridge` on the source chain.
+     */
+    function recordInbound(
+        IBridgeTypes.BridgeRequest calldata _request,
+        bytes32 _requestId
+    ) external whenNotPaused {
+        if (!authorizedRelayers[msg.sender]) revert Unauthorized();
+        if (_request.dstChainId != block.chainid) revert WrongDestination();
+        if (bridgeRequests[_requestId].user != address(0)) revert AlreadyRecorded();
+        if (block.timestamp > _request.deadline) revert DeadlineExceeded();
+
+        IBridgeAdapter adapter = bridgeAdapters[_request.dstChainId];
+        if (address(adapter) == address(0)) revert InvalidAdapter();
+
+        bridgeRequests[_requestId] = _request;
+        requestStatus[_requestId] = RequestStatus.Initiated;
+
+        emit BridgeInboundRecorded(
+            _requestId,
+            _request.user,
+            _request.srcChainId,
+            _request.dstChainId,
+            _request.token,
+            _request.amount
+        );
     }
 
     /**

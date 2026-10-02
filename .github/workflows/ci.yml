@@ -12,10 +12,11 @@ jobs:
   contracts:
     name: Contracts Compile & Test
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: npm
@@ -25,6 +26,13 @@ jobs:
       # on the public main branch. This gate stops the next one.
       - name: Secret scan
         run: node scripts/check-secrets.js
+      # The operational scripts parse or they do not ship: they are run against
+      # a live network, so a syntax error would only surface during a deployment.
+      - name: Check scripts parse
+        run: |
+          for file in scripts/*.js scripts/lib/*.js ignition/modules/*.js; do
+            node --check "$file"
+          done
       # A build gate: every defect in the C1-C10 audit survived because nothing
       # compiled or ran the contract tests in CI.
       - name: Compile
@@ -32,30 +40,87 @@ jobs:
       - name: Test
         run: npx hardhat test
 
+  contracts-fork:
+    name: Contracts on a Sepolia fork
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # The fork suites assert against the deployed Connext, LayerZero, Chainlink
+    # and Uniswap v3 contracts. Without an RPC endpoint they self-skip, so the
+    # job is green either way; the secret cannot be used in a job-level `if`
+    # (the env and secrets contexts are not available there), hence the
+    # step-level condition below.
+    env:
+      SEPOLIA_RPC_URL: ${{ secrets.SEPOLIA_RPC_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Compile
+        run: npx hardhat compile
+      - name: Fork tests
+        if: env.SEPOLIA_RPC_URL != ''
+        run: npm run test:fork
+      - name: Fork tests skipped (no SEPOLIA_RPC_URL secret)
+        if: env.SEPOLIA_RPC_URL == ''
+        run: echo "SEPOLIA_RPC_URL is not configured; the fork suite self-skip check ran above." 
+
   analytics-service:
     name: Analytics Service Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
+          cache: npm
+          cache-dependency-path: analytics-service/package-lock.json
       - name: Install & Test
         working-directory: analytics-service
         run: |
           npm ci
           npm test
 
+  relayer:
+    name: Relayer Unit & Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+          cache-dependency-path: relayer/package-lock.json
+      # The relayer suite runs against real ABIs and an in-process JSON-RPC
+      # chain; it needs no network access.
+      - name: Install & Test
+        working-directory: relayer
+        run: |
+          npm ci
+          npx jest --config test/jest.config.js
+
   dashboard:
     name: Dashboard Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: 'true'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
       - name: Install & Test
         working-directory: dashboard
         run: |
@@ -65,24 +130,46 @@ jobs:
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: 'true'
+      BROWSER: none
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-      - name: Install Dependencies
+          node-version: '18'
+          cache: npm
+          cache-dependency-path: |
+            analytics-service/package-lock.json
+            dashboard/package-lock.json
+            e2e/package-lock.json
+      - name: Install dependencies
         run: |
-          cd analytics-service && npm ci
-          cd ../dashboard && npm ci
-          cd ../e2e && npm ci
-      - name: Start Services
+          (cd analytics-service && npm ci)
+          (cd dashboard && npm ci)
+          (cd e2e && npm ci)
+      - name: Install Playwright browser
+        working-directory: e2e
+        run: npx playwright install --with-deps chromium
+      # Services are started, waited for and exercised in one step: background
+      # processes do not reliably outlive the step that spawned them.
+      - name: Run E2E tests
         run: |
-          cd analytics-service && npm start &
-          cd ../dashboard && npm start &
-      - name: Wait for services
-        working-directory: e2e
-        run: npx wait-on http://localhost:4000 http://localhost:3000
-      - name: Run E2E Tests
-        working-directory: e2e
-        run: npm test
+          # The analytics service starts without RPC configuration (its chain
+          # watcher reports itself disabled) and the dashboard is served from a
+          # production build, so nothing can hang on a dev-server prompt.
+          (cd analytics-service && PORT=4000 npm start > /tmp/analytics.log 2>&1 &)
+          npm run --prefix dashboard build > /tmp/dashboard-build.log 2>&1
+          nohup npx --yes serve -s dashboard/build -l 3000 > /tmp/dashboard.log 2>&1 &
+          # wait-on with an explicit timeout: a service that never comes up
+          # fails the job in two minutes instead of hanging until the runner dies.
+          npx --yes wait-on -t 120000 http-get://127.0.0.1:4000/health http-get://127.0.0.1:3000
+          npm test --prefix e2e
+      - name: Service logs
+        if: always()
+        run: |
+          echo '--- analytics ---'; cat /tmp/analytics.log || true
+          echo '--- dashboard ---'; cat /tmp/dashboard.log || true
+          echo '--- dashboard build ---'; tail -50 /tmp/dashboard-build.log || true

@@ -1,243 +1,239 @@
+/**
+ * The client SDK, tested as shipped.
+ *
+ * This suite used to load a hand-written `client-sdk.mock.js` and assert that
+ * the mock behaved like the mock - it could not have caught the domain-name
+ * mismatch that made every SDK signature unusable on-chain. It now signs with
+ * real wallets and posts to a real HTTP server.
+ */
+const http = require('http');
 const { ethers } = require('ethers');
-const HyperDexRelayerSDK = require('./client-sdk.mock');
-const { expect } = require('chai');
-const sinon = require('sinon');
-const { getTestWallets } = require('../utils/test-utils');
+const HyperDexRelayerSDK = require('../../client-sdk');
+const { verifyGaslessSwap, hashGaslessSwap } = require('../../src/utils/signature');
+const HyperDexABI = require('../../abi/HyperDex.json');
+const { createChain } = require('../utils/fake-chain');
 
-describe('HyperDex Relayer Client SDK', () => {
-  let sdk;
-  let wallets;
-  let provider;
+const HYPERDEX = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const POOL = '0x9A676e781A523b5d0C0e43731313A708CB607508';
+const USER_KEY = '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d';
+const CHAIN_ID = 31337;
 
-  before(async () => {
-    provider = new ethers.providers.JsonRpcProvider();
-    wallets = getTestWallets(provider);
-
-    sdk = new HyperDexRelayerSDK({
-      baseUrl: 'http://localhost:3000',
-      chainId: 31337,
-      hyperdexAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+async function startRelayerStub(handler) {
+  const requests = [];
+  const server = http.createServer((req, res) => {
+    let body = '';
+    req.on('data', (chunk) => (body += chunk));
+    req.on('end', () => {
+      const parsed = { method: req.method, url: req.url, body: body ? JSON.parse(body) : null };
+      requests.push(parsed);
+      handler(parsed, res);
     });
   });
 
-  it('initializes with correct configuration', () => {
-    expect(sdk).to.exist;
-    expect(sdk.config.baseUrl).to.equal('http://localhost:3000');
-    expect(sdk.config.chainId).to.equal(31337);
-    expect(sdk.config.hyperdexAddress).to.equal('0x5FbDB2315678afecb367f032d93F642f64180aa3');
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  return {
+    url: `http://127.0.0.1:${server.address().port}`,
+    requests,
+    close: () => new Promise((resolve) => server.close(resolve))
+  };
+}
+
+async function makeSdk({ nonce = 7, relayerHandler } = {}) {
+  const chain = await createChain({
+    chainId: CHAIN_ID,
+    contracts: { [HYPERDEX]: HyperDexABI }
   });
+  chain.onStaticCall(HYPERDEX, 'getNonce', ethers.BigNumber.from(nonce));
 
-  it('creates signature for gasless swap', async () => {
-    // Create a spy on the signer's _signTypedData method
-    const signSpy = sinon.spy(wallets.trader, '_signTypedData');
+  const provider = new ethers.providers.JsonRpcProvider(chain.url);
+  const user = new ethers.Wallet(USER_KEY, provider);
 
-    // Create swap params
-    const params = {
-      trader: wallets.trader.address,
-      tokenIn: '0xTokenA',
-      tokenOut: '0xTokenB',
-      amountIn: ethers.utils.parseEther('1'),
-      amountOutMin: ethers.utils.parseEther('0.5'),
-      recipient: wallets.trader.address,
-      deadline: Math.floor(Date.now() / 1000) + 3600,
-      nonce: '123456'
-    };
-
-    // Sign the swap
-    await sdk.signGaslessSwap(wallets.trader, params);
-
-    // Verify the wallet's signing method was called with correct parameters
-    expect(signSpy).to.have.been.calledWith(
-      expect.objectContaining({
-        name: 'HyperDex Protocol',
-        version: '1'
-      }),
-      expect.objectContaining({
-        GaslessSwap: expect.any(Array)
-      }),
-      expect.objectContaining({
-        trader: params.trader,
-        tokenIn: params.tokenIn,
-        tokenOut: params.tokenOut,
-        amountIn: params.amountIn,
-        amountOutMin: params.amountOutMin,
-        recipient: params.recipient,
-        deadline: params.deadline,
-        nonce: params.nonce
+  const relayer = await startRelayerStub(
+    relayerHandler ||
+      ((req, res) => {
+        res.writeHead(200, { 'content-type': 'application/json' });
+        res.end(JSON.stringify({ transactionHash: '0x' + '12'.repeat(32), status: 'submitted' }));
       })
-    );
+  );
+
+  const sdk = new HyperDexRelayerSDK({
+    relayerUrl: relayer.url,
+    hyperDexAddress: HYPERDEX,
+    provider
   });
+  await sdk.initialize();
 
-  it('submits gasless swap to relayer', async () => {
-    // Create swap params
-    const swapParams = {
-      params: {
-        trader: wallets.trader.address,
-        tokenIn: '0xTokenA',
-        tokenOut: '0xTokenB',
-        amountIn: ethers.utils.parseEther('1'),
-        amountOutMin: ethers.utils.parseEther('0.5'),
-        recipient: wallets.trader.address,
-        deadline: Math.floor(Date.now() / 1000) + 3600,
-        nonce: '123456'
-      },
-      signature: '0x' + '2'.repeat(130),
-      priority: 'high'
-    };
+  return { chain, provider, user, relayer, sdk };
+}
 
-    // Submit swap
-    const result = await sdk.submitGaslessSwap(swapParams);
-
-    // Verify response structure
-    expect(result).to.exist;
-    expect(result.status).to.equal('submitted');
-    expect(result.transactionHash).to.exist;
-    expect(result.transactionHash.startsWith('0x')).to.be.true;
-  });
-
-  it('submits and waits for gasless swap confirmation', async () => {
-    // Create swap params
-    const swapParams = {
-      params: {
-        trader: wallets.trader.address,
-        tokenIn: '0xTokenA',
-        tokenOut: '0xTokenB',
-        amountIn: ethers.utils.parseEther('1'),
-        amountOutMin: ethers.utils.parseEther('0.5'),
-        recipient: wallets.trader.address,
-        deadline: Math.floor(Date.now() / 1000) + 3600,
-        nonce: '123456'
-      },
-      signature: '0x' + '2'.repeat(130),
-      priority: 'medium'
-    };
-
-    // Submit and wait for swap
-    const result = await sdk.submitAndWaitForGaslessSwap(swapParams);
-
-    // Verify response structure
-    expect(result).to.exist;
-    expect(result.status).to.equal('confirmed');
-    expect(result.transactionHash).to.exist;
-    expect(result.blockNumber).to.exist;
-  });
-
-  it('handles relayer API errors', async () => {
-    // Create swap params
-    const swapParams = {
-      params: {
-        trader: wallets.trader.address,
-        tokenIn: '0xTokenA',
-        tokenOut: '0xTokenB',
-        amountIn: ethers.utils.parseEther('1'),
-        amountOutMin: ethers.utils.parseEther('0.5'),
-        recipient: wallets.trader.address,
-        deadline: Math.floor(Date.now() / 1000) + 3600,
-        nonce: '123456'
-      },
-      signature: '0x' + '2'.repeat(130),
-      priority: 'medium'
-    };
-
-    // Set next request to fail
-    sdk.setNextRequestToFail();
-
-    // Expect API error
+describe('HyperDexRelayerSDK', () => {
+  it('initializes the EIP-712 domain the contract actually uses', async () => {
+    const { chain, relayer, sdk } = await makeSdk();
     try {
-      await sdk.submitGaslessSwap(swapParams);
-      throw new Error('Should have thrown');
-    } catch (err) {
-      expect(err.message).to.equal('Invalid signature');
+      expect(sdk.domain).toEqual({
+        name: 'HyperDex',
+        version: '1',
+        chainId: CHAIN_ID,
+        verifyingContract: HYPERDEX
+      });
+      expect(sdk.initialized).toBe(true);
+    } finally {
+      await relayer.close();
+      await chain.close();
     }
   });
 
-  it('handles network errors gracefully', async () => {
-    // Create swap params
-    const swapParams = {
-      params: {
-        trader: wallets.trader.address,
-        tokenIn: '0xTokenA',
-        tokenOut: '0xTokenB',
-        amountIn: ethers.utils.parseEther('1'),
-        amountOutMin: ethers.utils.parseEther('0.5'),
-        recipient: wallets.trader.address,
-        deadline: Math.floor(Date.now() / 1000) + 3600,
-        nonce: '123456'
-      },
-      signature: '0x' + '2'.repeat(130),
-      priority: 'medium'
-    };
-
-    // Simulate network error
-    sdk.setNetworkError(true);
-
-    // Expect network error wrapped in a readable message
+  it('builds the signed struct with `pool` (not `poolAddress`)', async () => {
+    const { chain, relayer, sdk, user } = await makeSdk();
     try {
-      await sdk.submitGaslessSwap(swapParams);
-      throw new Error('Should have thrown');
-    } catch (err) {
-      expect(err.message).to.match(/network error/i);
+      const params = await sdk.createSwapParams({
+        userAddress: user.address,
+        zeroForOne: true,
+        amountSpecified: ethers.utils.parseEther('1'),
+        sqrtPriceLimitX96: '4295128740',
+        pool: POOL
+      });
+
+      expect(Object.keys(params)).toEqual([
+        'pool',
+        'trader',
+        'zeroForOne',
+        'amountSpecified',
+        'sqrtPriceLimitX96',
+        'deadline',
+        'nonce'
+      ]);
+      expect(params.nonce).toBe('7'); // read from the contract, not invented
+      expect(params.pool).toBe(POOL);
+    } finally {
+      await relayer.close();
+      await chain.close();
     }
   });
 
-  it('generates unique nonce for each transaction', async () => {
-    // Generate nonces
-    const nonce1 = await sdk.generateNonce();
-
-    // Small delay to ensure different timestamps
-    await new Promise(resolve => setTimeout(resolve, 10));
-
-    const nonce2 = await sdk.generateNonce();
-
-    // Verify nonces are different
-    expect(nonce1).to.not.equal(nonce2);
-    expect(typeof nonce1).to.equal('string');
-    expect(typeof nonce2).to.equal('string');
+  it('refuses to invent a nonce', async () => {
+    const { chain, relayer, sdk } = await makeSdk();
+    try {
+      expect(() => sdk.generateNonce()).toThrow(/call getNonce/);
+    } finally {
+      await relayer.close();
+      await chain.close();
+    }
   });
 
-  it('checks relayer health status', async () => {
-    // Check health
-    const health = await sdk.getHealth();
+  it('signs a swap the relayer and the contract both accept', async () => {
+    const { chain, relayer, sdk, user } = await makeSdk();
+    try {
+      const params = await sdk.createSwapParams({
+        userAddress: user.address,
+        zeroForOne: false,
+        amountSpecified: ethers.utils.parseEther('2'),
+        sqrtPriceLimitX96: '1461446703485210103287273052203988822378723970341',
+        pool: POOL
+      });
 
-    // Verify response structure
-    expect(health).to.exist;
-    expect(health.status).to.equal('healthy');
-    expect(health.version).to.exist;
-    expect(health.uptime).to.exist;
+      const signature = await sdk.signSwap(params, user);
+
+      const deployment = { chainId: CHAIN_ID, verifyingContract: HYPERDEX };
+      // The relayer's verification passes...
+      expect(verifyGaslessSwap(params, signature, deployment)).toBe(true);
+      // ...and the digest is the contract's digest.
+      expect(ethers.utils.recoverAddress(hashGaslessSwap(params, deployment), signature)).toBe(
+        user.address
+      );
+    } finally {
+      await relayer.close();
+      await chain.close();
+    }
   });
 
-  it('constructs complete swap transaction with signature', async () => {
-    // Create swap params
-    const params = {
-      trader: wallets.trader.address,
-      tokenIn: '0xTokenA',
-      tokenOut: '0xTokenB',
-      amountIn: ethers.utils.parseEther('1'),
-      amountOutMin: ethers.utils.parseEther('0.5'),
-      recipient: wallets.trader.address,
-      deadline: Math.floor(Date.now() / 1000) + 3600,
-      nonce: '123456'
-    };
+  it('createSignedSwap attaches the signature and the sequence nonce', async () => {
+    const { chain, relayer, sdk, user } = await makeSdk();
+    try {
+      const signed = await sdk.createSignedSwap(user, {
+        pool: POOL,
+        trader: user.address,
+        zeroForOne: true,
+        amountSpecified: ethers.utils.parseEther('1'),
+        sqrtPriceLimitX96: '4295128740',
+        deadline: Math.floor(Date.now() / 1000) + 600
+      });
 
-    // Sign and submit
-    const signature = await sdk.signGaslessSwap(wallets.trader, params);
+      expect(signed.nonce).toBe('7');
+      expect(signed.signature).toMatch(/^0x[0-9a-f]{130}$/);
+      expect(
+        verifyGaslessSwap(signed, signed.signature, {
+          chainId: CHAIN_ID,
+          verifyingContract: HYPERDEX
+        })
+      ).toBe(true);
+    } finally {
+      await relayer.close();
+      await chain.close();
+    }
+  });
 
-    // Verify signature format
-    expect(signature).to.exist;
-    expect(signature.startsWith('0x')).to.be.true;
+  it('posts the signed swap to the relayer', async () => {
+    const { chain, relayer, sdk, user } = await makeSdk();
+    try {
+      const params = await sdk.createSwapParams({
+        userAddress: user.address,
+        zeroForOne: true,
+        amountSpecified: ethers.utils.parseEther('1'),
+        sqrtPriceLimitX96: '4295128740',
+        pool: POOL
+      });
+      const signature = await sdk.signSwap(params, user);
 
-    // Construct complete transaction
-    const swapRequest = {
-      params,
-      signature,
-      priority: 'high'
-    };
+      const result = await sdk.submitGaslessSwap({ ...params, signature });
+      expect(result.status).toBe('submitted');
 
-    // Submit the transaction
-    const result = await sdk.submitGaslessSwap(swapRequest);
+      expect(relayer.requests).toHaveLength(1);
+      const { method, url, body } = relayer.requests[0];
+      expect(method).toBe('POST');
+      expect(url).toBe('/api/swap/gasless');
+      expect(body.signature).toBe(signature);
+      expect(body.pool).toBe(POOL);
+      expect(body.trader).toBe(user.address);
+      expect(body.nonce).toBe('7');
+    } finally {
+      await relayer.close();
+      await chain.close();
+    }
+  });
 
-    // Verify submission was successful
-    expect(result.status).to.equal('submitted');
-    expect(result.transactionHash).to.exist;
+  it('surfaces a relayer rejection verbatim', async () => {
+    const { chain, relayer, sdk, user } = await makeSdk({
+      relayerHandler: (req, res) => {
+        res.writeHead(401, { 'content-type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Signature does not match trader' }));
+      }
+    });
+    try {
+      await expect(sdk.submitGaslessSwap({ trader: user.address })).rejects.toThrow(
+        'Signature does not match trader'
+      );
+    } finally {
+      await relayer.close();
+      await chain.close();
+    }
+  });
+
+  it('reports a missing transaction instead of throwing', async () => {
+    const { chain, relayer, sdk } = await makeSdk({
+      relayerHandler: (req, res) => {
+        res.writeHead(404, { 'content-type': 'application/json' });
+        res.end(JSON.stringify({ error: 'not found' }));
+      }
+    });
+    try {
+      expect(await sdk.getTransactionStatus('0x' + '34'.repeat(32))).toEqual({
+        found: false,
+        error: 'Transaction not found'
+      });
+    } finally {
+      await relayer.close();
+      await chain.close();
+    }
   });
 });

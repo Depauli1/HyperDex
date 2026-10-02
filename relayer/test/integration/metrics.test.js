@@ -6,12 +6,12 @@ const sinon = require('sinon');
 describe('Metrics Endpoint Integration Tests', () => {
   let server;
 
-  before(async () => {
+  beforeAll(async () => {
     process.env.NODE_ENV = 'test';
     server = await startServer();
   });
 
-  after(async () => {
+  afterAll(async () => {
     sinon.restore();
     if (server && server.close) server.close();
   });

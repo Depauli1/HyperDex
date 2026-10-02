@@ -27,6 +27,7 @@ const signatureUtils = require('./utils/signature');
 const logger = require('./utils/logger');
 const { ethers } = require('ethers');
 const BridgeWatcher = require('./services/bridge-watcher');
+const HopAdapter = require('./services/adapters/HopAdapter');
 const ConnextAdapter = require('./services/adapters/ConnextAdapter');
 const LayerZeroAdapter = require('./services/adapters/LayerZeroAdapter');
 // Import GasPriceOracle for metrics endpoint
@@ -71,8 +72,11 @@ async function startServer() {
     
     // Initialize blockchain provider and wallet
     logger.info('Initializing provider manager...');
-    const rpcUrls = process.env.ETHEREUM_RPC_URLS?.split(',') || 
-                   [process.env.ETHEREUM_RPC_URL];
+    // Accept a comma-separated list, a single URL, or the generic RPC_URL.
+    const rpcUrls = (process.env.ETHEREUM_RPC_URLS || process.env.ETHEREUM_RPC_URL || process.env.RPC_URL || '')
+      .split(',')
+      .map((url) => url.trim())
+      .filter(Boolean);
     
     const providerManager = new ProviderManager(
       rpcUrls,
@@ -97,6 +101,16 @@ async function startServer() {
     const provider = providerManager.getProvider();
     const privateKey = keyManager.getCurrentKey();
     const wallet = new ethers.Wallet(privateKey, provider);
+
+    // The bridge watcher spans two chains. When the relayer serves both sides,
+    // point DEST_RPC_URL at the destination chain; otherwise one provider is
+    // used for both (useful when watching a single chain's inbound transfers).
+    const destProvider = process.env.DEST_RPC_URL
+      ? new ethers.providers.JsonRpcProvider(process.env.DEST_RPC_URL)
+      : provider;
+
+    // Holds the cross-chain watcher so shutdown can detach its listeners.
+    let bridgeWatcher = null;
     
     // Initialize circuit breaker
     logger.info('Initializing circuit breaker...');
@@ -336,47 +350,75 @@ async function startServer() {
     
     // Start server
     const server = app.listen(PORT, () => {
-      // Initialize cross-chain watcher
+      // Initialize the cross-chain watcher.
+      //
+      // One watcher per destination chain. The protocol observer is chosen by
+      // whichever destination adapter address is configured, and each observer
+      // polls the delivery flag its on-chain adapter exposes (set by the
+      // protocol itself: Connext's xReceive, LayerZero's lzReceive). Hop has no
+      // destination callback, so its observer watches the adapter's balance.
       (async () => {
         try {
-          const adapters = new Map();
-          // Adapter keys (bytes32)
-          const CONNEXT_KEY = ethers.utils.formatBytes32String('CONNEXT');
-          const LAYERZERO_KEY = ethers.utils.formatBytes32String('LAYERZERO');
-          // Instantiate adapters
-          adapters.set(CONNEXT_KEY, new ConnextAdapter({
-            sourceProvider: provider,
-            connextAddress: process.env.CONNEXT_ADDRESS,
-            connextABI: require('./config/connext-abi.json'),
-            wallet,
-            domainMapping: JSON.parse(process.env.CONNEXT_DOMAIN_MAPPING),
-            slippage: Number(process.env.CONNEXT_SLIPPAGE) || 30,
-            callData: process.env.CONNEXT_CALL_DATA || '0x',
-            delegate: process.env.CONNEXT_DELEGATE
-          }));
-          adapters.set(LAYERZERO_KEY, new LayerZeroAdapter({
-            endpointAddress: process.env.LAYERZERO_ENDPOINT_ADDRESS,
-            endpointABI: require('./config/layerzero-abi.json'),
-            wallet,
-            chainIdMapping: JSON.parse(process.env.LAYERZERO_CHAIN_MAPPING),
-            adapterParams: process.env.LAYERZERO_ADAPTER_PARAMS || '0x',
-            zroPaymentAddress: process.env.LAYERZERO_ZRO_PAYMENT_ADDRESS || ethers.constants.AddressZero,
-            refundAddress: process.env.LAYERZERO_REFUND_ADDRESS || wallet.address
-          }));
-          // Create watcher
+          const sourceRouterAddress = process.env.BRIDGE_ROUTER_SOURCE;
+          const destRouterAddress = process.env.BRIDGE_ROUTER_DEST;
+          const dstChainId = Number(process.env.DST_CHAIN_ID);
+
+          if (!sourceRouterAddress || !destRouterAddress || !dstChainId) {
+            logger.info('Bridge watcher disabled: BRIDGE_ROUTER_SOURCE/DEST and DST_CHAIN_ID are not configured');
+            return;
+          }
+
+          const observerConfig = {
+            destinationProvider: destProvider || provider,
+            pollMs: Number(process.env.BRIDGE_POLL_MS) || 15_000,
+            timeoutMs: Number(process.env.BRIDGE_DELIVERY_TIMEOUT_MS) || 30 * 60 * 1000
+          };
+
+          let observer = null;
+          if (process.env.DEST_CONNEXT_ADAPTER) {
+            observer = new ConnextAdapter({
+              ...observerConfig,
+              adapterAddress: process.env.DEST_CONNEXT_ADAPTER,
+              domainMapping: process.env.CONNEXT_DOMAIN_MAPPING
+                ? JSON.parse(process.env.CONNEXT_DOMAIN_MAPPING)
+                : {},
+              relayerFee: process.env.CONNEXT_RELAYER_FEE
+            });
+          } else if (process.env.DEST_LAYERZERO_ADAPTER) {
+            observer = new LayerZeroAdapter({
+              ...observerConfig,
+              adapterAddress: process.env.DEST_LAYERZERO_ADAPTER,
+              chainIdMapping: process.env.LAYERZERO_CHAIN_MAPPING
+                ? JSON.parse(process.env.LAYERZERO_CHAIN_MAPPING)
+                : {},
+              nativeFee: process.env.LAYERZERO_NATIVE_FEE
+            });
+          } else if (process.env.DEST_HOP_ADAPTER) {
+            observer = new HopAdapter({
+              ...observerConfig,
+              adapterAddress: process.env.DEST_HOP_ADAPTER,
+              token: process.env.BRIDGE_TOKEN_ADDRESS
+            });
+          }
+
+          if (!observer) {
+            logger.info('Bridge watcher disabled: no destination adapter is configured');
+            return;
+          }
+
           const watcher = new BridgeWatcher({
             sourceProvider: provider,
-            destProvider: provider,
+            destProvider: destProvider || provider,
             wallet,
-            sourceRouterAddress: process.env.BRIDGE_ROUTER_SOURCE,
-            destRouterAddress: process.env.BRIDGE_ROUTER_DEST,
-            adapters,
-            srcChainId: Number(process.env.SRC_CHAIN_ID),
-            dstChainId: Number(process.env.DST_CHAIN_ID),
-            token: process.env.BRIDGE_TOKEN_ADDRESS,
+            sourceRouterAddress,
+            destRouterAddress,
+            adapters: { [dstChainId]: observer },
+            srcChainId: Number(process.env.SRC_CHAIN_ID) || 1,
+            dstChainId,
             confirmations: Number(process.env.BRIDGE_CONFIRMATIONS) || 12
           });
           await watcher.start();
+          bridgeWatcher = watcher;
           logger.info('BridgeWatcher started');
         } catch (err) {
           logger.error(`BridgeWatcher init error: ${err.message}`);
@@ -412,8 +454,13 @@ async function startServer() {
     // Handle graceful shutdown
     const gracefulShutdown = () => {
       logger.info('Received shutdown signal, closing server...');
-      server.close(() => {
+      server.close(async () => {
         logger.info('Server closed, cleaning up resources...');
+
+        // Detach the cross-chain watcher so it stops processing events.
+        if (bridgeWatcher) {
+          await bridgeWatcher.stop();
+        }
         
         // Clean up provider resources
         if (providerManager.cleanup) {

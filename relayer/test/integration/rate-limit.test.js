@@ -9,7 +9,7 @@ describe('Rate Limiting Integration Tests', () => {
   let app;
   let mockServices;
 
-  before(async () => {
+  beforeAll(async () => {
     mockServices = {
       mempoolManager: {
         getTransactionStatus: sinon.stub().resolves({
@@ -39,7 +39,7 @@ describe('Rate Limiting Integration Tests', () => {
     app.use('/api', routes(mockServices));
   });
 
-  after(async () => {
+  afterAll(async () => {
     sinon.restore();
   });
 

@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "hardhat test",
-    "test:unit": "hardhat test --exclude test/fork/**",
-    "test:fork": "hardhat test test/fork",
+    "test:unit": "hardhat test test/*.test.js",
+    "test:fork": "hardhat test test/fork/*.fork.test.js",
     "test:fork:mainnet": "hardhat test test/fork/Mainnet.hop.fork.test.js",
     "compile": "hardhat compile",
     "secrets:check": "node scripts/check-secrets.js",

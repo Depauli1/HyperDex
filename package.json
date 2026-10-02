@@ -5,7 +5,10 @@
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
-    "test:unit": "hardhat test --exclude test/e2e"
+    "test:unit": "hardhat test --exclude test/e2e",
+    "secrets:check": "node scripts/check-secrets.js",
+    "hooks": "node scripts/install-git-hooks.js",
+    "prepare": "node scripts/install-git-hooks.js"
   },
   "keywords": [],
   "author": "",

@@ -21,6 +21,10 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci
+      # A private key and a keystore password were committed in be77730 and sat
+      # on the public main branch. This gate stops the next one.
+      - name: Secret scan
+        run: node scripts/check-secrets.js
       # A build gate: every defect in the C1-C10 audit survived because nothing
       # compiled or ran the contract tests in CI.
       - name: Compile

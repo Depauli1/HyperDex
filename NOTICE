@@ -62,14 +62,14 @@ Uniswap v3 core repository (same tag and licence as section 1) and are used only
 to drive the pool from the test suite. They are not part of any deployment.
 
 ================================================================================
-Open decision
+Decision
 ================================================================================
 
 The repository root carries an Apache-2.0 LICENSE, but sections 1 and 4 above
 are GPL-2.0-or-later. GPL-2.0-only code cannot be combined with Apache-2.0.
 GPL-2.0-**or-later** code may be distributed under GPL-3.0 instead, and
 Apache-2.0 -> GPL-3.0 is a permitted combination (GPLv3 section 10), so the tree
-can be made consistent in one of these ways:
+can be made consistent. Three options were considered:
 
   A. Keep HyperDex's own code Apache-2.0 and state that the combined work, and
      any file importing contracts/vendor/v3-core, is distributed under
@@ -85,5 +85,17 @@ can be made consistent in one of these ways:
      tree. This changes the deployment model, since HyperDex currently deploys
      its own pools.
 
-Until one of these is chosen and LICENSE is updated accordingly, the repository
-should not be described as Apache-2.0.
+**Option A has been chosen.** Not yet applied to the tree, so until the steps
+below land the repository must still not be described as plain Apache-2.0:
+
+  1. Add the GPL-3.0 text as LICENSE-GPL-3.0 alongside the existing LICENSE.
+  2. State in LICENSE that Apache-2.0 covers HyperDex's own code only, and that
+     the combined work is GPL-3.0-or-later.
+  3. Change the SPDX header of every file that imports contracts/vendor/v3-core
+     to `MIT OR GPL-3.0-or-later`. At the time of writing that is
+     contracts/HyperDex.sol and contracts/HyperDexFactory.sol.
+  4. Update the licensing section of README.md to match.
+
+Option A does not require consent from other copyright holders, because it does
+not relicense anyone's existing code - it only states the terms under which the
+combined derivative is distributed.

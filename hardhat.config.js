@@ -34,6 +34,24 @@ for (const dir of ["contracts/vendor/v3-core", "contracts/test"]) {
 // work on a clean checkout and in CI without any secrets.
 const accounts = process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [];
 
+// Fork configuration. The suites under test/fork/ exercise the real protocol
+// deployments (Connext, LayerZero, Hop, Chainlink, Uniswap v3) and therefore
+// need a real RPC endpoint; they skip themselves on an unforked network.
+//
+//   SEPOLIA_RPC_URL=https://... npm run test:fork
+//   MAINNET_RPC_URL=https://... npm run test:fork:mainnet
+//
+// FORK_RPC_URL / FORK_CHAIN_ID override both if you fork something else.
+const forkUrl =
+  process.env.FORK_RPC_URL ||
+  process.env.SEPOLIA_RPC_URL ||
+  process.env.MAINNET_RPC_URL;
+
+const forkChainId = Number(
+  process.env.FORK_CHAIN_ID ||
+    (process.env.MAINNET_RPC_URL && !process.env.SEPOLIA_RPC_URL ? 1 : 11155111)
+);
+
 module.exports = {
   // Multi-compiler form is mandatory here: Hardhat's config resolution drops
   // `overrides` entirely when the solidity config carries a top-level `version`
@@ -43,7 +61,9 @@ module.exports = {
     overrides
   },
   networks: {
-    hardhat: {},
+    // Forked when an RPC endpoint is supplied; an ephemeral chain otherwise, in
+    // which case the fork suites skip instead of failing.
+    hardhat: forkUrl ? { forking: { url: forkUrl }, chainId: forkChainId } : {},
     hyperEvmTestnet: {
       url: "https://rpc.hyperliquid-testnet.xyz/evm",
       chainId: 998,

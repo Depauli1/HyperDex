@@ -1,271 +1,212 @@
+/**
+ * API integration tests.
+ *
+ * The gasless-swap endpoint is exercised end to end against the real
+ * controller, the real signature module and a real `ContractService` talking to
+ * the in-process chain - a signed request goes in over HTTP and a transaction
+ * comes out the other side. The previous version stubbed the signature verifier
+ * to `true` and sent a fabricated signature, so it could not detect the domain
+ * mismatch that made the endpoint unusable.
+ *
+ * The status and health endpoints keep lightweight service doubles for the
+ * parts of the relayer that are not under test here (database, mempool).
+ */
 const request = require('supertest');
 const express = require('express');
 const { ethers } = require('ethers');
 const routes = require('../../src/api/routes');
-const swapController = require('../../src/api/controllers/swap-controller');
-const statusController = require('../../src/api/controllers/status-controller');
-const { TEST_ACCOUNTS, getTestProvider, getTestWallets, createSignedSwapRequest } = require('../utils/test-utils');
+const ContractService = require('../../src/services/contract-service');
+const signatureUtils = require('../../src/utils/signature');
+const { GASLESS_SWAP_TYPES, gaslessSwapDomain, toStruct } = require('../../src/config/eip712');
+const { TEST_ACCOUNTS, getTestProvider } = require('../utils/test-utils');
 const sinon = require('sinon');
 const { expect } = require('chai');
 
+const HyperDexABI = require('../../abi/HyperDex.json');
+const { createChain } = require('../utils/fake-chain');
+
+const HYPERDEX = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const POOL = '0x9A676e781A523b5d0C0e43731313A708CB607508';
+const CHAIN_ID = 31337;
+
 describe('API Integration Tests', () => {
   let app;
-  let provider;
-  let wallets;
+  let chain;
+  let contractService;
   let mockServices;
-  let hyperDexAddress;
+  let traderWallet;
+  let strangerWallet;
 
-  before(async () => {
-    provider = getTestProvider();
-    wallets = getTestWallets(provider);
-    hyperDexAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+  beforeAll(async () => {
+    chain = await createChain({
+      chainId: CHAIN_ID,
+      contracts: { [HYPERDEX]: HyperDexABI }
+    });
+    chain.onCall(HYPERDEX, 'executeGaslessSwap', () => undefined);
+    chain.onStaticCall(HYPERDEX, 'getNonce', ethers.BigNumber.from(0));
 
-    // Mock service implementations
+    const provider = new ethers.providers.JsonRpcProvider(chain.url);
+    const relayerWallet = ethers.Wallet.createRandom().connect(provider);
+    traderWallet = new ethers.Wallet(TEST_ACCOUNTS.trader.privateKey);
+    strangerWallet = new ethers.Wallet(TEST_ACCOUNTS.user.privateKey);
+
+    contractService = new ContractService({
+      provider,
+      wallet: relayerWallet,
+      hyperDexAddress: HYPERDEX
+    });
+
     mockServices = {
       mempoolManager: {
-        queueTransaction: sinon.stub().resolves({
-          transactionHash: '0x' + '1'.repeat(64),
-          blockNumber: 12345678,
-          status: 1
-        }),
+        queueTransaction: sinon.stub().resolves({ transactionHash: '0x' + '1'.repeat(64) }),
         getTransactionStatus: sinon.stub().callsFake((txHash) => ({
           status: 'confirmed',
           txHash,
-          blockNumber: 12345678,
-          submittedAt: Date.now() - 10000, 
-          confirmedAt: Date.now()
+          blockNumber: 12345678
         }))
       },
-      contractService: {
-        executeGaslessSwap: sinon.stub().resolves({
-          hash: '0x' + '1'.repeat(64),
-          wait: sinon.stub().resolves({
-            status: 1,
-            transactionHash: '0x' + '1'.repeat(64),
-            blockNumber: 12345678
-          })
-        }),
-        getPool: sinon.stub().resolves({
-          address: '0x9A676e781A523b5d0C0e43731313A708CB607508',
-          token0: sinon.stub().resolves('0xTokenA'),
-          token1: sinon.stub().resolves('0xTokenB'),
-          fee: sinon.stub().resolves(3000)
-        })
-      },
-      nonceManager: {
-        getNonce: sinon.stub().resolves(100),
-        reserveNonce: sinon.stub().resolves(100)
-      },
-      signatureUtils: {
-        verifySignature: sinon.stub().resolves(true)
-      },
-      logger: {
-        info: sinon.stub(),
-        error: sinon.stub(),
-        warn: sinon.stub(),
-        debug: sinon.stub()
+      contractService,
+      // The real verifier: no bypass option exists.
+      signatureUtils,
+      nonceManager: { getNonce: sinon.stub().resolves(0), reserveNonce: sinon.stub().resolves(0) },
+      dbService: {
+        sequelize: { authenticate: sinon.stub().resolves() },
+        verifyAuthToken: sinon.stub().resolves(TEST_ACCOUNTS.trader.address),
+        getGasPriceHistory: sinon.stub().resolves([])
       },
       providerManager: {
         getHealthStatus: sinon.stub().resolves({ hasHealthyProvider: true, providers: [] }),
         executeWithProvider: sinon.stub().resolves(12345678)
-      },
-      dbService: {
-        sequelize: { authenticate: sinon.stub().resolves() },
-        verifyAuthToken: sinon.stub()
       }
     };
 
-    // Create Express app and configure routes
     app = express();
     app.use(express.json());
-
-    // Inject mock services into route handlers
-    const routeConfig = routes(mockServices);
-    app.use('/api', routeConfig);
+    app.use('/api', routes(mockServices));
   });
 
-  beforeEach(() => {
-    if (mockServices.dbService.verifyAuthToken) {
-      mockServices.dbService.verifyAuthToken.resolves('0x70997970C51812dc3A010C7d01b50e0d17dc79C8');
-    }
-  });
-
-  after(async () => {
+  afterAll(async () => {
     sinon.restore();
+    await chain.close();
   });
+
+  async function signedSwap(signer, params = {}) {
+    const body = {
+      pool: POOL,
+      trader: signer.address,
+      zeroForOne: true,
+      amountSpecified: ethers.utils.parseEther('1').toString(),
+      sqrtPriceLimitX96: '4295128740',
+      deadline: Math.floor(Date.now() / 1000) + 3600,
+      nonce: '0',
+      ...params
+    };
+    body.signature = await signer._signTypedData(
+      gaslessSwapDomain(CHAIN_ID, HYPERDEX),
+      GASLESS_SWAP_TYPES,
+      toStruct(body)
+    );
+    return body;
+  }
 
   describe('POST /api/swap/gasless', () => {
-    it('executes a valid gasless swap', async () => {
-      // Create a valid signed swap request
-      const swapRequest = await createSignedSwapRequest(wallets.user, hyperDexAddress);
+    it('executes a swap signed by the trader', async () => {
+      const before = chain.sent.length;
 
-      // Add a valid Authorization header for endpoints that require authentication
-      const validAuthHeader = 'Bearer testtoken';
+      const response = await request(app).post('/api/swap/gasless').send(await signedSwap(traderWallet));
 
-      // Make the request to the API
-      const response = await request(app)
-        .post('/api/swap/gasless')
-        .set('Authorization', validAuthHeader)
-        .send({
-          trader: swapRequest.trader,
-          zeroForOne: swapRequest.zeroForOne,
-          amountSpecified: swapRequest.amountSpecified.toString(),
-          sqrtPriceLimitX96: swapRequest.sqrtPriceLimitX96,
-          poolAddress: swapRequest.poolAddress,
-          deadline: swapRequest.deadline,
-          nonce: swapRequest.nonce,
-          signature: swapRequest.signature
-        });
-
-      // Check response
       expect(response.status).to.equal(200);
-      expect(response.body).to.have.property('transactionHash');
       expect(response.body).to.have.property('status', 'submitted');
+      expect(response.body.transactionHash).to.match(/^0x[0-9a-f]{64}$/);
 
-      // Verify services were called correctly
-      expect(mockServices.signatureUtils.verifySignature.called).to.be.true;
-      expect(mockServices.contractService.executeGaslessSwap.called).to.be.true;
+      // The relayer really submitted it: one more transaction on the chain,
+      // carrying the trader's struct and signature.
+      expect(chain.sent.length).to.equal(before + 1);
+      const sent = chain.sent[chain.sent.length - 1];
+      expect(sent.to).to.equal(HYPERDEX);
+      const iface = new ethers.utils.Interface(HyperDexABI);
+      const [struct, signature] = iface.decodeFunctionData('executeGaslessSwap', sent.data);
+      expect(struct[0]).to.equal(POOL);
+      expect(struct[1]).to.equal(traderWallet.address);
+      expect(signature).to.match(/^0x[0-9a-f]{130}$/);
     });
 
-    it('rejects invalid signature', async () => {
-      // Create a valid signed swap request
-      const swapRequest = await createSignedSwapRequest(wallets.user, hyperDexAddress);
+    it('rejects a signature from a different account with 401', async () => {
+      const body = await signedSwap(traderWallet);
+      // Signed by someone else over the same payload.
+      body.signature = (await signedSwap(strangerWallet)).signature;
 
-      // Ensure verifySignature returns false for this test
-      mockServices.signatureUtils.verifySignature.returns(false);
-      // Ensure contractService.executeGaslessSwap is not called
-      mockServices.contractService.executeGaslessSwap.resetHistory();
-      // Add a valid Authorization header for endpoints that require authentication
-      const validAuthHeader = 'Bearer testtoken';
-
-      // Make the request to the API
-      const response = await request(app)
-        .post('/api/swap/gasless')
-        .set('Authorization', validAuthHeader)
-        .send({
-          trader: swapRequest.trader,
-          zeroForOne: swapRequest.zeroForOne,
-          amountSpecified: swapRequest.amountSpecified,
-          sqrtPriceLimitX96: swapRequest.sqrtPriceLimitX96,
-          poolAddress: swapRequest.poolAddress,
-          deadline: swapRequest.deadline,
-          nonce: swapRequest.nonce,
-          signature: '0xInvalidSignature'
-        });
-
-      // Check rejection response
+      const response = await request(app).post('/api/swap/gasless').send(body);
       expect(response.status).to.equal(401);
-      expect(response.body.error).to.contain('Invalid signature');
-      expect(mockServices.contractService.executeGaslessSwap.called).to.be.false;
+      expect(response.body.error).to.match(/Signature does not match trader/);
+    });
+
+    it('rejects a payload tampered with after signing with 401', async () => {
+      const body = await signedSwap(traderWallet);
+      body.amountSpecified = ethers.utils.parseEther('100').toString();
+
+      const response = await request(app).post('/api/swap/gasless').send(body);
+      expect(response.status).to.equal(401);
+    });
+
+    it('rejects the legacy poolAddress field with 400', async () => {
+      const body = await signedSwap(traderWallet);
+      body.poolAddress = body.pool;
+      delete body.pool;
+
+      const response = await request(app).post('/api/swap/gasless').send(body);
+      expect(response.status).to.equal(400);
+      expect(response.body.error).to.match(/pool/);
     });
 
     it('handles missing parameters', async () => {
-      // Make request with missing parameters
       const response = await request(app)
         .post('/api/swap/gasless')
-        .send({
-          // Missing crucial parameters
-          trader: TEST_ACCOUNTS.user.address,
-          signature: '0xSampleSignature'
-        });
+        .send({ trader: TEST_ACCOUNTS.trader.address, signature: '0x' + 'ab'.repeat(65) });
 
-      // Check validation error response
       expect(response.status).to.equal(400);
       expect(response.body).to.have.property('error');
     });
 
-    it('handles service errors gracefully', async () => {
-      // Create a valid signed swap request
-      const swapRequest = await createSignedSwapRequest(wallets.user, hyperDexAddress);
-
-      // Mock signature verification to succeed
-      mockServices.signatureUtils.verifySignature.resolves(true);
-      // Mock service to throw error
-      mockServices.contractService.executeGaslessSwap.rejects(new Error('Transaction underpriced'));
-
-      // Add a valid Authorization header for endpoints that require authentication
-      const validAuthHeader = 'Bearer testtoken';
-
-      // Make the request to the API
-      const response = await request(app)
-        .post('/api/swap/gasless')
-        .set('Authorization', validAuthHeader)
-        .send({
-          trader: swapRequest.trader,
-          zeroForOne: swapRequest.zeroForOne,
-          amountSpecified: swapRequest.amountSpecified,
-          sqrtPriceLimitX96: swapRequest.sqrtPriceLimitX96,
-          poolAddress: swapRequest.poolAddress,
-          deadline: swapRequest.deadline,
-          nonce: swapRequest.nonce,
-          signature: swapRequest.signature
-        });
-
-      // Check error response
-      expect(response.status).to.equal(500);
-      expect(response.body).to.have.property('error');
-      expect(response.body.error).to.contain('Transaction underpriced');
+    it('rejects an expired deadline with 400', async () => {
+      const body = await signedSwap(traderWallet, { deadline: Math.floor(Date.now() / 1000) - 60 });
+      const response = await request(app).post('/api/swap/gasless').send(body);
+      expect(response.status).to.equal(400);
+      expect(response.body.error).to.match(/deadline/i);
     });
   });
 
   describe('GET /api/status/:txHash', () => {
     it('retrieves transaction status', async () => {
-      // Sample transaction hash
       const txHash = '0x' + '1'.repeat(64);
+      const response = await request(app).get(`/api/status/${txHash}`);
 
-      // Make the request to the API
-      const response = await request(app)
-        .get(`/api/status/${txHash}`);
-
-      // Check response
       expect(response.status).to.equal(200);
       expect(response.body).to.have.property('status', 'confirmed');
       expect(response.body).to.have.property('txHash', txHash);
       expect(response.body).to.have.property('blockNumber', 12345678);
-
-      // Verify service was called
-      expect(mockServices.mempoolManager.getTransactionStatus.calledWith(txHash)).to.be.true;
     });
 
     it('handles unknown transaction', async () => {
-      // Unknown transaction hash
-      const txHash = '0x' + '9'.repeat(64);
-
-      // Mock service to return null for unknown tx
       mockServices.mempoolManager.getTransactionStatus.resolves(null);
+      const response = await request(app).get(`/api/status/0x${'9'.repeat(64)}`);
 
-      // Make the request to the API
-      const response = await request(app)
-        .get(`/api/status/${txHash}`);
-
-      // Check response
       expect(response.status).to.equal(404);
-      expect(response.body).to.have.property('error');
       expect(response.body.error).to.contain('Transaction not found');
     });
 
     it('validates transaction hash format', async () => {
-      // Invalid transaction hash
-      const invalidTxHash = 'not-a-valid-tx-hash';
+      const response = await request(app).get('/api/status/not-a-valid-tx-hash');
 
-      // Make the request to the API
-      const response = await request(app)
-        .get(`/api/status/${invalidTxHash}`);
-
-      // Check validation error response
       expect(response.status).to.equal(400);
-      expect(response.body).to.have.property('error');
       expect(response.body.error).to.contain('Invalid transaction hash');
     });
   });
 
   describe('GET /api/health', () => {
     it('returns proper health status', async () => {
-      // Make the request to the API
-      const response = await request(app)
-        .get('/api/health');
+      const response = await request(app).get('/api/health');
 
-      // Check response
       expect(response.status).to.equal(200);
       expect(response.body).to.have.property('status', 'ok');
       expect(response.body).to.have.property('timestamp');

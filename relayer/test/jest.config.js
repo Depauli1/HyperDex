@@ -3,6 +3,8 @@ module.exports = {
   verbose: false,
   reporters: ['jest-silent-reporter'],
   testTimeout: 120000,
+  // Environment for the integration suites (keys, addresses, NODE_ENV=test).
+  setupFiles: ['<rootDir>/setup.js'],
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.js',
@@ -18,14 +20,12 @@ module.exports = {
     '^.+\\.(js|jsx)$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    // Transform p-queue and other ESM modules
+    // p-queue, uuid and eventemitter3 ship ESM entry points; transform them so
+    // jest can load the real packages (no hand-written stand-ins).
     'node_modules/(?!(p-queue|uuid|eventemitter3)/)'
   ],
   moduleNameMapper: {
-    '^uuid$': require.resolve('uuid'),
-    '^../../client-sdk$': '<rootDir>/../test/unit/client-sdk.mock.js',
-    '^../../client-sdk/index.js$': '<rootDir>/../test/unit/client-sdk.mock.js',
-    '^p-queue$': '<rootDir>/../test/unit/p-queue.mock.js'
+    '^uuid$': require.resolve('uuid')
   },
   forceExit: true,
 };

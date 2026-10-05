@@ -4,7 +4,9 @@ import socketIOClient from 'socket.io-client';
 import axios from 'axios';
 import '../App.css';
 
-const ENDPOINT = process.env.REACT_APP_ANALYTICS_URL;
+// The analytics service runs on 4000 (see docker-compose.yml); a deployment
+// overrides this at build time with REACT_APP_ANALYTICS_URL.
+const ENDPOINT = process.env.REACT_APP_ANALYTICS_URL || 'http://localhost:4000';
 
 export default function Slippage() {
   const [data, setData] = useState([]);

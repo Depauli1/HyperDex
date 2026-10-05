@@ -1,37 +1,54 @@
+/**
+ * Interface implemented by the off-chain protocol observers.
+ *
+ * There is deliberately very little to implement. Delivery is proven on-chain:
+ * `ConnextAdapter.xReceive` is only callable by the deployed Connext contract and
+ * `LayerZeroAdapter.lzReceive` only by the deployed endpoint, and each sets a
+ * per-request flag that `bridgeIn` requires before any tokens move. The watcher
+ * therefore does not need to carry a proof across chains - it needs to know when
+ * the protocol has delivered, and what to pass to `completeBridge`.
+ *
+ * A JavaScript adapter is responsible for:
+ *   - `quoteFees(request)`: an off-chain estimate the router can be configured with
+ *   - `waitForDelivery(requestId, options)`: poll the on-chain adapter's delivery flag
+ *   - `fetchProof(request, requestId)`: the bytes `completeBridge` should carry
+ *     (empty for every protocol implemented here, because the proof is on-chain)
+ */
 class IBridgeAdapter {
   /**
-   * @param {Object} config Adapter configuration (SDK clients, providers, wallet, etc.)
+   * @param {Object} config protocol-specific configuration
    */
-  constructor(config) {
+  constructor(config = {}) {
     this.config = config;
   }
 
   /**
-   * Initiates bridging out of funds from the source chain.
+   * Estimates the fee the source-chain router must forward to the protocol.
    * @param {Object} request BridgeRequest { id, srcChainId, dstChainId, token, amount, user, deadline, fee }
-   * @returns {Promise<ethers.providers.TransactionResponse>}
+   * @returns {Promise<ethers.BigNumber>}
    */
-  async bridgeOut(request) {
-    throw new Error('bridgeOut not implemented');
+  async quoteFees() {
+    throw new Error('quoteFees not implemented');
   }
 
   /**
-   * Fetches an on-chain proof for the outbound transaction.
-   * @param {string} txHash The transaction hash of the outbound tx
-   * @returns {Promise<Buffer|bytes>}
+   * Waits until the protocol has delivered the transfer to the destination
+   * adapter, i.e. until the on-chain adapter will accept `bridgeIn`.
+   *
+   * @param {string} requestId BridgeRouter request id (bytes32)
+   * @param {Object} [options] { timeoutMs, pollMs }
+   * @returns {Promise<boolean>} true when delivery is proven on-chain
    */
-  async fetchProof(txHash) {
-    throw new Error('fetchProof not implemented');
+  async waitForDelivery() {
+    throw new Error('waitForDelivery not implemented');
   }
 
   /**
-   * Completes bridging in of funds on the destination chain using the proof.
-   * @param {Object} request The original BridgeRequest
-   * @param {Buffer|bytes} proof The cross-chain proof
-   * @returns {Promise<ethers.providers.TransactionResponse>}
+   * The proof bytes to hand to `completeBridge`.
+   * @returns {Promise<string>} hex string
    */
-  async bridgeIn(request, proof) {
-    throw new Error('bridgeIn not implemented');
+  async fetchProof() {
+    return '0x';
   }
 }
 

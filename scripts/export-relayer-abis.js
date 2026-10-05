@@ -18,6 +18,10 @@ const OUT_DIR = path.join(ROOT, "relayer", "abi");
 const CONTRACTS = [
   { name: "HyperDex", source: "contracts/HyperDex.sol" },
   { name: "HyperDexFactory", source: "contracts/HyperDexFactory.sol" },
+  { name: "BridgeRouter", source: "contracts/BridgeRouter.sol" },
+  { name: "ConnextAdapter", source: "contracts/adapters/ConnextAdapter.sol" },
+  { name: "LayerZeroAdapter", source: "contracts/adapters/LayerZeroAdapter.sol" },
+  { name: "HopAdapter", source: "contracts/adapters/HopAdapter.sol" },
   { name: "UniswapV3Pool", source: "contracts/vendor/v3-core/UniswapV3Pool.sol" },
   { name: "UniswapV3Factory", source: "contracts/vendor/v3-core/UniswapV3Factory.sol" }
 ];

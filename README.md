@@ -24,21 +24,47 @@ testnet (`https://rpc.hyperliquid-testnet.xyz/evm`, chain id 998) and Sepolia.
 | `contracts/BridgeRouter.sol` | Escrows and routes cross-chain requests |
 | `contracts/adapters/` | Bridge protocol adapters (Connext, LayerZero, Hop) |
 | `contracts/FeeController.sol` | Chainlink-driven dynamic fee |
-| `contracts/mocks/` | Test doubles only (mock ERC20s, mock Chainlink feed, mock bridge protocols) |
+| `contracts/PositionManager.sol` | Custodies Uniswap v3 NFT positions for users while enforcing ownership |
 | `contracts/test/` | Uniswap's own test callee/token harness, used to drive the pool in tests |
 | `relayer/` | Node service that submits signed swaps and watches bridges |
 | `analytics-service/` | Express + ethers + socket.io metrics API (port 4000) |
-| `dashboard/` | React analytics UI (port 3000) |
+| `dashboard/` | React UI: swap, bridge, liquidity and the analytics charts (port 3000) |
 | `e2e/` | Playwright end-to-end tests |
 | `docs/` | Roadmap and cross-chain design |
+
+There are no contract test doubles anywhere in the tree: protocol tests run against the
+vendored, audited Uniswap v3 core in-process, and against the real Connext, LayerZero, Hop,
+Chainlink and Uniswap deployments on a Sepolia fork (see *Running the fork suite*).
 
 ## Build and test
 
 ```bash
 npm install
+(cd relayer && npm ci)   # test/Eip712Conformance.test.js imports the relayer's signer
 npm run compile   # hardhat compile
-npm test          # hardhat test
+npm test          # hardhat test (in-process suites + fork suites, which self-skip)
+
+# the JavaScript services
+(cd relayer && npm ci && npx jest --config test/jest.config.js)
+(cd analytics-service && npm ci && npm test)
+(cd dashboard && npm ci && CI=true npm test -- --watchAll=false)
 ```
+
+### Running the fork suite
+
+The integration suites talk to real deployed contracts, so they need an RPC endpoint for the
+network they fork:
+
+```bash
+export SEPOLIA_RPC_URL=https://sepolia.infura.io/v3/<key>
+npm run test:fork            # Sepolia: Uniswap v3, Chainlink, Connext, LayerZero
+npm run test:fork:mainnet    # Hop, against Ethereum mainnet
+```
+
+Without `SEPOLIA_RPC_URL` every fork case reports as *pending* rather than failing, so the
+default `npm test` works offline. The fork tests impersonate a real deployed address when a
+protocol itself has to make a call (for example Connext delivering an `xReceive`); that is
+standard fork practice and the impersonation only ever exists in the ephemeral fork state.
 
 The project uses two solc versions: 0.8.20 for HyperDex's own contracts and 0.7.6 for the
 vendored v3 core. `hardhat.config.js` pins the vendored files via `solidity.overrides`.
@@ -46,8 +72,11 @@ Because Hardhat silently drops `overrides` when the solidity config carries a to
 `version`, the config uses the multi-compiler `compilers: [...]` form — do not "simplify" it
 back to `version:`.
 
-CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) compiles and tests the contracts
-and runs the analytics, dashboard and e2e suites.
+CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs five jobs: the contracts
+(secret scan, compile, test), the fork suite when a `SEPOLIA_RPC_URL` secret is configured,
+the relayer's Jest suite, the analytics-service Mocha suite, the dashboard suite, and the
+Playwright end-to-end suite. Every job has a timeout so a service that fails to start fails
+the build instead of hanging it.
 
 ## Gasless swaps
 
@@ -125,9 +154,22 @@ on-chain implementation in `test/TickMathReference.test.js`.
 ### Still open
 
 - **Committed private keys must be rotated.** Removing `.env` files from tracking does not
-  remove them from git history.
-- **The licence decision above** has not been made.
-- **No position manager is vendored.** Tests provision liquidity through Uniswap's own
-  `TestUniswapV3Callee`; production minting needs `@uniswap/v3-periphery`'s
-  `NonfungiblePositionManager`, whose Solidity source is not shipped in its npm package.
-- `relayer/`, `analytics-service/` and `dashboard/` are outside the contract test suite.
+  remove them from git history. What the repository controls is now in place: `npm run
+  secrets:check` fails the build on a committed key, the same check runs in CI, and the
+  pre-commit hook is installed by `npm run hooks`. Rotating the two leaked keys is an
+  operator action and cannot be done from the repository.
+
+  ```bash
+  # rotate: generate a new relayer key, fund it, and point the service at it
+  node -e 'console.log("0x" + require("crypto").randomBytes(32).toString("hex"))'
+  # then set RELAYER_PRIVATE_KEY (or re-encrypt the keystore) and revoke the old key
+  ```
+
+- **The licence decision above** has not been made. It needs a maintainer call: relicense the
+  tree as GPL-3.0 (permitted by the vendored core's BUSL Change Date) or remove the vendored
+  core and depend on the published package.
+- **The position-manager mint lifecycle is only covered up to the fork boundary.**
+  `PositionManager` is deployed and exercised against the real periphery on a Sepolia fork
+  (interface decoding, ownership guards, deadline checks). A full mint -> increase -> collect
+  -> withdraw run needs an impersonated account holding two Sepolia ERC20s, which is why it is
+  gated behind `FORK_FUNDED_TOKENS=1`.

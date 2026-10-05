@@ -1,195 +1,197 @@
+/**
+ * ContractService against a real RPC transport.
+ *
+ * Uses the in-process chain in test/utils/fake-chain.js: the service builds real
+ * `ethers.Contract` objects from the generated ABIs, addresses it with a real
+ * wallet, and the transactions it sends are decoded here with the same ABI the
+ * contract would use. Nothing about the contract interface is hand-written.
+ */
 const { ethers } = require('ethers');
-const { ContractService } = require('../../src/services/contracts');
+const ContractService = require('../../src/services/contract-service');
 const HyperDexABI = require('../../abi/HyperDex.json');
-const HyperDexFactoryABI = require('../../abi/HyperDexFactory.json');
-const HyperDexPoolABI = require('../../abi/HyperDexPool.json');
-const { TEST_ACCOUNTS, getTestProvider, getTestWallets } = require('../utils/test-utils');
-const { expect } = require('chai');
-const sinon = require('sinon');
+const FactoryABI = require('../../abi/HyperDexFactory.json');
+const { createChain } = require('../utils/fake-chain');
 
-describe('Contract Service', () => {
-  let contractService;
-  let provider;
-  let wallets;
-  let mockHyperDex;
-  let mockFactory;
+const HYPERDEX = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const FACTORY = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
+const POOL = '0x9A676e781A523b5d0C0e43731313A708CB607508';
+const TOKEN_A = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
+const TOKEN_B = '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9';
+const RELAYER_KEY = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
 
-  beforeEach(() => {
-    provider = getTestProvider();
-    wallets = getTestWallets(provider);
+const TRADER = '0x70997970C51812dc3A010C7d01b50e0d17dc79C8';
 
-    // Create mock contract instances
-    mockHyperDex = {
-      address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-      relayer: sinon.stub().resolves(TEST_ACCOUNTS.relayer.address),
-      swapExactInputSingleViaRelayer: sinon.stub().resolves({
-        wait: sinon.stub().resolves({
-          status: 1,
-          events: [{
-            event: 'GaslessSwapExecuted',
-            args: {
-              trader: TEST_ACCOUNTS.user.address,
-              amount0: ethers.utils.parseEther('1'),
-              amount1: ethers.utils.parseEther('-0.9')
-            }
-          }]
-        })
+const CONTRACTS = {
+  [HYPERDEX]: HyperDexABI,
+  [FACTORY]: FactoryABI,
+  // The v3 pool ABI is needed by the service when it wraps a pool address.
+  [POOL]: require('../../abi/UniswapV3Pool.json')
+};
+
+function makeParams(overrides = {}) {
+  return {
+    pool: POOL,
+    trader: TRADER,
+    zeroForOne: true,
+    amountSpecified: ethers.utils.parseEther('1').toString(),
+    sqrtPriceLimitX96: '4295128740',
+    deadline: Math.floor(Date.now() / 1000) + 3600,
+    nonce: '1',
+    ...overrides
+  };
+}
+
+async function makeService({ factoryPool = POOL, nonce = 0 } = {}) {
+  const chain = await createChain({ contracts: CONTRACTS });
+  chain.onStaticCall(FACTORY, 'getPool', factoryPool === ethers.constants.AddressZero ? ethers.constants.AddressZero : factoryPool);
+  chain.onStaticCall(HYPERDEX, 'getNonce', ethers.BigNumber.from(nonce));
+  chain.onCall(HYPERDEX, 'executeGaslessSwap', () => undefined);
+
+  const provider = new ethers.providers.JsonRpcProvider(chain.url);
+  const wallet = new ethers.Wallet(RELAYER_KEY, provider);
+  const service = new ContractService({
+    provider,
+    wallet,
+    hyperDexAddress: HYPERDEX,
+    factoryAddress: FACTORY
+  });
+
+  return { chain, provider, wallet, service };
+}
+
+describe('ContractService', () => {
+  it('requires a provider, a wallet and a HyperDex address', () => {
+    expect(() => new ContractService({ provider: null, wallet: {}, hyperDexAddress: HYPERDEX }))
+      .toThrow(/Missing required parameters/);
+    expect(() =>
+      new ContractService({
+        provider: new ethers.providers.JsonRpcProvider('http://127.0.0.1:1'),
+        wallet: {},
+        hyperDexAddress: null
       })
-    };
-
-    mockFactory = {
-      address: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
-      getPool: sinon.stub().resolves('0x9A676e781A523b5d0C0e43731313A708CB607508')
-    };
-
-    // Mock ethers Contract constructor
-    sinon.stub(ethers, 'Contract').callsFake((address, abi, signerOrProvider) => {
-      if (abi === HyperDexABI) {
-        return mockHyperDex;
-      } else if (abi === HyperDexFactoryABI) {
-        return mockFactory;
-      } else if (abi === HyperDexPoolABI) {
-        return {
-          address: '0x9A676e781A523b5d0C0e43731313A708CB607508',
-          fee: sinon.stub().resolves(3000), // 0.3%
-          token0: sinon.stub().resolves('0xTokenA'),
-          token1: sinon.stub().resolves('0xTokenB'),
-          gaslessSwap: sinon.stub().resolves([
-            ethers.utils.parseEther('1'),
-            ethers.utils.parseEther('-0.9')
-          ])
-        };
-      }
-    });
-
-    // Initialize contract service
-    contractService = new ContractService(provider, wallets.relayer);
-
-    // Pre-initialize the contracts
-    contractService.loadHyperDex(mockHyperDex.address);
-    contractService.loadFactory(mockFactory.address);
+    ).toThrow(/Missing required parameters/);
   });
 
-  afterEach(() => {
-    sinon.restore();
+  it('loads the HyperDex contract from the generated ABI', async () => {
+    const { chain, service } = await makeService();
+    try {
+      expect(service.hyperDex.address).toBe(HYPERDEX);
+      const functions = HyperDexABI.filter((e) => e.type === 'function').map((e) => e.name);
+      expect(functions).toContain('executeGaslessSwap');
+      expect(functions).toContain('getNonce');
+      expect(service.hyperDex.executeGaslessSwap).toBeDefined();
+    } finally {
+      await chain.close();
+    }
   });
 
-  it('initializes with correct contract instances', async () => {
-    expect(contractService).to.be.ok;
-    expect(contractService.contracts.hyperDex).to.be.ok;
-    expect(contractService.contracts.factory).to.be.ok;
+  it('resolves a pool through the factory and caches it', async () => {
+    const { chain, service } = await makeService();
+    try {
+      const pool = await service.getPool(TOKEN_A, TOKEN_B, 3000);
+      expect(pool.address).toBe(POOL);
+
+      const again = await service.getPool(TOKEN_A, TOKEN_B, 3000);
+      expect(again).toBe(pool); // same instance, straight from the cache
+    } finally {
+      await chain.close();
+    }
   });
 
-  it('getPool loads and caches pool instances', async () => {
-    // Get a pool that doesn't exist in cache yet
-    const tokenA = '0xTokenA';
-    const tokenB = '0xTokenB';
-    const fee = 3000;
-
-    const pool = await contractService.getPool(tokenA, tokenB, fee);
-
-    // Verify Factory.getPool was called with correct parameters
-    expect(mockFactory.getPool).to.have.been.calledWith(tokenA, tokenB, fee);
-
-    // Verify pool was created and cached
-    expect(pool).to.be.ok;
-    expect(pool.address).to.equal('0x9A676e781A523b5d0C0e43731313A708CB607508');
-    expect(contractService.poolCache.size).to.equal(1);
-
-    // Get the same pool again
-    await contractService.getPool(tokenA, tokenB, fee);
-
-    // Factory.getPool should not be called again due to caching
-    expect(mockFactory.getPool).to.have.been.calledOnce;
+  it('reports a missing pool instead of returning a broken contract', async () => {
+    const { chain, service } = await makeService({ factoryPool: ethers.constants.AddressZero });
+    try {
+      await expect(service.getPool(TOKEN_A, TOKEN_B, 3000)).rejects.toThrow(
+        /No pool found for tokens/
+      );
+    } finally {
+      await chain.close();
+    }
   });
 
-  it('executeGaslessSwap correctly proxies the swap to HyperDex contract', async () => {
-    // Create swap parameters
-    const swapParams = {
-      trader: TEST_ACCOUNTS.user.address,
-      zeroForOne: true,
-      amountSpecified: ethers.utils.parseEther('1').toString(),
-      sqrtPriceLimitX96: '0',
-      poolAddress: '0x9A676e781A523b5d0C0e43731313A708CB607508',
-      deadline: Math.floor(Date.now() / 1000) + 3600, 
-      nonce: '1'
-    };
-
-    const signature = '0xSampleSignature';
-
-    // Execute the swap
-    const receipt = await contractService.executeGaslessSwap(swapParams, signature);
-
-    // Verify swap was executed
-    expect(contractService.contracts.hyperDex.swapExactInputSingleViaRelayer).to.have.been.calledWith(
-      swapParams, 
-      signature,
-      {}
-    );
-
-    // Verify receipt was returned
-    expect(receipt).to.be.ok;
-    expect(receipt.wait).to.be.ok;
+  it('rejects invalid token addresses before touching the chain', async () => {
+    const { chain, service } = await makeService();
+    try {
+      await expect(service.getPool('0xnot-an-address', TOKEN_B)).rejects.toThrow(
+        /two valid token addresses/
+      );
+    } finally {
+      await chain.close();
+    }
   });
 
-  it('executes direct pool swap for pools that support it', async () => {
-    // Create swap parameters for direct pool swap
-    const swapParams = {
-      trader: TEST_ACCOUNTS.user.address,
-      zeroForOne: true,
-      amountSpecified: ethers.utils.parseEther('1').toString(),
-      sqrtPriceLimitX96: '0',
-      poolAddress: '0x9A676e781A523b5d0C0e43731313A708CB607508',
-      deadline: Math.floor(Date.now() / 1000) + 3600, 
-      nonce: '1'
-    };
+  it('submits a gasless swap with the signed struct, in contract order', async () => {
+    const { chain, service } = await makeService();
+    try {
+      const params = makeParams();
+      const tx = await service.executeGaslessSwap(params, '0x' + 'ab'.repeat(65));
+      await tx.wait();
 
-    const signature = '0xSampleSignature';
+      expect(chain.sent).toHaveLength(1);
+      const sent = chain.sent[0];
+      expect(sent.to).toBe(HYPERDEX);
+      expect(sent.method).toBe('executeGaslessSwap');
 
-    // Get pool instance first
-    const pool = await contractService.getPool('0xTokenA', '0xTokenB', 3000);
-
-    // Execute direct pool swap
-    const result = await contractService.executePoolGaslessSwap(pool, swapParams, signature);
-
-    // Verify pool.gaslessSwap was called
-    expect(pool.gaslessSwap).to.have.been.calledWith(
-      swapParams,
-      signature,
-      {}
-    );
-
-    // Verify amounts were returned
-    expect(result).to.be.ok;
-    expect(result.length).to.equal(2);
-    expect(result[0].toString()).to.equal(ethers.utils.parseEther('1').toString());
-    expect(result[1].toString()).to.equal(ethers.utils.parseEther('-0.9').toString());
+      const iface = new ethers.utils.Interface(HyperDexABI);
+      const [struct, signature] = iface.decodeFunctionData('executeGaslessSwap', sent.data);
+      expect(struct[0]).toBe(POOL);
+      expect(struct[1]).toBe(TRADER);
+      expect(struct[2]).toBe(true);
+      expect(struct[3].toString()).toBe(ethers.utils.parseEther('1').toString());
+      expect(struct[5].toString()).toBe(String(params.deadline));
+      expect(struct[6].toString()).toBe('1');
+      expect(signature).toBe('0x' + 'ab'.repeat(65));
+    } finally {
+      await chain.close();
+    }
   });
 
-  it('throws error for invalid contract addresses', async () => {
-    // Create service with invalid addresses
-    const invalidService = new ContractService(provider, wallets.relayer);
-
-    // Reset mock to throw on zero address
-    sinon.stub(ethers, 'Contract').callsFake((address) => {
-      if (address === ethers.constants.AddressZero) {
-        throw new Error('Invalid contract address');
-      }
-    });
-
-    // Expect initialization to throw
-    await expect(
-      invalidService.loadHyperDex(ethers.constants.AddressZero)
-    ).to.be.rejectedWith(Error, 'Invalid contract address');
+  it('explains the poolAddress trap when callers use the old field name', async () => {
+    const { chain, service } = await makeService();
+    try {
+      const { pool, ...rest } = makeParams();
+      await expect(
+        service.executeGaslessSwap({ ...rest, poolAddress: pool }, '0x' + 'ab'.repeat(65))
+      ).rejects.toThrow(/the signed field is `pool`/);
+    } finally {
+      await chain.close();
+    }
   });
 
-  it('handles non-existent pools correctly', async () => {
-    // Mock factory.getPool to return zero address (non-existent pool)
-    mockFactory.getPool.resolves(ethers.constants.AddressZero);
+  it('rejects incomplete or invalid parameters', async () => {
+    const { chain, service } = await makeService();
+    try {
+      await expect(service.executeGaslessSwap({ trader: TRADER }, '0x' + 'ab'.repeat(65)))
+        .rejects.toThrow(/Missing required parameter/);
+      await expect(
+        service.executeGaslessSwap(makeParams({ amountSpecified: '0' }), '0x' + 'ab'.repeat(65))
+      ).rejects.toThrow(/amountSpecified must be non-zero/);
+      await expect(
+        service.executeGaslessSwap(makeParams({ trader: 'nope' }), '0x' + 'ab'.repeat(65))
+      ).rejects.toThrow(/Invalid trader address/);
+    } finally {
+      await chain.close();
+    }
+  });
 
-    // Try to get a non-existent pool
-    await expect(
-      contractService.getPool('0xNonExistentTokenA', '0xNonExistentTokenB', 3000)
-    ).to.be.rejected;
+  it('reads the trader nonce from the contract', async () => {
+    const { chain, service } = await makeService({ nonce: 42 });
+    try {
+      const nonce = await service.getNonce(TRADER);
+      expect(nonce.toString()).toBe('42');
+    } finally {
+      await chain.close();
+    }
+  });
+
+  it('detaches every listener on cleanup', async () => {
+    const { chain, service } = await makeService();
+    try {
+      await service.getPool(TOKEN_A, TOKEN_B, 3000);
+      await service.cleanup();
+      expect(service.poolCache.size).toBe(0);
+    } finally {
+      await chain.close();
+    }
   });
 });

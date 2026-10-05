@@ -167,10 +167,13 @@ jobs:
           # production build, so nothing can hang on a dev-server prompt.
           (cd analytics-service && PORT=4000 npm start > /tmp/analytics.log 2>&1 &)
           npm run --prefix dashboard build > /tmp/dashboard-build.log 2>&1
-          nohup npx --yes serve -s dashboard/build -l 3000 > /tmp/dashboard.log 2>&1 &
+          # Pinned: `npx --yes serve` now resolves the newest release, which has
+          # already dropped Node 18 (serve 14 is the last line that supports it).
+          nohup npx --yes serve@14.2.4 -s dashboard/build -l 3000 > /tmp/dashboard.log 2>&1 &
           # wait-on with an explicit timeout: a service that never comes up
           # fails the job in two minutes instead of hanging until the runner dies.
-          npx --yes wait-on -t 120000 http-get://127.0.0.1:4000/health http-get://127.0.0.1:3000
+          # The version comes from e2e/package.json rather than the npx cache.
+          (cd e2e && npx wait-on -t 120000 http-get://127.0.0.1:4000/health http-get://127.0.0.1:3000)
           npm test --prefix e2e
       - name: Service logs
         if: always()

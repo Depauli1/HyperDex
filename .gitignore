@@ -27,3 +27,5 @@ relayer/keystore/*.json
 relayer/test/.relayer-port
 relayer/test/coverage/
 e2e/test-results/
+# CRA production build written by the e2e job
+dashboard/build/

@@ -9,6 +9,11 @@
 // These tests compare the two implementations directly - the JavaScript module
 // the relayer actually uses against the digest and separator the deployed
 // contract computes - so drift fails the build instead of failing in production.
+//
+// They import relayer code, so the relayer's dependencies must be installed
+// before this suite runs: `(cd relayer && npm ci)`. The CI install step does
+// that, because `winston` is imported by relayer/src/utils/logger.js and is not
+// a dependency of the root package.
 
 const { expect } = require("chai");
 const { ethers } = require("hardhat");

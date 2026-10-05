@@ -40,6 +40,7 @@ Chainlink and Uniswap deployments on a Sepolia fork (see *Running the fork suite
 
 ```bash
 npm install
+(cd relayer && npm ci)   # test/Eip712Conformance.test.js imports the relayer's signer
 npm run compile   # hardhat compile
 npm test          # hardhat test (in-process suites + fork suites, which self-skip)
 

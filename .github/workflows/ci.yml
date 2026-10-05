@@ -21,7 +21,12 @@ jobs:
           node-version: '18'
           cache: npm
       - name: Install
-        run: npm ci
+        run: |
+          npm ci
+          # test/Eip712Conformance.test.js cross-checks the relayer's signer
+          # against the contract, so the relayer's own dependencies (winston,
+          # ethers) have to be present as well.
+          (cd relayer && npm ci)
       # A private key and a keystore password were committed in be77730 and sat
       # on the public main branch. This gate stops the next one.
       - name: Secret scan
